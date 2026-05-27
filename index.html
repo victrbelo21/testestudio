@@ -12,6 +12,7 @@
     />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="palette.css" />
+    <link rel="stylesheet" href="group2.css" />
   </head>
   <body>
     <header class="app-header">
@@ -28,6 +29,10 @@
           <a class="side-nav__item" href="#component-buttons">Button</a>
           <a class="side-nav__item" href="#component-text-input">Text input</a>
           <a class="side-nav__item" href="#component-checkbox">Checkbox</a>
+          <a class="side-nav__item" href="#group-2">Grupo 2</a>
+          <a class="side-nav__item" href="#component-select">Select</a>
+          <a class="side-nav__item" href="#component-dropdown">Dropdown</a>
+          <a class="side-nav__item" href="#component-radio-button">Radio button</a>
           <a class="side-nav__item" href="#palette">Paleta</a>
         </nav>
       </aside>
@@ -250,6 +255,210 @@
           </div>
         </section>
 
+        <section class="card card--full" id="group-2">
+          <h1>Grupo 2/3: Select, Dropdown e Radio button</h1>
+          <p>
+            Este grupo segue o mesmo padrao visual do Carbon/IBM: tipografia IBM Plex Sans,
+            tokens semanticos, layout em 2x Grid e estados de foco, erro, warning e desabilitado.
+          </p>
+        </section>
+
+        <section class="card card--half" id="component-select">
+          <h2>Select</h2>
+
+          <div class="component-stack">
+            <div class="select-wrapper">
+              <label class="text-input-label" for="select-default">Label text</label>
+              <div class="select-field-wrapper">
+                <select id="select-default" class="select-input select-input--md" aria-describedby="select-default-helper">
+                  <option value="" selected disabled hidden>Choose an option</option>
+                  <optgroup label="Category 1">
+                    <option value="option-1">Option 1</option>
+                    <option value="option-2">Option 2</option>
+                  </optgroup>
+                  <optgroup label="Category 2">
+                    <option value="option-3">Option 3</option>
+                    <option value="option-4">Option 4</option>
+                  </optgroup>
+                </select>
+                <span class="select-arrow" aria-hidden="true">&#9662;</span>
+              </div>
+              <p id="select-default-helper" class="text-input-helper">Optional helper text.</p>
+            </div>
+
+            <div class="select-wrapper">
+              <label class="text-input-label" for="select-invalid">Label text</label>
+              <div class="select-field-wrapper">
+                <select
+                  id="select-invalid"
+                  class="select-input select-input--md select-input--invalid"
+                  aria-invalid="true"
+                  aria-describedby="select-invalid-msg">
+                  <option value="invalid-selected" selected>Option 2</option>
+                  <option value="option-1">Option 1</option>
+                  <option value="option-3">Option 3</option>
+                </select>
+                <span class="select-status-icon select-status-icon--error" aria-hidden="true">!</span>
+                <span class="select-arrow" aria-hidden="true">&#9662;</span>
+              </div>
+              <p id="select-invalid-msg" class="text-input-requirement">Error message goes here</p>
+            </div>
+
+            <div class="select-wrapper">
+              <label class="text-input-label" for="select-warning">Label text</label>
+              <div class="select-field-wrapper">
+                <select
+                  id="select-warning"
+                  class="select-input select-input--md select-input--warning"
+                  aria-describedby="select-warning-msg">
+                  <option value="warning-selected" selected>Option 3</option>
+                  <option value="option-1">Option 1</option>
+                  <option value="option-2">Option 2</option>
+                </select>
+                <span class="select-status-icon select-status-icon--warning" aria-hidden="true">!</span>
+                <span class="select-arrow" aria-hidden="true">&#9662;</span>
+              </div>
+              <p id="select-warning-msg" class="text-input-warning">Warning message goes here</p>
+            </div>
+
+            <div class="select-wrapper">
+              <label class="text-input-label" for="select-disabled">Disabled</label>
+              <div class="select-field-wrapper">
+                <select id="select-disabled" class="select-input select-input--md" disabled>
+                  <option value="disabled-selected" selected>Option 4</option>
+                </select>
+                <span class="select-arrow" aria-hidden="true">&#9662;</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card card--half" id="component-dropdown">
+          <h2>Dropdown</h2>
+
+          <div class="component-stack">
+            <div class="dropdown-wrapper" data-dropdown>
+              <label class="text-input-label" id="dropdown-sort-label" for="dropdown-sort-trigger">Label text</label>
+              <button
+                id="dropdown-sort-trigger"
+                class="dropdown-trigger"
+                type="button"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+                aria-labelledby="dropdown-sort-label dropdown-sort-value"
+                data-placeholder="Choose an option">
+                <span id="dropdown-sort-value" class="dropdown-value dropdown-value--placeholder">Choose an option</span>
+                <span class="dropdown-chevron" aria-hidden="true">&#9662;</span>
+              </button>
+              <ul class="dropdown-menu" role="listbox" aria-labelledby="dropdown-sort-label">
+                <li id="dropdown-option-recent" class="dropdown-option" role="option" tabindex="-1" aria-selected="false" data-value="recent">Most recent</li>
+                <li id="dropdown-option-name-asc" class="dropdown-option" role="option" tabindex="-1" aria-selected="false" data-value="name-asc">Name A-Z</li>
+                <li id="dropdown-option-name-desc" class="dropdown-option" role="option" tabindex="-1" aria-selected="false" data-value="name-desc">Name Z-A</li>
+                <li id="dropdown-option-status" class="dropdown-option" role="option" tabindex="-1" aria-selected="false" data-value="status">Status</li>
+              </ul>
+              <p class="text-input-helper">Use dropdown for filtering or sorting page content.</p>
+              <p id="dropdown-status" class="component-status">Nenhuma opcao selecionada.</p>
+            </div>
+
+            <div class="dropdown-wrapper">
+              <label class="text-input-label" for="dropdown-disabled-trigger">Disabled dropdown</label>
+              <button id="dropdown-disabled-trigger" class="dropdown-trigger" type="button" disabled>
+                <span class="dropdown-value">Option 2</span>
+                <span class="dropdown-chevron" aria-hidden="true">&#9662;</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card card--half" id="component-radio-button">
+          <h2>Radio button</h2>
+
+          <div class="component-stack">
+            <fieldset class="radio-group" id="radio-group-plan">
+              <legend class="radio-group__label">Radio button heading</legend>
+
+              <div class="radio-wrapper">
+                <input class="radio" type="radio" id="radio-plan-standard" name="radio-plan" value="standard" checked />
+                <label class="radio-label" for="radio-plan-standard">
+                  <span class="radio-label-text">Standard plan</span>
+                </label>
+              </div>
+
+              <div class="radio-wrapper">
+                <input class="radio" type="radio" id="radio-plan-advanced" name="radio-plan" value="advanced" />
+                <label class="radio-label" for="radio-plan-advanced">
+                  <span class="radio-label-text">Advanced plan</span>
+                </label>
+              </div>
+
+              <div class="radio-wrapper">
+                <input class="radio" type="radio" id="radio-plan-enterprise" name="radio-plan" value="enterprise" />
+                <label class="radio-label" for="radio-plan-enterprise">
+                  <span class="radio-label-text">Enterprise plan</span>
+                </label>
+              </div>
+
+              <p class="radio-helper">Select one option from this list.</p>
+              <p id="radio-selection-status" class="component-status">Opcao selecionada: standard.</p>
+            </fieldset>
+
+            <fieldset class="radio-group radio-group--horizontal">
+              <legend class="radio-group__label">Horizontal group</legend>
+
+              <div class="radio-wrapper">
+                <input class="radio" type="radio" id="radio-priority-low" name="radio-priority" value="low" checked />
+                <label class="radio-label" for="radio-priority-low">
+                  <span class="radio-label-text">Low</span>
+                </label>
+              </div>
+
+              <div class="radio-wrapper">
+                <input class="radio" type="radio" id="radio-priority-medium" name="radio-priority" value="medium" />
+                <label class="radio-label" for="radio-priority-medium">
+                  <span class="radio-label-text">Medium</span>
+                </label>
+              </div>
+
+              <div class="radio-wrapper">
+                <input class="radio" type="radio" id="radio-priority-high" name="radio-priority" value="high" />
+                <label class="radio-label" for="radio-priority-high">
+                  <span class="radio-label-text">High</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="radio-wrapper radio-wrapper--invalid">
+              <input class="radio" type="radio" id="radio-invalid" name="radio-validation" value="invalid" />
+              <label class="radio-label" for="radio-invalid">
+                <span class="radio-label-text">Radio label</span>
+              </label>
+              <div class="radio-validation radio-validation--error">! Invalid text goes here</div>
+            </div>
+
+            <div class="radio-wrapper radio-wrapper--warning">
+              <input class="radio" type="radio" id="radio-warning" name="radio-warning-group" value="warning" />
+              <label class="radio-label" for="radio-warning">
+                <span class="radio-label-text">Radio label</span>
+              </label>
+              <div class="radio-validation radio-validation--warning">! Warning text goes here</div>
+            </div>
+
+            <div class="radio-wrapper radio-wrapper--readonly">
+              <input class="radio" type="radio" id="radio-readonly" name="radio-readonly-group" value="readonly" checked data-readonly="true" />
+              <label class="radio-label" for="radio-readonly">
+                <span class="radio-label-text">Readonly radio</span>
+              </label>
+            </div>
+
+            <div class="radio-wrapper radio-wrapper--disabled">
+              <input class="radio" type="radio" id="radio-disabled" name="radio-disabled-group" value="disabled" disabled />
+              <label class="radio-label" for="radio-disabled">
+                <span class="radio-label-text">Disabled radio</span>
+              </label>
+            </div>
+          </div>
+        </section>
+
         <section class="card card--full" id="palette">
           <h2>Paleta oficial IBM (gama completa)</h2>
           <p>Familias e niveis 100-10 renderizados a partir dos tokens oficiais da IBM.</p>
@@ -259,5 +468,6 @@
     </div>
 
     <script src="script.js"></script>
+    <script src="group2.js"></script>
   </body>
 </html>
