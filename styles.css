@@ -229,46 +229,13 @@ h1 {
   gap: 6px;
 }
 
-.control-label {
-  font-size: 0.875rem;
-  color: var(--cool-gray-70);
-}
-
-.control-input,
-.control-select,
-.control-range {
-  width: 100%;
-  height: 40px;
-  padding: 0 12px;
-  border: 1px solid var(--cool-gray-30);
-  background: var(--cool-gray-10);
-  color: var(--cool-gray-100);
-  font-family: inherit;
-}
-
-.control-input:hover,
-.control-select:hover,
-.control-range:hover {
-  background: #e8eaee;
-}
-
-.range-wrap {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.range-wrap .control-input {
-  width: 96px;
-}
-
 .conditional-group {
   border: 1px solid var(--cool-gray-20);
   background: var(--white);
   padding: 16px;
   display: grid;
   gap: 12px;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .conditional-title {
@@ -276,6 +243,17 @@ h1 {
   margin: 0;
   font-size: 0.875rem;
   color: var(--cool-gray-70);
+}
+
+.tabs-wrap {
+  grid-column: 1 / -1;
+}
+
+.tab-panel {
+  padding-top: 12px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .series-values {
@@ -290,7 +268,8 @@ h1 {
 
 cds-dropdown,
 cds-text-input,
-cds-slider {
+cds-slider,
+cds-tabs {
   width: 100%;
   --cds-layer: var(--cool-gray-10);
   --cds-background: var(--cool-gray-10);
@@ -299,6 +278,8 @@ cds-slider {
   --cds-field-hover: #e8eaee;
   --cds-layer-hover: #e8eaee;
   --cds-border-subtle: var(--cool-gray-30);
+  --cds-border-strong-01: var(--cool-gray-40);
+  --cds-focus: var(--blue-60);
 }
 
 .chart {
