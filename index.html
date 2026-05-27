@@ -11,7 +11,15 @@
     <a class="cds--skip-to-content" href="#main-content">Pular para conteúdo</a>
 
     <header class="cds--header" aria-label="IBM Platform Name">
-      <button class="cds--header__menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+      <button
+        id="header-menu-toggle"
+        class="cds--header__menu-toggle"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="side-nav">
+        ☰
+      </button>
 
       <a class="cds--header__name" href="#main-content">
         <span class="cds--header__name--prefix">IBM</span>
@@ -29,6 +37,18 @@
         <button class="cds--header__action" type="button" aria-label="App switcher">◧</button>
       </div>
     </header>
+
+    <div id="side-nav-overlay" class="cds--side-nav__overlay" hidden></div>
+
+    <aside id="side-nav" class="cds--side-nav" aria-label="Side navigation" aria-hidden="true">
+      <nav class="cds--side-nav__navigation">
+        <ul class="cds--side-nav__items">
+          <li class="cds--side-nav__item"><a class="cds--side-nav__link" href="#main-content">Visão geral</a></li>
+          <li class="cds--side-nav__item"><a class="cds--side-nav__link" href="#radar-chart">Radar chart</a></li>
+          <li class="cds--side-nav__item"><a class="cds--side-nav__link" href="#export-csv-btn">Exportar CSV</a></li>
+        </ul>
+      </nav>
+    </aside>
 
     <main id="main-content" class="app">
       <h1>Radar de Produtos</h1>
