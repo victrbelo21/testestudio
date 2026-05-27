@@ -2,6 +2,10 @@ const chartHolder = document.getElementById("radar-chart");
 const exportButton = document.getElementById("export-csv-btn");
 const status = document.getElementById("status");
 
+const sideNav = document.getElementById("side-nav");
+const sideNavOverlay = document.getElementById("side-nav-overlay");
+const sideNavToggle = document.getElementById("header-menu-toggle");
+
 const radarData = [
   { product: "Produto A", feature: "Preco", score: 72 },
   { product: "Produto A", feature: "Usabilidade", score: 88 },
@@ -67,6 +71,43 @@ function exportCsv(rows, fileName) {
   URL.revokeObjectURL(url);
 }
 
+function setSideNavOpen(isOpen) {
+  if (!sideNav || !sideNavOverlay || !sideNavToggle) {
+    return;
+  }
+
+  sideNav.classList.toggle("is-open", isOpen);
+  sideNav.setAttribute("aria-hidden", String(!isOpen));
+  sideNavToggle.setAttribute("aria-expanded", String(isOpen));
+  sideNavToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+  sideNavOverlay.hidden = !isOpen;
+}
+
+function bindSideNav() {
+  if (!sideNav || !sideNavOverlay || !sideNavToggle) {
+    return;
+  }
+
+  sideNavToggle.addEventListener("click", () => {
+    const isOpen = sideNav.classList.contains("is-open");
+    setSideNavOpen(!isOpen);
+  });
+
+  sideNavOverlay.addEventListener("click", () => {
+    setSideNavOpen(false);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      setSideNavOpen(false);
+    }
+  });
+
+  if (window.matchMedia("(min-width: 1056px)").matches) {
+    setSideNavOpen(true);
+  }
+}
+
 if (exportButton && status) {
   exportButton.addEventListener("click", () => {
     exportCsv(radarData, "radar-produtos.csv");
@@ -74,4 +115,5 @@ if (exportButton && status) {
   });
 }
 
+bindSideNav();
 renderRadar();
