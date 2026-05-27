@@ -25,22 +25,22 @@
         <nav class="side-nav__menu">
           <a class="side-nav__item side-nav__item--active" href="#">Dashboard</a>
           <a class="side-nav__item" href="#">Botões</a>
-          <a class="side-nav__item" href="#">Formulários</a>
-          <a class="side-nav__item" href="#">Tokens de Cor</a>
+          <a class="side-nav__item" href="#">Campos</a>
+          <a class="side-nav__item" href="#">Paleta</a>
           <a class="side-nav__item" href="#">Configurações</a>
         </nav>
       </aside>
 
       <main class="app-main">
-        <section class="card">
-          <h1>Base visual IBM Carbon</h1>
+        <section class="card card--full">
+          <h1>Base IBM 2x Grid + Carbon</h1>
           <p>
-            Estrutura com tipografia IBM Plex Sans, base em Cool Gray e componentes
-            principais para acelerar o desenvolvimento.
+            Layout estruturado no mini unit de 8px, com breakpoints oficiais, tipografia
+            IBM Plex Sans e tokens completos da paleta IBM.
           </p>
         </section>
 
-        <section class="card">
+        <section class="card card--half">
           <h2>Botões</h2>
           <div class="button-grid">
             <button id="action-btn" class="btn btn-primary" type="button">Primário</button>
@@ -52,7 +52,7 @@
           <p id="status">Aguardando clique no botão primário...</p>
         </section>
 
-        <section class="card">
+        <section class="card card--half">
           <h2>Campos de input</h2>
           <form class="form-grid" action="#" method="post" novalidate>
             <label class="field">
@@ -81,17 +81,19 @@
           </form>
         </section>
 
-        <section class="card">
-          <h2>Paleta IBM (Amostra)</h2>
+        <section class="card card--full">
+          <h2>Famílias Oficiais IBM</h2>
           <div class="palette-grid">
-            <div class="swatch swatch--blue">Blue</div>
-            <div class="swatch swatch--teal">Teal</div>
-            <div class="swatch swatch--green">Green</div>
-            <div class="swatch swatch--yellow">Yellow</div>
-            <div class="swatch swatch--orange">Orange</div>
             <div class="swatch swatch--red">Red</div>
             <div class="swatch swatch--magenta">Magenta</div>
             <div class="swatch swatch--purple">Purple</div>
+            <div class="swatch swatch--blue">Blue</div>
+            <div class="swatch swatch--cyan">Cyan</div>
+            <div class="swatch swatch--teal">Teal</div>
+            <div class="swatch swatch--green">Green</div>
+            <div class="swatch swatch--cool-gray">Cool Gray</div>
+            <div class="swatch swatch--gray">Gray</div>
+            <div class="swatch swatch--warm-gray">Warm Gray</div>
           </div>
         </section>
       </main>
