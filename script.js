@@ -1,6 +1,6 @@
 const root = document.documentElement;
 const themeToggle = document.getElementById('theme-toggle');
-const button = document.getElementById('action-btn');
+const actionButton = document.getElementById('action-btn');
 const status = document.getElementById('status');
 
 const THEME_KEY = 'testestudio-theme';
@@ -22,21 +22,29 @@ function applySavedTheme() {
 }
 
 function updateThemeButtonText() {
+  if (!themeToggle) {
+    return;
+  }
+
   const current = getActiveTheme();
   themeToggle.textContent = current === 'dark' ? 'Usar tema claro' : 'Usar tema escuro';
 }
 
-themeToggle.addEventListener('click', () => {
-  const nextTheme = getActiveTheme() === 'dark' ? 'light' : 'dark';
-  root.setAttribute('data-theme', nextTheme);
-  localStorage.setItem(THEME_KEY, nextTheme);
-  updateThemeButtonText();
-});
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const nextTheme = getActiveTheme() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', nextTheme);
+    localStorage.setItem(THEME_KEY, nextTheme);
+    updateThemeButtonText();
+  });
+}
 
-button.addEventListener('click', () => {
-  const now = new Date();
-  status.textContent = `Botao clicado em ${now.toLocaleTimeString('pt-BR')}.`;
-});
+if (actionButton && status) {
+  actionButton.addEventListener('click', () => {
+    const now = new Date();
+    status.textContent = `Botao primario acionado em ${now.toLocaleTimeString('pt-BR')}.`;
+  });
+}
 
 applySavedTheme();
 updateThemeButtonText();
