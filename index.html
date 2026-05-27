@@ -4,20 +4,98 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TesteStudio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main>
-      <h1>Ola, TesteStudio!</h1>
-      <p>Pagina HTML simples criada com CSS e JS.</p>
-
-      <div class="controls">
-        <button id="theme-toggle" type="button">Alternar tema</button>
-        <button id="action-btn" type="button">Clique aqui</button>
+    <header class="app-header">
+      <div class="app-header__brand">TesteStudio</div>
+      <div class="app-header__actions">
+        <button id="theme-toggle" class="btn btn-tertiary" type="button">Alternar tema</button>
       </div>
+    </header>
 
-      <p id="status">Aguardando clique...</p>
-    </main>
+    <div class="app-shell">
+      <aside class="side-nav" aria-label="Menu lateral">
+        <nav class="side-nav__menu">
+          <a class="side-nav__item side-nav__item--active" href="#">Dashboard</a>
+          <a class="side-nav__item" href="#">Botões</a>
+          <a class="side-nav__item" href="#">Formulários</a>
+          <a class="side-nav__item" href="#">Tokens de Cor</a>
+          <a class="side-nav__item" href="#">Configurações</a>
+        </nav>
+      </aside>
+
+      <main class="app-main">
+        <section class="card">
+          <h1>Base visual IBM Carbon</h1>
+          <p>
+            Estrutura com tipografia IBM Plex Sans, base em Cool Gray e componentes
+            principais para acelerar o desenvolvimento.
+          </p>
+        </section>
+
+        <section class="card">
+          <h2>Botões</h2>
+          <div class="button-grid">
+            <button id="action-btn" class="btn btn-primary" type="button">Primário</button>
+            <button class="btn btn-secondary" type="button">Secundário</button>
+            <button class="btn btn-tertiary" type="button">Terciário</button>
+            <button class="btn btn-ghost" type="button">Ghost</button>
+            <button class="btn btn-danger" type="button">Danger</button>
+          </div>
+          <p id="status">Aguardando clique no botão primário...</p>
+        </section>
+
+        <section class="card">
+          <h2>Campos de input</h2>
+          <form class="form-grid" action="#" method="post" novalidate>
+            <label class="field">
+              <span class="field__label">Nome</span>
+              <input class="input" type="text" placeholder="Digite seu nome" />
+            </label>
+
+            <label class="field">
+              <span class="field__label">E-mail</span>
+              <input class="input" type="email" placeholder="seu@email.com" />
+            </label>
+
+            <label class="field">
+              <span class="field__label">Categoria</span>
+              <select class="input">
+                <option>Produto</option>
+                <option>Design</option>
+                <option>Engenharia</option>
+              </select>
+            </label>
+
+            <label class="field field--full">
+              <span class="field__label">Mensagem</span>
+              <textarea class="input input--textarea" placeholder="Escreva uma observação..."></textarea>
+            </label>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Paleta IBM (Amostra)</h2>
+          <div class="palette-grid">
+            <div class="swatch swatch--blue">Blue</div>
+            <div class="swatch swatch--teal">Teal</div>
+            <div class="swatch swatch--green">Green</div>
+            <div class="swatch swatch--yellow">Yellow</div>
+            <div class="swatch swatch--orange">Orange</div>
+            <div class="swatch swatch--red">Red</div>
+            <div class="swatch swatch--magenta">Magenta</div>
+            <div class="swatch swatch--purple">Purple</div>
+          </div>
+        </section>
+      </main>
+    </div>
 
     <script src="script.js"></script>
   </body>
