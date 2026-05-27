@@ -6,91 +6,7 @@ const sideNav = document.getElementById("side-nav");
 const sideNavOverlay = document.getElementById("side-nav-overlay");
 const sideNavToggle = document.getElementById("header-menu-toggle");
 const sideNavSubmenus = document.querySelectorAll(".cds--side-nav__submenu");
-
 const desktopMedia = window.matchMedia("(min-width: 1056px)");
-
-const baseDataCatalog = {
-  line: [
-    { group: "Produto A", date: "2026-01-01", value: 65000 },
-    { group: "Produto A", date: "2026-02-01", value: 69000 },
-    { group: "Produto A", date: "2026-03-01", value: 70000 },
-    { group: "Produto B", date: "2026-01-01", value: 52000 },
-    { group: "Produto B", date: "2026-02-01", value: 56000 },
-    { group: "Produto B", date: "2026-03-01", value: 61000 }
-  ],
-  area: [
-    { group: "Produto A", date: "2026-01-01", value: 12000 },
-    { group: "Produto A", date: "2026-02-01", value: 17000 },
-    { group: "Produto A", date: "2026-03-01", value: 16000 },
-    { group: "Produto B", date: "2026-01-01", value: 10000 },
-    { group: "Produto B", date: "2026-02-01", value: 14000 },
-    { group: "Produto B", date: "2026-03-01", value: 15500 }
-  ],
-  simple_bar: [
-    { group: "Produto A", key: "Q1", value: 38000 },
-    { group: "Produto A", key: "Q2", value: 42000 },
-    { group: "Produto A", key: "Q3", value: 47000 },
-    { group: "Produto A", key: "Q4", value: 52000 }
-  ],
-  grouped_bar: [
-    { group: "Produto A", key: "Q1", value: 38000 },
-    { group: "Produto B", key: "Q1", value: 33000 },
-    { group: "Produto A", key: "Q2", value: 42000 },
-    { group: "Produto B", key: "Q2", value: 36000 },
-    { group: "Produto A", key: "Q3", value: 47000 },
-    { group: "Produto B", key: "Q3", value: 39000 },
-    { group: "Produto A", key: "Q4", value: 52000 },
-    { group: "Produto B", key: "Q4", value: 44000 }
-  ],
-  stacked_bar: [
-    { group: "Produto A", key: "Q1", value: 12000 },
-    { group: "Produto B", key: "Q1", value: 9000 },
-    { group: "Produto A", key: "Q2", value: 15000 },
-    { group: "Produto B", key: "Q2", value: 11000 },
-    { group: "Produto A", key: "Q3", value: 17000 },
-    { group: "Produto B", key: "Q3", value: 13000 },
-    { group: "Produto A", key: "Q4", value: 19000 },
-    { group: "Produto B", key: "Q4", value: 16000 }
-  ],
-  pie: [
-    { group: "Produto A", value: 38 },
-    { group: "Produto B", value: 26 },
-    { group: "Produto C", value: 20 },
-    { group: "Produto D", value: 16 }
-  ],
-  donut: [
-    { group: "Produto A", value: 38 },
-    { group: "Produto B", value: 26 },
-    { group: "Produto C", value: 20 },
-    { group: "Produto D", value: 16 }
-  ],
-  scatter: [
-    { group: "Produto A", x: 10, y: 12000 },
-    { group: "Produto A", x: 20, y: 18000 },
-    { group: "Produto A", x: 30, y: 23000 },
-    { group: "Produto B", x: 12, y: 10000 },
-    { group: "Produto B", x: 22, y: 14500 },
-    { group: "Produto B", x: 32, y: 21000 }
-  ],
-  bubble: [
-    { group: "Produto A", x: 12, y: 15000, value: 35 },
-    { group: "Produto A", x: 20, y: 23000, value: 22 },
-    { group: "Produto B", x: 16, y: 17000, value: 28 },
-    { group: "Produto B", x: 28, y: 26000, value: 18 }
-  ],
-  radar: [
-    { group: "Produto A", feature: "Preco", value: 72 },
-    { group: "Produto A", feature: "Usabilidade", value: 88 },
-    { group: "Produto A", feature: "Performance", value: 79 },
-    { group: "Produto A", feature: "Qualidade", value: 91 },
-    { group: "Produto A", feature: "Suporte", value: 67 },
-    { group: "Produto B", feature: "Preco", value: 63 },
-    { group: "Produto B", feature: "Usabilidade", value: 77 },
-    { group: "Produto B", feature: "Performance", value: 85 },
-    { group: "Produto B", feature: "Qualidade", value: 74 },
-    { group: "Produto B", feature: "Suporte", value: 82 }
-  ]
-};
 
 const chartClassMap = {
   line: "LineChart",
@@ -105,163 +21,244 @@ const chartClassMap = {
   radar: "RadarChart"
 };
 
-const chartState = {
-  currentType: "line",
-  colors: ["#0f62fe", "#24a148", "#8a3ffc", "#ff832b"],
-  yMin: null,
-  yMax: null,
+const state = {
+  type: "line",
   height: 420,
-  dataOffsetA: 0,
-  dataOffsetB: 0,
+  yMin: "",
+  yMax: "",
+  xMax: 100,
+  points: 5,
+  categories: 4,
+  startA: 50,
+  startB: 35,
+  stepA: 10,
+  stepB: 8,
   pieA: 38,
   pieB: 26,
   pieC: 20,
   pieD: 16,
-  scatterXOffset: 0,
-  scatterYOffset: 0
+  radiusBase: 20,
+  radarMax: 100,
+  colorA: "#0f62fe",
+  colorB: "#24a148",
+  colorC: "#8a3ffc",
+  colorD: "#ff832b"
 };
 
-function numeric(value, fallback = 0) {
-  const n = Number(value);
+function toNum(v, fallback) {
+  const n = Number(v);
   return Number.isFinite(n) ? n : fallback;
 }
 
-function buildControls(type) {
-  if (!controlsHost) return;
-
-  const shared = [
-    { id: "height", title: "Altura", label: "Altura do grafico (px)", value: String(chartState.height), helper: "Ex.: 420", type: "number" },
-    { id: "yMin", title: "Eixo Y", label: "Y minimo", value: chartState.yMin == null ? "" : String(chartState.yMin), helper: "Vazio = automatico", type: "number" },
-    { id: "yMax", title: "Eixo Y", label: "Y maximo", value: chartState.yMax == null ? "" : String(chartState.yMax), helper: "Vazio = automatico", type: "number" },
-    { id: "colorA", title: "Cor serie A", label: "HEX serie 1", value: chartState.colors[0], helper: "Ex.: #0f62fe", type: "text" },
-    { id: "colorB", title: "Cor serie B", label: "HEX serie 2", value: chartState.colors[1], helper: "Ex.: #24a148", type: "text" }
-  ];
-
-  const byType = {
-    line: [
-      { id: "dataOffsetA", title: "Valores", label: "Offset Produto A", value: String(chartState.dataOffsetA), helper: "Soma direta nos valores", type: "number" },
-      { id: "dataOffsetB", title: "Valores", label: "Offset Produto B", value: String(chartState.dataOffsetB), helper: "Soma direta nos valores", type: "number" }
-    ],
-    area: [
-      { id: "dataOffsetA", title: "Valores", label: "Offset Produto A", value: String(chartState.dataOffsetA), helper: "Soma direta nos valores", type: "number" },
-      { id: "dataOffsetB", title: "Valores", label: "Offset Produto B", value: String(chartState.dataOffsetB), helper: "Soma direta nos valores", type: "number" }
-    ],
-    simple_bar: [
-      { id: "dataOffsetA", title: "Valores", label: "Offset barras", value: String(chartState.dataOffsetA), helper: "Soma direta nas barras", type: "number" }
-    ],
-    grouped_bar: [
-      { id: "dataOffsetA", title: "Valores", label: "Offset Produto A", value: String(chartState.dataOffsetA), helper: "Soma direta", type: "number" },
-      { id: "dataOffsetB", title: "Valores", label: "Offset Produto B", value: String(chartState.dataOffsetB), helper: "Soma direta", type: "number" }
-    ],
-    stacked_bar: [
-      { id: "dataOffsetA", title: "Valores", label: "Offset Produto A", value: String(chartState.dataOffsetA), helper: "Soma direta", type: "number" },
-      { id: "dataOffsetB", title: "Valores", label: "Offset Produto B", value: String(chartState.dataOffsetB), helper: "Soma direta", type: "number" }
-    ],
-    pie: [
-      { id: "pieA", title: "Fatias", label: "Produto A", value: String(chartState.pieA), helper: "Valor da fatia", type: "number" },
-      { id: "pieB", title: "Fatias", label: "Produto B", value: String(chartState.pieB), helper: "Valor da fatia", type: "number" },
-      { id: "pieC", title: "Fatias", label: "Produto C", value: String(chartState.pieC), helper: "Valor da fatia", type: "number" },
-      { id: "pieD", title: "Fatias", label: "Produto D", value: String(chartState.pieD), helper: "Valor da fatia", type: "number" }
-    ],
-    donut: [
-      { id: "pieA", title: "Fatias", label: "Produto A", value: String(chartState.pieA), helper: "Valor da fatia", type: "number" },
-      { id: "pieB", title: "Fatias", label: "Produto B", value: String(chartState.pieB), helper: "Valor da fatia", type: "number" },
-      { id: "pieC", title: "Fatias", label: "Produto C", value: String(chartState.pieC), helper: "Valor da fatia", type: "number" },
-      { id: "pieD", title: "Fatias", label: "Produto D", value: String(chartState.pieD), helper: "Valor da fatia", type: "number" }
-    ],
-    scatter: [
-      { id: "scatterXOffset", title: "Eixo X", label: "Offset X", value: String(chartState.scatterXOffset), helper: "Soma direta no eixo X", type: "number" },
-      { id: "scatterYOffset", title: "Eixo Y", label: "Offset Y", value: String(chartState.scatterYOffset), helper: "Soma direta no eixo Y", type: "number" }
-    ],
-    bubble: [
-      { id: "scatterXOffset", title: "Eixo X", label: "Offset X", value: String(chartState.scatterXOffset), helper: "Soma direta no eixo X", type: "number" },
-      { id: "scatterYOffset", title: "Eixo Y", label: "Offset Y", value: String(chartState.scatterYOffset), helper: "Soma direta no eixo Y", type: "number" }
-    ],
-    radar: [
-      { id: "dataOffsetA", title: "Valores", label: "Offset Produto A", value: String(chartState.dataOffsetA), helper: "Soma direta", type: "number" },
-      { id: "dataOffsetB", title: "Valores", label: "Offset Produto B", value: String(chartState.dataOffsetB), helper: "Soma direta", type: "number" }
-    ]
-  };
-
-  const defs = [...shared, ...(byType[type] || [])];
-
-  controlsHost.innerHTML = defs
-    .map(
-      (field) =>
-        `<cds-text-input id="ctrl-${field.id}" title-text="${field.title}" label="${field.label}" value="${field.value}" helper-text="${field.helper}" type="${field.type}"></cds-text-input>`
-    )
-    .join("");
-
-  defs.forEach((field) => {
-    const node = document.getElementById(`ctrl-${field.id}`);
-    if (!node) return;
-    ["input", "change"].forEach((ev) => {
-      node.addEventListener(ev, () => {
-        const val = node.value;
-        if (["height", "yMin", "yMax", "dataOffsetA", "dataOffsetB", "pieA", "pieB", "pieC", "pieD", "scatterXOffset", "scatterYOffset"].includes(field.id)) {
-          if ((field.id === "yMin" || field.id === "yMax") && val === "") {
-            chartState[field.id] = null;
-          } else {
-            chartState[field.id] = numeric(val, chartState[field.id] || 0);
-          }
-        } else {
-          chartState[field.id] = val;
-        }
-        if (field.id === "colorA") chartState.colors[0] = val;
-        if (field.id === "colorB") chartState.colors[1] = val;
-        renderChart(chartState.currentType);
-      });
-    });
-  });
+function clamp(v, min, max) {
+  return Math.max(min, Math.min(max, v));
 }
 
-function buildData(type) {
-  if (type === "pie" || type === "donut") {
+function rangeDates(count) {
+  const list = [];
+  for (let i = 0; i < count; i += 1) {
+    const month = String(i + 1).padStart(2, "0");
+    list.push(`2026-${month}-01`);
+  }
+  return list;
+}
+
+function controlsByType(type) {
+  const common = [
+    { id: "height", title: "Layout", label: "Altura do gráfico (px)", type: "number", value: state.height, helper: "Ex.: 420" },
+    { id: "colorA", title: "Cor", label: "Cor série A (HEX)", type: "text", value: state.colorA, helper: "Ex.: #0f62fe" },
+    { id: "colorB", title: "Cor", label: "Cor série B (HEX)", type: "text", value: state.colorB, helper: "Ex.: #24a148" }
+  ];
+
+  if (type === "line" || type === "area") {
     return [
-      { group: "Produto A", value: numeric(chartState.pieA, 38) },
-      { group: "Produto B", value: numeric(chartState.pieB, 26) },
-      { group: "Produto C", value: numeric(chartState.pieC, 20) },
-      { group: "Produto D", value: numeric(chartState.pieD, 16) }
+      ...common,
+      { id: "points", title: "Dados", label: "Quantos pontos", type: "number", value: state.points, helper: "De 2 a 10" },
+      { id: "startA", title: "Dados", label: "Valor inicial A", type: "number", value: state.startA, helper: "Ponto 1 da série A" },
+      { id: "stepA", title: "Dados", label: "Incremento A", type: "number", value: state.stepA, helper: "Quanto cresce por ponto" },
+      { id: "startB", title: "Dados", label: "Valor inicial B", type: "number", value: state.startB, helper: "Ponto 1 da série B" },
+      { id: "stepB", title: "Dados", label: "Incremento B", type: "number", value: state.stepB, helper: "Quanto cresce por ponto" },
+      { id: "yMin", title: "Eixo Y", label: "Y mínimo", type: "number", value: state.yMin, helper: "Vazio = automático" },
+      { id: "yMax", title: "Eixo Y", label: "Y máximo", type: "number", value: state.yMax, helper: "Vazio = automático" }
     ];
   }
 
-  return (baseDataCatalog[type] || []).map((row) => {
-    const next = { ...row };
+  if (type === "simple_bar" || type === "grouped_bar" || type === "stacked_bar") {
+    const shared = [
+      ...common,
+      { id: "categories", title: "Dados", label: "Quantas categorias", type: "number", value: state.categories, helper: "De 2 a 8" },
+      { id: "yMin", title: "Eixo Y", label: "Y mínimo", type: "number", value: state.yMin, helper: "Vazio = automático" },
+      { id: "yMax", title: "Eixo Y", label: "Y máximo", type: "number", value: state.yMax, helper: "Vazio = automático" }
+    ];
 
-    if (type === "scatter" || type === "bubble") {
-      if (typeof next.x === "number") next.x += numeric(chartState.scatterXOffset, 0);
-      if (typeof next.y === "number") next.y += numeric(chartState.scatterYOffset, 0);
-      return next;
+    if (type === "simple_bar") {
+      return [
+        ...shared,
+        { id: "startA", title: "Dados", label: "Valor inicial", type: "number", value: state.startA, helper: "Barra Q1" },
+        { id: "stepA", title: "Dados", label: "Incremento por barra", type: "number", value: state.stepA, helper: "Q2, Q3, Q4..." }
+      ];
     }
 
-    const isA = next.group === "Produto A";
-    const isB = next.group === "Produto B";
-    const offset = isA ? numeric(chartState.dataOffsetA, 0) : isB ? numeric(chartState.dataOffsetB, 0) : numeric(chartState.dataOffsetA, 0);
+    return [
+      ...shared,
+      { id: "startA", title: "Dados", label: "Valor inicial A", type: "number", value: state.startA, helper: "Grupo A na categoria 1" },
+      { id: "stepA", title: "Dados", label: "Incremento A", type: "number", value: state.stepA, helper: "Por categoria" },
+      { id: "startB", title: "Dados", label: "Valor inicial B", type: "number", value: state.startB, helper: "Grupo B na categoria 1" },
+      { id: "stepB", title: "Dados", label: "Incremento B", type: "number", value: state.stepB, helper: "Por categoria" }
+    ];
+  }
 
-    if (typeof next.value === "number") next.value += offset;
-    if (typeof next.y === "number") next.y += offset;
-    return next;
-  });
+  if (type === "pie" || type === "donut") {
+    return [
+      ...common,
+      { id: "pieA", title: "Fatias", label: "Valor fatia A", type: "number", value: state.pieA, helper: "Produto A" },
+      { id: "pieB", title: "Fatias", label: "Valor fatia B", type: "number", value: state.pieB, helper: "Produto B" },
+      { id: "pieC", title: "Fatias", label: "Valor fatia C", type: "number", value: state.pieC, helper: "Produto C" },
+      { id: "pieD", title: "Fatias", label: "Valor fatia D", type: "number", value: state.pieD, helper: "Produto D" },
+      { id: "colorC", title: "Cor", label: "Cor série C (HEX)", type: "text", value: state.colorC, helper: "Ex.: #8a3ffc" },
+      { id: "colorD", title: "Cor", label: "Cor série D (HEX)", type: "text", value: state.colorD, helper: "Ex.: #ff832b" }
+    ];
+  }
+
+  if (type === "scatter" || type === "bubble") {
+    const defs = [
+      ...common,
+      { id: "points", title: "Dados", label: "Quantos pontos", type: "number", value: state.points, helper: "De 3 a 12" },
+      { id: "xMax", title: "Eixo X", label: "Eixo X vai até", type: "number", value: state.xMax, helper: "Máximo do eixo X" },
+      { id: "yMax", title: "Eixo Y", label: "Eixo Y vai até", type: "number", value: state.yMax || 120, helper: "Máximo do eixo Y" },
+      { id: "startA", title: "Dados", label: "Base série A", type: "number", value: state.startA, helper: "Valor inicial série A" },
+      { id: "startB", title: "Dados", label: "Base série B", type: "number", value: state.startB, helper: "Valor inicial série B" }
+    ];
+    if (type === "bubble") {
+      defs.push({ id: "radiusBase", title: "Bolhas", label: "Raio base", type: "number", value: state.radiusBase, helper: "Tamanho base das bolhas" });
+    }
+    return defs;
+  }
+
+  return [
+    ...common,
+    { id: "radarMax", title: "Eixo", label: "Valor máximo do radar", type: "number", value: state.radarMax, helper: "Ex.: 100" },
+    { id: "startA", title: "Dados", label: "Base série A", type: "number", value: state.startA, helper: "Pontuação inicial A" },
+    { id: "startB", title: "Dados", label: "Base série B", type: "number", value: state.startB, helper: "Pontuação inicial B" },
+    { id: "stepA", title: "Dados", label: "Variação A", type: "number", value: state.stepA, helper: "Incremento por critério" },
+    { id: "stepB", title: "Dados", label: "Variação B", type: "number", value: state.stepB, helper: "Incremento por critério" }
+  ];
+}
+
+function createControl(def) {
+  return `<cds-text-input id="ctrl-${def.id}" title-text="${def.title}" label="${def.label}" value="${def.value}" helper-text="${def.helper}" type="${def.type}"></cds-text-input>`;
+}
+
+function bindControl(def) {
+  const node = document.getElementById(`ctrl-${def.id}`);
+  if (!node) return;
+  const update = () => {
+    state[def.id] = node.value;
+    renderChart(state.type);
+  };
+  node.addEventListener("input", update);
+  node.addEventListener("change", update);
+}
+
+function renderControls(type) {
+  if (!controlsHost) return;
+  const defs = controlsByType(type);
+  controlsHost.innerHTML = defs.map(createControl).join("");
+  defs.forEach(bindControl);
+}
+
+function buildColorScale(type) {
+  const scale = {
+    "Produto A": state.colorA || "#0f62fe",
+    "Produto B": state.colorB || "#24a148",
+    "Produto C": state.colorC || "#8a3ffc",
+    "Produto D": state.colorD || "#ff832b"
+  };
+  if (type === "simple_bar") {
+    return { scale: { "Produto A": scale["Produto A"] } };
+  }
+  return { scale };
+}
+
+function buildData(type) {
+  const points = clamp(toNum(state.points, 5), 2, 12);
+  const categories = clamp(toNum(state.categories, 4), 2, 8);
+  const startA = toNum(state.startA, 50);
+  const startB = toNum(state.startB, 35);
+  const stepA = toNum(state.stepA, 10);
+  const stepB = toNum(state.stepB, 8);
+
+  if (type === "line" || type === "area") {
+    const dates = rangeDates(points);
+    const rows = [];
+    dates.forEach((date, idx) => {
+      rows.push({ group: "Produto A", date, value: startA + stepA * idx });
+      rows.push({ group: "Produto B", date, value: startB + stepB * idx });
+    });
+    return rows;
+  }
+
+  if (type === "simple_bar") {
+    return Array.from({ length: categories }, (_, idx) => ({
+      group: "Produto A",
+      key: `Q${idx + 1}`,
+      value: startA + stepA * idx
+    }));
+  }
+
+  if (type === "grouped_bar" || type === "stacked_bar") {
+    const rows = [];
+    for (let idx = 0; idx < categories; idx += 1) {
+      rows.push({ group: "Produto A", key: `Q${idx + 1}`, value: startA + stepA * idx });
+      rows.push({ group: "Produto B", key: `Q${idx + 1}`, value: startB + stepB * idx });
+    }
+    return rows;
+  }
+
+  if (type === "pie" || type === "donut") {
+    return [
+      { group: "Produto A", value: Math.max(1, toNum(state.pieA, 38)) },
+      { group: "Produto B", value: Math.max(1, toNum(state.pieB, 26)) },
+      { group: "Produto C", value: Math.max(1, toNum(state.pieC, 20)) },
+      { group: "Produto D", value: Math.max(1, toNum(state.pieD, 16)) }
+    ];
+  }
+
+  if (type === "scatter" || type === "bubble") {
+    const xMax = Math.max(10, toNum(state.xMax, 100));
+    const yMax = Math.max(10, toNum(state.yMax, 120));
+    const rows = [];
+    for (let idx = 0; idx < points; idx += 1) {
+      const x = Math.round(((idx + 1) / points) * xMax);
+      rows.push({ group: "Produto A", x, y: Math.round(startA + (yMax * (idx + 1)) / (points + 1)), value: Math.max(5, toNum(state.radiusBase, 20) + idx * 2) });
+      rows.push({ group: "Produto B", x: Math.max(1, x - 5), y: Math.round(startB + (yMax * (idx + 0.7)) / (points + 1)), value: Math.max(5, toNum(state.radiusBase, 20) + idx) });
+    }
+    return rows;
+  }
+
+  const radarMax = Math.max(20, toNum(state.radarMax, 100));
+  const features = ["Preço", "Usabilidade", "Performance", "Qualidade", "Suporte"];
+  return features.flatMap((feature, idx) => [
+    { group: "Produto A", feature, value: clamp(startA + stepA * idx, 0, radarMax) },
+    { group: "Produto B", feature, value: clamp(startB + stepB * idx, 0, radarMax) }
+  ]);
 }
 
 function buildOptions(type) {
-  const height = `${Math.max(280, numeric(chartState.height, 420))}px`;
-  const color = {
-    scale: {
-      "Produto A": chartState.colors[0] || "#0f62fe",
-      "Produto B": chartState.colors[1] || "#24a148"
-    }
-  };
+  const height = `${Math.max(280, toNum(state.height, 420))}px`;
+  const color = buildColorScale(type);
+  const yMin = state.yMin === "" ? null : toNum(state.yMin, 0);
+  const yMax = state.yMax === "" ? null : toNum(state.yMax, 0);
 
-  const axisLeft = { mapsTo: "value" };
-  if (chartState.yMin != null) axisLeft.domainMin = numeric(chartState.yMin, 0);
-  if (chartState.yMax != null) axisLeft.domainMax = numeric(chartState.yMax, 0);
+  const leftAxis = { mapsTo: "value" };
+  if (yMin !== null) leftAxis.domainMin = yMin;
+  if (yMax !== null) leftAxis.domainMax = yMax;
 
   if (type === "line" || type === "area") {
     return {
       title: type === "line" ? "Line" : "Area",
       axes: {
-        left: { ...axisLeft, title: "Valor" },
+        left: { ...leftAxis, title: "Valor" },
         bottom: { mapsTo: "date", scaleType: "time" }
       },
       color,
@@ -273,7 +270,7 @@ function buildOptions(type) {
     return {
       title: type.replace("_", " "),
       axes: {
-        left: type === "stacked_bar" ? { ...axisLeft, stacked: true } : axisLeft,
+        left: type === "stacked_bar" ? { ...leftAxis, stacked: true } : leftAxis,
         bottom: { mapsTo: "key", scaleType: "labels" }
       },
       color,
@@ -281,20 +278,15 @@ function buildOptions(type) {
     };
   }
 
-  if (type === "pie") {
-    return { title: "Pie", pie: { alignment: "center" }, color, height };
-  }
-
-  if (type === "donut") {
-    return { title: "Donut", donut: { center: { label: "Total" } }, color, height };
-  }
+  if (type === "pie") return { title: "Pie", pie: { alignment: "center" }, color, height };
+  if (type === "donut") return { title: "Donut", donut: { center: { label: "Total" } }, color, height };
 
   if (type === "scatter") {
     return {
       title: "Scatter",
       axes: {
         left: { mapsTo: "y" },
-        bottom: { mapsTo: "x", scaleType: "linear" }
+        bottom: { mapsTo: "x", scaleType: "linear", domainMax: Math.max(10, toNum(state.xMax, 100)) }
       },
       color,
       height
@@ -306,7 +298,7 @@ function buildOptions(type) {
       title: "Bubble",
       axes: {
         left: { mapsTo: "y" },
-        bottom: { mapsTo: "x", scaleType: "linear" }
+        bottom: { mapsTo: "x", scaleType: "linear", domainMax: Math.max(10, toNum(state.xMax, 100)) }
       },
       bubble: { radiusMapsTo: "value" },
       color,
@@ -329,22 +321,20 @@ function buildOptions(type) {
 
 function renderChart(type) {
   if (!chartHolder) return;
-
-  const chartsNamespace = window.Charts || window.CarbonCharts;
-  if (!chartsNamespace) {
-    chartHolder.innerHTML = "<p>Erro: Carbon Charts nao carregou.</p>";
+  const charts = window.Charts || window.CarbonCharts;
+  if (!charts) {
+    chartHolder.innerHTML = "<p>Erro: Carbon Charts não carregou.</p>";
     return;
   }
 
-  const ChartCtor = chartsNamespace[chartClassMap[type]];
+  const ChartCtor = charts[chartClassMap[type]];
   if (!ChartCtor) {
-    chartHolder.innerHTML = "<p>Erro: tipo de grafico indisponivel.</p>";
+    chartHolder.innerHTML = "<p>Erro: tipo de gráfico indisponível.</p>";
     return;
   }
 
-  chartState.currentType = type;
+  state.type = type;
   chartHolder.innerHTML = "";
-
   new ChartCtor(chartHolder, {
     data: buildData(type),
     options: buildOptions(type)
@@ -353,29 +343,23 @@ function renderChart(type) {
 
 function setSideNavOpen(isOpen) {
   if (!sideNav || !sideNavOverlay || !sideNavToggle) return;
-
   sideNav.classList.toggle("is-open", isOpen);
   sideNav.setAttribute("aria-hidden", String(!isOpen));
   sideNavToggle.setAttribute("aria-expanded", String(isOpen));
-  sideNavToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
   sideNavOverlay.hidden = desktopMedia.matches || !isOpen;
 }
 
 function bindSideNav() {
   if (!sideNav || !sideNavOverlay || !sideNavToggle) return;
-
   sideNavToggle.addEventListener("click", () => setSideNavOpen(!sideNav.classList.contains("is-open")));
   sideNavOverlay.addEventListener("click", () => setSideNavOpen(false));
-
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") setSideNavOpen(false);
   });
-
   desktopMedia.addEventListener("change", () => {
     if (desktopMedia.matches && !sideNav.classList.contains("is-open")) setSideNavOpen(true);
     if (!desktopMedia.matches) setSideNavOpen(false);
   });
-
   setSideNavOpen(desktopMedia.matches);
 }
 
@@ -395,7 +379,7 @@ if (chartSelector) {
   chartSelector.addEventListener("cds-dropdown-selected", (event) => {
     const value = event?.detail?.item?.value;
     if (value && chartClassMap[value]) {
-      buildControls(value);
+      renderControls(value);
       renderChart(value);
     }
   });
@@ -403,5 +387,5 @@ if (chartSelector) {
 
 bindSideNav();
 bindSideNavSubmenus();
-buildControls("line");
+renderControls("line");
 renderChart("line");
