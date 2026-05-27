@@ -8,7 +8,29 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="app">
+    <a class="cds--skip-to-content" href="#main-content">Pular para conteúdo</a>
+
+    <header class="cds--header" aria-label="IBM Platform Name">
+      <button class="cds--header__menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+
+      <a class="cds--header__name" href="#main-content">
+        <span class="cds--header__name--prefix">IBM</span>
+        TesteStudio
+      </a>
+
+      <nav class="cds--header__nav" aria-label="IBM [Platform]">
+        <a class="cds--header__menu-item" href="#main-content">Dashboard</a>
+        <a class="cds--header__menu-item" href="#radar-chart">Radar</a>
+      </nav>
+
+      <div class="cds--header__global">
+        <button class="cds--header__action" type="button" aria-label="Search">⌕</button>
+        <button class="cds--header__action" type="button" aria-label="Notifications">🔔</button>
+        <button class="cds--header__action" type="button" aria-label="App switcher">◧</button>
+      </div>
+    </header>
+
+    <main id="main-content" class="app">
       <h1>Radar de Produtos</h1>
       <div id="radar-chart" class="chart"></div>
       <button id="export-csv-btn" type="button">Exportar CSV</button>
