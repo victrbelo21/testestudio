@@ -1,7 +1,6 @@
 const chartHolder = document.getElementById("chart-container");
 const chartSelector = document.getElementById("chart-selector");
-const scaleAInput = document.getElementById("scale-a");
-const scaleBInput = document.getElementById("scale-b");
+const controlsHost = document.getElementById("chart-controls");
 
 const sideNav = document.getElementById("side-nav");
 const sideNavOverlay = document.getElementById("side-nav-overlay");
@@ -10,7 +9,7 @@ const sideNavSubmenus = document.querySelectorAll(".cds--side-nav__submenu");
 
 const desktopMedia = window.matchMedia("(min-width: 1056px)");
 
-const dataCatalog = {
+const baseDataCatalog = {
   line: [
     { group: "Produto A", date: "2026-01-01", value: 65000 },
     { group: "Produto A", date: "2026-02-01", value: 69000 },
@@ -93,19 +92,6 @@ const dataCatalog = {
   ]
 };
 
-const optionsCatalog = {
-  line: { title: "Line", axes: { left: { mapsTo: "value", title: "Valor" }, bottom: { mapsTo: "date", scaleType: "time" } }, curve: "curveMonotoneX", height: "420px" },
-  area: { title: "Area", axes: { left: { mapsTo: "value", title: "Valor" }, bottom: { mapsTo: "date", scaleType: "time" } }, curve: "curveMonotoneX", height: "420px" },
-  simple_bar: { title: "Simple bar", axes: { left: { mapsTo: "value" }, bottom: { mapsTo: "key", scaleType: "labels" } }, height: "420px" },
-  grouped_bar: { title: "Grouped bar", axes: { left: { mapsTo: "value" }, bottom: { mapsTo: "key", scaleType: "labels" } }, height: "420px" },
-  stacked_bar: { title: "Stacked bar", axes: { left: { mapsTo: "value", stacked: true }, bottom: { mapsTo: "key", scaleType: "labels" } }, height: "420px" },
-  pie: { title: "Pie", pie: { alignment: "center" }, height: "420px" },
-  donut: { title: "Donut", donut: { center: { label: "Total" } }, height: "420px" },
-  scatter: { title: "Scatter", axes: { left: { mapsTo: "y" }, bottom: { mapsTo: "x", scaleType: "linear" } }, height: "420px" },
-  bubble: { title: "Bubble", axes: { left: { mapsTo: "y" }, bottom: { mapsTo: "x", scaleType: "linear" } }, bubble: { radiusMapsTo: "value" }, height: "420px" },
-  radar: { title: "Radar", radar: { axes: { angle: "feature", value: "value" } }, height: "420px" }
-};
-
 const chartClassMap = {
   line: "LineChart",
   area: "AreaChart",
@@ -119,38 +105,230 @@ const chartClassMap = {
   radar: "RadarChart"
 };
 
-let currentType = "line";
+const chartState = {
+  currentType: "line",
+  colors: ["#0f62fe", "#24a148", "#8a3ffc", "#ff832b"],
+  yMin: null,
+  yMax: null,
+  height: 420,
+  dataOffsetA: 0,
+  dataOffsetB: 0,
+  pieA: 38,
+  pieB: 26,
+  pieC: 20,
+  pieD: 16,
+  scatterXOffset: 0,
+  scatterYOffset: 0
+};
 
-function readFactor(input) {
-  const parsed = Number(input?.value ?? 1);
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+function numeric(value, fallback = 0) {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : fallback;
 }
 
-function scaledData(type) {
-  const base = dataCatalog[type] || [];
-  const scaleA = readFactor(scaleAInput);
-  const scaleB = readFactor(scaleBInput);
+function buildControls(type) {
+  if (!controlsHost) return;
 
-  return base.map((row) => {
-    const isA = row.group === "Produto A";
-    const isB = row.group === "Produto B";
-    const factor = isA ? scaleA : isB ? scaleB : 1;
+  const shared = [
+    { id: "height", title: "Altura", label: "Altura do grafico (px)", value: String(chartState.height), helper: "Ex.: 420", type: "number" },
+    { id: "yMin", title: "Eixo Y", label: "Y minimo", value: chartState.yMin == null ? "" : String(chartState.yMin), helper: "Vazio = automatico", type: "number" },
+    { id: "yMax", title: "Eixo Y", label: "Y maximo", value: chartState.yMax == null ? "" : String(chartState.yMax), helper: "Vazio = automatico", type: "number" },
+    { id: "colorA", title: "Cor serie A", label: "HEX serie 1", value: chartState.colors[0], helper: "Ex.: #0f62fe", type: "text" },
+    { id: "colorB", title: "Cor serie B", label: "HEX serie 2", value: chartState.colors[1], helper: "Ex.: #24a148", type: "text" }
+  ];
 
+  const byType = {
+    line: [
+      { id: "dataOffsetA", title: "Valores", label: "Offset Produto A", value: String(chartState.dataOffsetA), helper: "Soma direta nos valores", type: "number" },
+      { id: "dataOffsetB", title: "Valores", label: "Offset Produto B", value: String(chartState.dataOffsetB), helper: "Soma direta nos valores", type: "number" }
+    ],
+    area: [
+      { id: "dataOffsetA", title: "Valores", label: "Offset Produto A", value: String(chartState.dataOffsetA), helper: "Soma direta nos valores", type: "number" },
+      { id: "dataOffsetB", title: "Valores", label: "Offset Produto B", value: String(chartState.dataOffsetB), helper: "Soma direta nos valores", type: "number" }
+    ],
+    simple_bar: [
+      { id: "dataOffsetA", title: "Valores", label: "Offset barras", value: String(chartState.dataOffsetA), helper: "Soma direta nas barras", type: "number" }
+    ],
+    grouped_bar: [
+      { id: "dataOffsetA", title: "Valores", label: "Offset Produto A", value: String(chartState.dataOffsetA), helper: "Soma direta", type: "number" },
+      { id: "dataOffsetB", title: "Valores", label: "Offset Produto B", value: String(chartState.dataOffsetB), helper: "Soma direta", type: "number" }
+    ],
+    stacked_bar: [
+      { id: "dataOffsetA", title: "Valores", label: "Offset Produto A", value: String(chartState.dataOffsetA), helper: "Soma direta", type: "number" },
+      { id: "dataOffsetB", title: "Valores", label: "Offset Produto B", value: String(chartState.dataOffsetB), helper: "Soma direta", type: "number" }
+    ],
+    pie: [
+      { id: "pieA", title: "Fatias", label: "Produto A", value: String(chartState.pieA), helper: "Valor da fatia", type: "number" },
+      { id: "pieB", title: "Fatias", label: "Produto B", value: String(chartState.pieB), helper: "Valor da fatia", type: "number" },
+      { id: "pieC", title: "Fatias", label: "Produto C", value: String(chartState.pieC), helper: "Valor da fatia", type: "number" },
+      { id: "pieD", title: "Fatias", label: "Produto D", value: String(chartState.pieD), helper: "Valor da fatia", type: "number" }
+    ],
+    donut: [
+      { id: "pieA", title: "Fatias", label: "Produto A", value: String(chartState.pieA), helper: "Valor da fatia", type: "number" },
+      { id: "pieB", title: "Fatias", label: "Produto B", value: String(chartState.pieB), helper: "Valor da fatia", type: "number" },
+      { id: "pieC", title: "Fatias", label: "Produto C", value: String(chartState.pieC), helper: "Valor da fatia", type: "number" },
+      { id: "pieD", title: "Fatias", label: "Produto D", value: String(chartState.pieD), helper: "Valor da fatia", type: "number" }
+    ],
+    scatter: [
+      { id: "scatterXOffset", title: "Eixo X", label: "Offset X", value: String(chartState.scatterXOffset), helper: "Soma direta no eixo X", type: "number" },
+      { id: "scatterYOffset", title: "Eixo Y", label: "Offset Y", value: String(chartState.scatterYOffset), helper: "Soma direta no eixo Y", type: "number" }
+    ],
+    bubble: [
+      { id: "scatterXOffset", title: "Eixo X", label: "Offset X", value: String(chartState.scatterXOffset), helper: "Soma direta no eixo X", type: "number" },
+      { id: "scatterYOffset", title: "Eixo Y", label: "Offset Y", value: String(chartState.scatterYOffset), helper: "Soma direta no eixo Y", type: "number" }
+    ],
+    radar: [
+      { id: "dataOffsetA", title: "Valores", label: "Offset Produto A", value: String(chartState.dataOffsetA), helper: "Soma direta", type: "number" },
+      { id: "dataOffsetB", title: "Valores", label: "Offset Produto B", value: String(chartState.dataOffsetB), helper: "Soma direta", type: "number" }
+    ]
+  };
+
+  const defs = [...shared, ...(byType[type] || [])];
+
+  controlsHost.innerHTML = defs
+    .map(
+      (field) =>
+        `<cds-text-input id="ctrl-${field.id}" title-text="${field.title}" label="${field.label}" value="${field.value}" helper-text="${field.helper}" type="${field.type}"></cds-text-input>`
+    )
+    .join("");
+
+  defs.forEach((field) => {
+    const node = document.getElementById(`ctrl-${field.id}`);
+    if (!node) return;
+    ["input", "change"].forEach((ev) => {
+      node.addEventListener(ev, () => {
+        const val = node.value;
+        if (["height", "yMin", "yMax", "dataOffsetA", "dataOffsetB", "pieA", "pieB", "pieC", "pieD", "scatterXOffset", "scatterYOffset"].includes(field.id)) {
+          if ((field.id === "yMin" || field.id === "yMax") && val === "") {
+            chartState[field.id] = null;
+          } else {
+            chartState[field.id] = numeric(val, chartState[field.id] || 0);
+          }
+        } else {
+          chartState[field.id] = val;
+        }
+        if (field.id === "colorA") chartState.colors[0] = val;
+        if (field.id === "colorB") chartState.colors[1] = val;
+        renderChart(chartState.currentType);
+      });
+    });
+  });
+}
+
+function buildData(type) {
+  if (type === "pie" || type === "donut") {
+    return [
+      { group: "Produto A", value: numeric(chartState.pieA, 38) },
+      { group: "Produto B", value: numeric(chartState.pieB, 26) },
+      { group: "Produto C", value: numeric(chartState.pieC, 20) },
+      { group: "Produto D", value: numeric(chartState.pieD, 16) }
+    ];
+  }
+
+  return (baseDataCatalog[type] || []).map((row) => {
     const next = { ...row };
-    if (typeof next.value === "number") {
-      next.value = Math.round(next.value * factor);
+
+    if (type === "scatter" || type === "bubble") {
+      if (typeof next.x === "number") next.x += numeric(chartState.scatterXOffset, 0);
+      if (typeof next.y === "number") next.y += numeric(chartState.scatterYOffset, 0);
+      return next;
     }
-    if (typeof next.y === "number") {
-      next.y = Math.round(next.y * factor);
-    }
+
+    const isA = next.group === "Produto A";
+    const isB = next.group === "Produto B";
+    const offset = isA ? numeric(chartState.dataOffsetA, 0) : isB ? numeric(chartState.dataOffsetB, 0) : numeric(chartState.dataOffsetA, 0);
+
+    if (typeof next.value === "number") next.value += offset;
+    if (typeof next.y === "number") next.y += offset;
     return next;
   });
 }
 
-function renderChart(type) {
-  if (!chartHolder) {
-    return;
+function buildOptions(type) {
+  const height = `${Math.max(280, numeric(chartState.height, 420))}px`;
+  const color = {
+    scale: {
+      "Produto A": chartState.colors[0] || "#0f62fe",
+      "Produto B": chartState.colors[1] || "#24a148"
+    }
+  };
+
+  const axisLeft = { mapsTo: "value" };
+  if (chartState.yMin != null) axisLeft.domainMin = numeric(chartState.yMin, 0);
+  if (chartState.yMax != null) axisLeft.domainMax = numeric(chartState.yMax, 0);
+
+  if (type === "line" || type === "area") {
+    return {
+      title: type === "line" ? "Line" : "Area",
+      axes: {
+        left: { ...axisLeft, title: "Valor" },
+        bottom: { mapsTo: "date", scaleType: "time" }
+      },
+      color,
+      height
+    };
   }
+
+  if (type === "simple_bar" || type === "grouped_bar" || type === "stacked_bar") {
+    return {
+      title: type.replace("_", " "),
+      axes: {
+        left: type === "stacked_bar" ? { ...axisLeft, stacked: true } : axisLeft,
+        bottom: { mapsTo: "key", scaleType: "labels" }
+      },
+      color,
+      height
+    };
+  }
+
+  if (type === "pie") {
+    return { title: "Pie", pie: { alignment: "center" }, color, height };
+  }
+
+  if (type === "donut") {
+    return { title: "Donut", donut: { center: { label: "Total" } }, color, height };
+  }
+
+  if (type === "scatter") {
+    return {
+      title: "Scatter",
+      axes: {
+        left: { mapsTo: "y" },
+        bottom: { mapsTo: "x", scaleType: "linear" }
+      },
+      color,
+      height
+    };
+  }
+
+  if (type === "bubble") {
+    return {
+      title: "Bubble",
+      axes: {
+        left: { mapsTo: "y" },
+        bottom: { mapsTo: "x", scaleType: "linear" }
+      },
+      bubble: { radiusMapsTo: "value" },
+      color,
+      height
+    };
+  }
+
+  return {
+    title: "Radar",
+    radar: {
+      axes: {
+        angle: "feature",
+        value: "value"
+      }
+    },
+    color,
+    height
+  };
+}
+
+function renderChart(type) {
+  if (!chartHolder) return;
 
   const chartsNamespace = window.Charts || window.CarbonCharts;
   if (!chartsNamespace) {
@@ -164,18 +342,17 @@ function renderChart(type) {
     return;
   }
 
-  currentType = type;
+  chartState.currentType = type;
   chartHolder.innerHTML = "";
+
   new ChartCtor(chartHolder, {
-    data: scaledData(type),
-    options: optionsCatalog[type]
+    data: buildData(type),
+    options: buildOptions(type)
   });
 }
 
 function setSideNavOpen(isOpen) {
-  if (!sideNav || !sideNavOverlay || !sideNavToggle) {
-    return;
-  }
+  if (!sideNav || !sideNavOverlay || !sideNavToggle) return;
 
   sideNav.classList.toggle("is-open", isOpen);
   sideNav.setAttribute("aria-hidden", String(!isOpen));
@@ -185,31 +362,18 @@ function setSideNavOpen(isOpen) {
 }
 
 function bindSideNav() {
-  if (!sideNav || !sideNavOverlay || !sideNavToggle) {
-    return;
-  }
+  if (!sideNav || !sideNavOverlay || !sideNavToggle) return;
 
-  sideNavToggle.addEventListener("click", () => {
-    setSideNavOpen(!sideNav.classList.contains("is-open"));
-  });
-
-  sideNavOverlay.addEventListener("click", () => {
-    setSideNavOpen(false);
-  });
+  sideNavToggle.addEventListener("click", () => setSideNavOpen(!sideNav.classList.contains("is-open")));
+  sideNavOverlay.addEventListener("click", () => setSideNavOpen(false));
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      setSideNavOpen(false);
-    }
+    if (event.key === "Escape") setSideNavOpen(false);
   });
 
   desktopMedia.addEventListener("change", () => {
-    if (desktopMedia.matches && !sideNav.classList.contains("is-open")) {
-      setSideNavOpen(true);
-    }
-    if (!desktopMedia.matches) {
-      setSideNavOpen(false);
-    }
+    if (desktopMedia.matches && !sideNav.classList.contains("is-open")) setSideNavOpen(true);
+    if (!desktopMedia.matches) setSideNavOpen(false);
   });
 
   setSideNavOpen(desktopMedia.matches);
@@ -231,17 +395,13 @@ if (chartSelector) {
   chartSelector.addEventListener("cds-dropdown-selected", (event) => {
     const value = event?.detail?.item?.value;
     if (value && chartClassMap[value]) {
+      buildControls(value);
       renderChart(value);
     }
   });
 }
 
-[scaleAInput, scaleBInput].forEach((input) => {
-  if (!input) return;
-  input.addEventListener("input", () => renderChart(currentType));
-  input.addEventListener("change", () => renderChart(currentType));
-});
-
 bindSideNav();
 bindSideNavSubmenus();
+buildControls("line");
 renderChart("line");
