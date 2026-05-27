@@ -91,12 +91,12 @@ function mkDropdown(id, label, value, options) {
 
 function mkTabs(idPrefix, labels, panelRenderer) {
   const tabs = labels
-    .map((label, i) => `<cds-tab value="${idPrefix}-${i}">${label}</cds-tab>`)
+    .map((label, i) => `<cds-tab id="${idPrefix}-tab-${i}" target="${idPrefix}-panel-${i}" value="${idPrefix}-${i}">${label}</cds-tab>`)
     .join("");
   const panels = labels
-    .map((_, i) => `<cds-tab-panel value="${idPrefix}-${i}"><div class="tab-panel">${panelRenderer(i)}</div></cds-tab-panel>`)
+    .map((_, i) => `<div id="${idPrefix}-panel-${i}" class="tab-panel" role="tabpanel" aria-labelledby="${idPrefix}-tab-${i}" hidden>${panelRenderer(i)}</div>`)
     .join("");
-  return `<div class="tabs-wrap"><cds-tabs value="${idPrefix}-0">${tabs}${panels}</cds-tabs></div>`;
+  return `<div class="tabs-wrap"><cds-tabs value="${idPrefix}-0">${tabs}</cds-tabs>${panels}</div>`;
 }
 
 function renderControls() {
@@ -104,27 +104,23 @@ function renderControls() {
   const isBubble = state.type === "bubble";
   const isPie = state.type === "pie" || state.type === "donut";
 
-  let html = "";
+  let axesHtml = `<section class="conditional-group"><h3 class="conditional-title">Eixos</h3>${mkRangeSlider()}`;
+  let seriesHtml = `<section class="conditional-group"><h3 class="conditional-title">Séries</h3>${mkSlider("series-count", "Quantidade de séries", state.seriesCount, 1, 5)}`;
 
   if (isLine) {
-    html += `<section class="conditional-group"><h3 class="conditional-title">Eixos</h3>${mkRangeSlider()}${mkDropdown("x-mode", "Tipo do eixo X", state.xMode, ["text", "number"])}`;
-
+    axesHtml += mkDropdown("x-mode", "Tipo do eixo X", state.xMode, ["text", "number"]);
     if (state.xMode === "number") {
-      html += mkSlider("x-max", "Eixo X numérico (0 até)", state.xMax, 0, Math.max(999999, state.xMax + 1000));
+      axesHtml += mkSlider("x-max", "Eixo X numérico (0 até)", state.xMax, 0, Math.max(999999, state.xMax + 1000));
     } else {
-      html += mkSlider("text-cols", "Quantidade de colunas", state.textCols, 1, 12);
-      html += mkTabs(
+      axesHtml += mkSlider("text-cols", "Quantidade de colunas", state.textCols, 1, 12);
+      axesHtml += mkTabs(
         "col-tab",
         Array.from({ length: state.textCols }, (_, i) => `Coluna ${i + 1}`),
         (i) => mkText(`col-name-${i}`, `Nome da coluna ${i + 1}`, state.colNames[i], false, "text")
       );
     }
 
-    html += `</section>`;
-
-    html += `<section class="conditional-group"><h3 class="conditional-title">Séries</h3>${mkSlider("series-count", "Quantidade de séries", state.seriesCount, 1, 5)}`;
-
-    html += mkTabs(
+    seriesHtml += mkTabs(
       "series-tab",
       Array.from({ length: state.seriesCount }, (_, i) => `Série ${i + 1}`),
       (s) => {
@@ -140,16 +136,15 @@ function renderControls() {
         return block;
       }
     );
-
-    html += `</section>`;
   } else {
-    html += `<section class="conditional-group"><h3 class="conditional-title">Configuração</h3>${mkSlider("series-count", "Quantidade de séries", state.seriesCount, 1, 5)}${mkRangeSlider()}`;
-    if (isBubble) html += mkSlider("bubble-radius", "Radius das bolhas", state.bubbleRadius, 1, 200);
-    if (isPie) html += mkDropdown("pie-mode", "Exibição da pizza", state.pieMode, ["value", "percent"]);
-    html += `</section>`;
+    if (isBubble) seriesHtml += mkSlider("bubble-radius", "Radius das bolhas", state.bubbleRadius, 1, 200);
+    if (isPie) seriesHtml += mkDropdown("pie-mode", "Exibição da pizza", state.pieMode, ["value", "percent"]);
   }
 
-  controlsHost.innerHTML = html;
+  axesHtml += "</section>";
+  seriesHtml += "</section>";
+
+  controlsHost.innerHTML = `${axesHtml}${seriesHtml}`;
   bindControls();
 }
 
