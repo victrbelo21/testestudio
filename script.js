@@ -29,13 +29,25 @@ const radarOptions = {
   height: "400px"
 };
 
-if (chartHolder && window.CarbonCharts?.RadarChart) {
-  // Carbon Charts (radar) seguindo o padrão oficial: data + options.
+function renderRadar() {
+  if (!chartHolder || !status) {
+    return;
+  }
+
+  const RadarChartCtor = window.Charts?.RadarChart || window.CarbonCharts?.RadarChart;
+
+  if (!RadarChartCtor) {
+    status.textContent = "Erro: biblioteca do Carbon Charts não carregou.";
+    return;
+  }
+
   // eslint-disable-next-line no-new
-  new window.CarbonCharts.RadarChart(chartHolder, {
+  new RadarChartCtor(chartHolder, {
     data: radarData,
     options: radarOptions
   });
+
+  status.textContent = "Gráfico carregado com sucesso.";
 }
 
 function exportCsv(rows, fileName) {
@@ -61,3 +73,5 @@ if (exportButton && status) {
     status.textContent = "CSV exportado com sucesso.";
   });
 }
+
+renderRadar();
