@@ -1,112 +1,728 @@
 :root {
   color-scheme: light;
-  font-family: "IBM Plex Sans", Arial, sans-serif;
 
-  /* IBM Carbon-inspired tokens (Light) */
-  --cds-background: #f4f4f4;
-  --cds-layer: #ffffff;
-  --cds-text-primary: #161616;
-  --cds-text-secondary: #525252;
-  --cds-border-subtle: #c6c6c6;
-  --cds-focus: #0f62fe;
-  --cds-button-primary: #0f62fe;
-  --cds-button-primary-hover: #0353e9;
-  --cds-button-text: #ffffff;
-  --cds-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  /* IBM full color gamut */
+  --ibm-ultramarine-1: #e7e9f7;
+  --ibm-ultramarine-10: #d1d7f4;
+  --ibm-ultramarine-20: #b0bef3;
+  --ibm-ultramarine-30: #89a2f6;
+  --ibm-ultramarine-40: #648fff;
+  --ibm-ultramarine-50: #3c6df0;
+  --ibm-ultramarine-60: #3151b7;
+  --ibm-ultramarine-70: #2e3f8f;
+  --ibm-ultramarine-80: #252e6a;
+  --ibm-ultramarine-90: #20214f;
+
+  --ibm-blue-1: #e1ebf7;
+  --ibm-blue-10: #c8daf4;
+  --ibm-blue-20: #a8c0f3;
+  --ibm-blue-30: #79a6f6;
+  --ibm-blue-40: #5392ff;
+  --ibm-blue-50: #2d74da;
+  --ibm-blue-60: #1f57a4;
+  --ibm-blue-70: #25467a;
+  --ibm-blue-80: #1d3458;
+  --ibm-blue-90: #19273c;
+
+  --ibm-cerulean-1: #deedf7;
+  --ibm-cerulean-10: #c2dbf4;
+  --ibm-cerulean-20: #95c4f3;
+  --ibm-cerulean-30: #56acf2;
+  --ibm-cerulean-40: #009bef;
+  --ibm-cerulean-50: #047cc0;
+  --ibm-cerulean-60: #175d8d;
+  --ibm-cerulean-70: #1c496d;
+  --ibm-cerulean-80: #1d364d;
+  --ibm-cerulean-90: #1b2834;
+
+  --ibm-aqua-1: #d1f0f7;
+  --ibm-aqua-10: #a0e3f0;
+  --ibm-aqua-20: #71cddd;
+  --ibm-aqua-30: #00b6cb;
+  --ibm-aqua-40: #12a3b4;
+  --ibm-aqua-50: #188291;
+  --ibm-aqua-60: #17616b;
+  --ibm-aqua-70: #164d56;
+  --ibm-aqua-80: #13393e;
+  --ibm-aqua-90: #122a2e;
+
+  --ibm-teal-1: #c0f5e8;
+  --ibm-teal-10: #8ee9d4;
+  --ibm-teal-20: #40d5bb;
+  --ibm-teal-30: #00baa1;
+  --ibm-teal-40: #00a78f;
+  --ibm-teal-50: #008673;
+  --ibm-teal-60: #006456;
+  --ibm-teal-70: #124f44;
+  --ibm-teal-80: #133a32;
+  --ibm-teal-90: #122b26;
+
+  --ibm-green-1: #cef3d1;
+  --ibm-green-10: #89eda0;
+  --ibm-green-20: #57d785;
+  --ibm-green-30: #34bc6e;
+  --ibm-green-40: #00aa5e;
+  --ibm-green-50: #00884b;
+  --ibm-green-60: #116639;
+  --ibm-green-70: #12512e;
+  --ibm-green-80: #123b22;
+  --ibm-green-90: #112c1b;
+
+  --ibm-lime-1: #d7f4bd;
+  --ibm-lime-10: #b4e876;
+  --ibm-lime-20: #95d13c;
+  --ibm-lime-30: #81b532;
+  --ibm-lime-40: #73a22c;
+  --ibm-lime-50: #5b8121;
+  --ibm-lime-60: #426200;
+  --ibm-lime-70: #374c1a;
+  --ibm-lime-80: #283912;
+  --ibm-lime-90: #1f2a10;
+
+  --ibm-yellow-1: #fbeaae;
+  --ibm-yellow-10: #fed500;
+  --ibm-yellow-20: #e3bc13;
+  --ibm-yellow-30: #c6a21a;
+  --ibm-yellow-40: #b3901f;
+  --ibm-yellow-50: #91721f;
+  --ibm-yellow-60: #70541b;
+  --ibm-yellow-70: #5b421a;
+  --ibm-yellow-80: #452f18;
+  --ibm-yellow-90: #372118;
+
+  --ibm-gold-1: #f5e8db;
+  --ibm-gold-10: #ffd191;
+  --ibm-gold-20: #ffb000;
+  --ibm-gold-30: #e39d14;
+  --ibm-gold-40: #c4881c;
+  --ibm-gold-50: #9c6d1e;
+  --ibm-gold-60: #74521b;
+  --ibm-gold-70: #5b421c;
+  --ibm-gold-80: #42301b;
+  --ibm-gold-90: #2f261c;
+
+  --ibm-orange-1: #f5e8de;
+  --ibm-orange-10: #fdcfad;
+  --ibm-orange-20: #fcaf6d;
+  --ibm-orange-30: #fe8500;
+  --ibm-orange-40: #db7c00;
+  --ibm-orange-50: #ad6418;
+  --ibm-orange-60: #814b19;
+  --ibm-orange-70: #653d1b;
+  --ibm-orange-80: #482e1a;
+  --ibm-orange-90: #33241c;
+
+  --ibm-peach-1: #f7e7e2;
+  --ibm-peach-10: #f8d0c3;
+  --ibm-peach-20: #faad96;
+  --ibm-peach-30: #fc835c;
+  --ibm-peach-40: #fe6100;
+  --ibm-peach-50: #c45433;
+  --ibm-peach-60: #993a1d;
+  --ibm-peach-70: #782f1c;
+  --ibm-peach-80: #56251a;
+  --ibm-peach-90: #3a201b;
+
+  --ibm-red-1: #f7e6e6;
+  --ibm-red-10: #fccec7;
+  --ibm-red-20: #ffaa9d;
+  --ibm-red-30: #ff806c;
+  --ibm-red-40: #ff5c49;
+  --ibm-red-50: #e62325;
+  --ibm-red-60: #aa231f;
+  --ibm-red-70: #83231e;
+  --ibm-red-80: #5c1f1b;
+  --ibm-red-90: #3e1d1b;
+
+  --ibm-magenta-1: #f5e7eb;
+  --ibm-magenta-10: #f5cedb;
+  --ibm-magenta-20: #f7aac3;
+  --ibm-magenta-30: #f87eac;
+  --ibm-magenta-40: #ff509e;
+  --ibm-magenta-50: #dc267f;
+  --ibm-magenta-60: #a91560;
+  --ibm-magenta-70: #831b4c;
+  --ibm-magenta-80: #5d1a38;
+  --ibm-magenta-90: #401a29;
+
+  --ibm-purple-1: #f7e4fb;
+  --ibm-purple-10: #efcef3;
+  --ibm-purple-20: #e4adea;
+  --ibm-purple-30: #d68adf;
+  --ibm-purple-40: #cb71d7;
+  --ibm-purple-50: #c22dd5;
+  --ibm-purple-60: #9320a2;
+  --ibm-purple-70: #71237c;
+  --ibm-purple-80: #501e58;
+  --ibm-purple-90: #3b1a40;
+
+  --ibm-violet-1: #ece8f5;
+  --ibm-violet-10: #e2d2f4;
+  --ibm-violet-20: #d2b5f0;
+  --ibm-violet-30: #bf93eb;
+  --ibm-violet-40: #b07ce8;
+  --ibm-violet-50: #9753e1;
+  --ibm-violet-60: #7732bb;
+  --ibm-violet-70: #602797;
+  --ibm-violet-80: #44216a;
+  --ibm-violet-90: #321c4c;
+
+  --ibm-indigo-1: #e9e8ff;
+  --ibm-indigo-10: #dcd4f7;
+  --ibm-indigo-20: #c7b6f7;
+  --ibm-indigo-30: #ae97f4;
+  --ibm-indigo-40: #9b82f3;
+  --ibm-indigo-50: #785ef0;
+  --ibm-indigo-60: #5a3ec8;
+  --ibm-indigo-70: #473793;
+  --ibm-indigo-80: #352969;
+  --ibm-indigo-90: #272149;
+
+  --ibm-gray-1: #eaeaea;
+  --ibm-gray-10: #d8d8d8;
+  --ibm-gray-20: #c0bfc0;
+  --ibm-gray-30: #a6a5a6;
+  --ibm-gray-40: #949394;
+  --ibm-gray-50: #777677;
+  --ibm-gray-60: #595859;
+  --ibm-gray-70: #464646;
+  --ibm-gray-80: #343334;
+  --ibm-gray-90: #272727;
+
+  --ibm-cool-gray-1: #e3ecec;
+  --ibm-cool-gray-10: #d0dada;
+  --ibm-cool-gray-20: #b8c1c1;
+  --ibm-cool-gray-30: #9fa7a7;
+  --ibm-cool-gray-40: #8c9696;
+  --ibm-cool-gray-50: #6f7878;
+  --ibm-cool-gray-60: #535a5a;
+  --ibm-cool-gray-70: #424747;
+  --ibm-cool-gray-80: #343334;
+  --ibm-cool-gray-90: #272727;
+
+  --ibm-warm-gray-1: #efe9e9;
+  --ibm-warm-gray-10: #e2d5d5;
+  --ibm-warm-gray-20: #ccbcbc;
+  --ibm-warm-gray-30: #b4a1a1;
+  --ibm-warm-gray-40: #9e9191;
+  --ibm-warm-gray-50: #7d7373;
+  --ibm-warm-gray-60: #5f5757;
+  --ibm-warm-gray-70: #4b4545;
+  --ibm-warm-gray-80: #373232;
+  --ibm-warm-gray-90: #2a2626;
+
+  --ibm-neutral-white-1: #fcfcfc;
+  --ibm-neutral-white-2: #f9f9f9;
+  --ibm-neutral-white-3: #f6f6f6;
+  --ibm-neutral-white-4: #f3f3f3;
+  --ibm-cool-white-1: #fbfcfc;
+  --ibm-cool-white-2: #f8fafa;
+  --ibm-cool-white-3: #f4f7f7;
+  --ibm-cool-white-4: #f0f4f4;
+  --ibm-warm-white-1: #fdfcfc;
+  --ibm-warm-white-2: #fbf8f8;
+  --ibm-warm-white-3: #f9f6f6;
+  --ibm-warm-white-4: #f6f3f3;
+  --ibm-black-100: #000000;
+  --ibm-white-0: #ffffff;
+
+  /* Cool gray semantic theme (light) */
+  --bg: var(--ibm-cool-gray-1);
+  --bg-subtle: var(--ibm-cool-white-2);
+  --layer-01: var(--ibm-white-0);
+  --layer-02: var(--ibm-cool-white-1);
+  --text-primary: var(--ibm-cool-gray-90);
+  --text-secondary: var(--ibm-cool-gray-60);
+  --border-subtle: var(--ibm-cool-gray-20);
+  --border-strong: var(--ibm-cool-gray-40);
+  --focus: var(--ibm-blue-40);
+
+  --button-primary: var(--ibm-blue-50);
+  --button-primary-hover: var(--ibm-blue-60);
+  --button-primary-active: var(--ibm-blue-70);
+  --button-primary-text: var(--ibm-white-0);
+
+  --button-secondary: var(--ibm-cool-gray-70);
+  --button-secondary-hover: var(--ibm-cool-gray-80);
+  --button-secondary-active: var(--ibm-cool-gray-90);
+  --button-secondary-text: var(--ibm-white-0);
+
+  --button-tertiary: transparent;
+  --button-tertiary-hover: var(--ibm-blue-1);
+  --button-tertiary-active: var(--ibm-blue-10);
+  --button-tertiary-border: var(--ibm-blue-50);
+  --button-tertiary-text: var(--ibm-blue-60);
+
+  --button-ghost-hover: var(--ibm-cool-gray-10);
+  --button-ghost-active: var(--ibm-cool-gray-20);
+  --button-ghost-text: var(--ibm-blue-60);
+
+  --button-danger: var(--ibm-red-50);
+  --button-danger-hover: var(--ibm-red-60);
+  --button-danger-active: var(--ibm-red-70);
+  --button-danger-text: var(--ibm-white-0);
+
+  --input-bg: var(--ibm-cool-white-1);
+  --input-border: var(--ibm-cool-gray-30);
+  --input-border-hover: var(--ibm-cool-gray-50);
+  --input-text: var(--text-primary);
+  --input-placeholder: var(--ibm-cool-gray-50);
+
+  --header-bg: var(--ibm-cool-gray-80);
+  --header-text: var(--ibm-white-0);
+  --side-nav-bg: var(--ibm-cool-gray-90);
+  --side-nav-text: var(--ibm-cool-gray-10);
+  --side-nav-hover: var(--ibm-cool-gray-80);
+  --side-nav-active: var(--ibm-blue-70);
+
+  --radius: 8px;
+  --radius-lg: 12px;
+  --shadow: 0 8px 24px rgb(0 0 0 / 14%);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: var(--ibm-cool-gray-90);
+  --bg-subtle: var(--ibm-cool-gray-80);
+  --layer-01: var(--ibm-cool-gray-80);
+  --layer-02: var(--ibm-cool-gray-70);
+  --text-primary: var(--ibm-cool-white-1);
+  --text-secondary: var(--ibm-cool-gray-20);
+  --border-subtle: var(--ibm-cool-gray-60);
+  --border-strong: var(--ibm-cool-gray-40);
+  --focus: var(--ibm-blue-30);
+
+  --button-primary: var(--ibm-blue-40);
+  --button-primary-hover: var(--ibm-blue-30);
+  --button-primary-active: var(--ibm-blue-20);
+  --button-primary-text: var(--ibm-blue-90);
+
+  --button-secondary: var(--ibm-cool-gray-60);
+  --button-secondary-hover: var(--ibm-cool-gray-50);
+  --button-secondary-active: var(--ibm-cool-gray-40);
+  --button-secondary-text: var(--ibm-cool-white-1);
+
+  --button-tertiary-hover: var(--ibm-cool-gray-70);
+  --button-tertiary-active: var(--ibm-cool-gray-60);
+  --button-tertiary-border: var(--ibm-blue-20);
+  --button-tertiary-text: var(--ibm-blue-20);
+
+  --button-ghost-hover: var(--ibm-cool-gray-70);
+  --button-ghost-active: var(--ibm-cool-gray-60);
+  --button-ghost-text: var(--ibm-blue-20);
+
+  --button-danger: var(--ibm-red-40);
+  --button-danger-hover: var(--ibm-red-30);
+  --button-danger-active: var(--ibm-red-20);
+  --button-danger-text: var(--ibm-red-90);
+
+  --input-bg: var(--ibm-cool-gray-80);
+  --input-border: var(--ibm-cool-gray-50);
+  --input-border-hover: var(--ibm-cool-gray-30);
+  --input-text: var(--text-primary);
+  --input-placeholder: var(--ibm-cool-gray-30);
+
+  --header-bg: var(--ibm-cool-gray-80);
+  --header-text: var(--ibm-cool-white-1);
+  --side-nav-bg: var(--ibm-cool-gray-80);
+  --side-nav-text: var(--ibm-cool-white-1);
+  --side-nav-hover: var(--ibm-cool-gray-70);
+  --side-nav-active: var(--ibm-blue-60);
+
+  --shadow: 0 12px 30px rgb(0 0 0 / 32%);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     color-scheme: dark;
 
-    /* IBM Carbon-inspired tokens (Dark) */
-    --cds-background: #161616;
-    --cds-layer: #262626;
-    --cds-text-primary: #f4f4f4;
-    --cds-text-secondary: #c6c6c6;
-    --cds-border-subtle: #525252;
-    --cds-focus: #78a9ff;
-    --cds-button-primary: #4589ff;
-    --cds-button-primary-hover: #5c97ff;
-    --cds-button-text: #161616;
-    --cds-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    --bg: var(--ibm-cool-gray-90);
+    --bg-subtle: var(--ibm-cool-gray-80);
+    --layer-01: var(--ibm-cool-gray-80);
+    --layer-02: var(--ibm-cool-gray-70);
+    --text-primary: var(--ibm-cool-white-1);
+    --text-secondary: var(--ibm-cool-gray-20);
+    --border-subtle: var(--ibm-cool-gray-60);
+    --border-strong: var(--ibm-cool-gray-40);
+    --focus: var(--ibm-blue-30);
+
+    --button-primary: var(--ibm-blue-40);
+    --button-primary-hover: var(--ibm-blue-30);
+    --button-primary-active: var(--ibm-blue-20);
+    --button-primary-text: var(--ibm-blue-90);
+
+    --button-secondary: var(--ibm-cool-gray-60);
+    --button-secondary-hover: var(--ibm-cool-gray-50);
+    --button-secondary-active: var(--ibm-cool-gray-40);
+    --button-secondary-text: var(--ibm-cool-white-1);
+
+    --button-tertiary-hover: var(--ibm-cool-gray-70);
+    --button-tertiary-active: var(--ibm-cool-gray-60);
+    --button-tertiary-border: var(--ibm-blue-20);
+    --button-tertiary-text: var(--ibm-blue-20);
+
+    --button-ghost-hover: var(--ibm-cool-gray-70);
+    --button-ghost-active: var(--ibm-cool-gray-60);
+    --button-ghost-text: var(--ibm-blue-20);
+
+    --button-danger: var(--ibm-red-40);
+    --button-danger-hover: var(--ibm-red-30);
+    --button-danger-active: var(--ibm-red-20);
+    --button-danger-text: var(--ibm-red-90);
+
+    --input-bg: var(--ibm-cool-gray-80);
+    --input-border: var(--ibm-cool-gray-50);
+    --input-border-hover: var(--ibm-cool-gray-30);
+    --input-text: var(--text-primary);
+    --input-placeholder: var(--ibm-cool-gray-30);
+
+    --header-bg: var(--ibm-cool-gray-80);
+    --header-text: var(--ibm-cool-white-1);
+    --side-nav-bg: var(--ibm-cool-gray-80);
+    --side-nav-text: var(--ibm-cool-white-1);
+    --side-nav-hover: var(--ibm-cool-gray-70);
+    --side-nav-active: var(--ibm-blue-60);
+
+    --shadow: 0 12px 30px rgb(0 0 0 / 32%);
   }
 }
 
-:root[data-theme="light"] {
-  color-scheme: light;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  font-family: "IBM Plex Sans", sans-serif !important;
 }
 
-:root[data-theme="dark"] {
-  color-scheme: dark;
-
-  /* IBM Carbon-inspired tokens (Dark) */
-  --cds-background: #161616;
-  --cds-layer: #262626;
-  --cds-text-primary: #f4f4f4;
-  --cds-text-secondary: #c6c6c6;
-  --cds-border-subtle: #525252;
-  --cds-focus: #78a9ff;
-  --cds-button-primary: #4589ff;
-  --cds-button-primary-hover: #5c97ff;
-  --cds-button-text: #161616;
-  --cds-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
-}
-
+html,
 body {
   margin: 0;
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  background: var(--cds-background);
-  color: var(--cds-text-primary);
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text-primary);
 }
 
-main {
-  width: min(92vw, 560px);
-  text-align: center;
-  background: var(--cds-layer);
-  color: var(--cds-text-primary);
-  padding: 2rem;
-  border: 1px solid var(--cds-border-subtle);
-  border-radius: 12px;
-  box-shadow: var(--cds-shadow);
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-.controls {
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: 56px;
   display: flex;
-  gap: 0.75rem;
-  justify-content: center;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  background: var(--header-bg);
+  color: var(--header-text);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.app-header__brand {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: calc(100vh - 56px);
+}
+
+.side-nav {
+  background: var(--side-nav-bg);
+  color: var(--side-nav-text);
+  border-right: 1px solid var(--border-subtle);
+  padding: 1rem 0.75rem;
+}
+
+.side-nav__menu {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.side-nav__item {
+  padding: 0.7rem 0.8rem;
+  border-radius: var(--radius);
+  color: var(--side-nav-text);
+  transition: background-color 0.15s ease;
+}
+
+.side-nav__item:hover {
+  background: var(--side-nav-hover);
+}
+
+.side-nav__item--active {
+  background: var(--side-nav-active);
+  color: var(--ibm-white-0);
+  font-weight: 600;
+}
+
+.app-main {
+  padding: 1.25rem;
+  display: grid;
+  gap: 1rem;
+  background: var(--bg-subtle);
+}
+
+.card {
+  background: var(--layer-01);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+}
+
+h1,
+h2 {
+  margin-top: 0;
+  margin-bottom: 0.65rem;
+  font-weight: 600;
 }
 
 h1 {
-  margin-top: 0;
+  font-size: 1.4rem;
+}
+
+h2 {
+  font-size: 1.1rem;
 }
 
 p {
-  color: var(--cds-text-secondary);
+  margin-top: 0;
+  color: var(--text-secondary);
 }
 
-button {
-  border: 0;
-  padding: 0.7rem 1rem;
-  border-radius: 8px;
-  background: var(--cds-button-primary);
-  color: var(--cds-button-text);
+.button-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.btn {
+  min-height: 40px;
+  padding: 0 1rem;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1;
   cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
-button:hover {
-  background: var(--cds-button-primary-hover);
-}
-
-button:focus-visible {
-  outline: 2px solid var(--cds-focus);
+.btn:focus-visible,
+.input:focus-visible {
+  outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
 
-#status {
-  margin-top: 1rem;
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--button-primary);
+  color: var(--button-primary-text);
+}
+
+.btn-primary:hover {
+  background: var(--button-primary-hover);
+}
+
+.btn-primary:active {
+  background: var(--button-primary-active);
+}
+
+.btn-secondary {
+  background: var(--button-secondary);
+  color: var(--button-secondary-text);
+}
+
+.btn-secondary:hover {
+  background: var(--button-secondary-hover);
+}
+
+.btn-secondary:active {
+  background: var(--button-secondary-active);
+}
+
+.btn-tertiary {
+  background: var(--button-tertiary);
+  color: var(--button-tertiary-text);
+  border-color: var(--button-tertiary-border);
+}
+
+.btn-tertiary:hover {
+  background: var(--button-tertiary-hover);
+}
+
+.btn-tertiary:active {
+  background: var(--button-tertiary-active);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--button-ghost-text);
+}
+
+.btn-ghost:hover {
+  background: var(--button-ghost-hover);
+}
+
+.btn-ghost:active {
+  background: var(--button-ghost-active);
+}
+
+.btn-danger {
+  background: var(--button-danger);
+  color: var(--button-danger-text);
+}
+
+.btn-danger:hover {
+  background: var(--button-danger-hover);
+}
+
+.btn-danger:active {
+  background: var(--button-danger-active);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.field--full {
+  grid-column: 1 / -1;
+}
+
+.field__label {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.input {
+  min-height: 40px;
+  width: 100%;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--input-text);
+  border-radius: var(--radius);
+  padding: 0.55rem 0.7rem;
+}
+
+.input::placeholder {
+  color: var(--input-placeholder);
+}
+
+.input:hover {
+  border-color: var(--input-border-hover);
+}
+
+.input--textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.swatch {
+  min-height: 52px;
+  border-radius: var(--radius);
+  border: 1px solid rgb(0 0 0 / 12%);
+  display: grid;
+  place-items: center;
+  font-size: 0.85rem;
   font-weight: 600;
+  color: var(--ibm-white-0);
+}
+
+.swatch--blue {
+  background: var(--ibm-blue-50);
+}
+
+.swatch--teal {
+  background: var(--ibm-teal-50);
+}
+
+.swatch--green {
+  background: var(--ibm-green-50);
+}
+
+.swatch--yellow {
+  background: var(--ibm-yellow-30);
+  color: var(--ibm-black-100);
+}
+
+.swatch--orange {
+  background: var(--ibm-orange-40);
+}
+
+.swatch--red {
+  background: var(--ibm-red-50);
+}
+
+.swatch--magenta {
+  background: var(--ibm-magenta-50);
+}
+
+.swatch--purple {
+  background: var(--ibm-purple-50);
+}
+
+#status {
+  margin: 0.8rem 0 0;
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .side-nav {
+    border-right: 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .side-nav__menu {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .app-main {
+    padding: 1rem;
+  }
+
+  .form-grid,
+  .palette-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .side-nav__menu {
+    grid-template-columns: 1fr;
+  }
+
+  .button-grid,
+  .form-grid,
+  .palette-grid {
+    grid-template-columns: 1fr;
+  }
 }
