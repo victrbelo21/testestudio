@@ -39,7 +39,7 @@ const paletteMap = Object.fromEntries(palette);
 const state = {
   type: "line",
   yMin: 0,
-  yMax: 999999,
+  yMax: 30,
   xMode: "text",
   xMax: 100,
   textCols: 3,
@@ -96,7 +96,24 @@ function mkTabs(idPrefix, labels, panelRenderer) {
   const panels = labels
     .map((_, i) => `<div id="${idPrefix}-panel-${i}" class="tab-panel" role="tabpanel" aria-labelledby="${idPrefix}-tab-${i}" hidden>${panelRenderer(i)}</div>`)
     .join("");
-  return `<div class="tabs-wrap"><cds-tabs value="${idPrefix}-0">${tabs}</cds-tabs>${panels}</div>`;
+  return `<div class="tabs-wrap"><cds-tabs id="${idPrefix}-tabs" value="${idPrefix}-0">${tabs}</cds-tabs>${panels}</div>`;
+}
+
+function bindTabPanels() {
+  const tabsNodes = controlsHost.querySelectorAll("cds-tabs[id$='-tabs']");
+  tabsNodes.forEach((tabsNode) => {
+    const idPrefix = tabsNode.id.replace(/-tabs$/, "");
+    const syncPanels = () => {
+      const active = tabsNode.value;
+      const panels = controlsHost.querySelectorAll(`div[id^='${idPrefix}-panel-']`);
+      panels.forEach((panel, i) => {
+        panel.hidden = `${idPrefix}-${i}` !== active;
+      });
+    };
+
+    tabsNode.addEventListener("cds-tabs-selected", syncPanels);
+    syncPanels();
+  });
 }
 
 function renderControls() {
@@ -145,6 +162,7 @@ function renderControls() {
   seriesHtml += "</section>";
 
   controlsHost.innerHTML = `${axesHtml}${seriesHtml}`;
+  bindTabPanels();
   bindControls();
 }
 
@@ -289,9 +307,9 @@ function buildOptions() {
     return {
       title: "Line",
       axes: {
-        left: { mapsTo: "value", domainMin: state.yMin, domainMax: state.yMax },
+        left: { mapsTo: "value", domain: [state.yMin, state.yMax] },
         bottom: state.xMode === "number"
-          ? { mapsTo: "key", scaleType: "linear", domainMin: 0, domainMax: state.xMax }
+          ? { mapsTo: "key", scaleType: "linear", domain: [0, state.xMax] }
           : { mapsTo: "key", scaleType: "labels" }
       },
       color,
@@ -300,10 +318,10 @@ function buildOptions() {
   }
   if (state.type === "pie") return { title: "Pie", pie: { alignment: "center" }, color, height: "420px" };
   if (state.type === "donut") return { title: "Donut", donut: { center: { label: state.pieMode === "percent" ? "%" : "Valor" } }, color, height: "420px" };
-  if (state.type === "bubble") return { title: "Bubble", axes: { left: { mapsTo: "y", domainMin: state.yMin, domainMax: state.yMax }, bottom: { mapsTo: "x", scaleType: "linear" } }, bubble: { radiusMapsTo: "value" }, color, height: "420px" };
-  if (state.type === "scatter") return { title: "Scatter", axes: { left: { mapsTo: "y", domainMin: state.yMin, domainMax: state.yMax }, bottom: { mapsTo: "x", scaleType: "linear" } }, color, height: "420px" };
+  if (state.type === "bubble") return { title: "Bubble", axes: { left: { mapsTo: "y", domain: [state.yMin, state.yMax] }, bottom: { mapsTo: "x", scaleType: "linear" } }, bubble: { radiusMapsTo: "value" }, color, height: "420px" };
+  if (state.type === "scatter") return { title: "Scatter", axes: { left: { mapsTo: "y", domain: [state.yMin, state.yMax] }, bottom: { mapsTo: "x", scaleType: "linear" } }, color, height: "420px" };
   if (state.type === "radar") return { title: "Radar", radar: { axes: { angle: "feature", value: "value" } }, color, height: "420px" };
-  return { title: state.type.replace("_", " "), axes: { left: { mapsTo: "value", stacked: state.type === "stacked_bar", domainMin: state.yMin, domainMax: state.yMax }, bottom: { mapsTo: "key", scaleType: "labels" } }, color, height: "420px" };
+  return { title: state.type.replace("_", " "), axes: { left: { mapsTo: "value", stacked: state.type === "stacked_bar", domain: [state.yMin, state.yMax] }, bottom: { mapsTo: "key", scaleType: "labels" } }, color, height: "420px" };
 }
 
 function renderChart() {
