@@ -1,5 +1,7 @@
 const chartHolder = document.getElementById("chart-container");
-const chartSelect = document.getElementById("chart-type");
+const chartSelector = document.getElementById("chart-selector");
+const scaleAInput = document.getElementById("scale-a");
+const scaleBInput = document.getElementById("scale-b");
 
 const sideNav = document.getElementById("side-nav");
 const sideNavOverlay = document.getElementById("side-nav-overlay");
@@ -92,85 +94,16 @@ const dataCatalog = {
 };
 
 const optionsCatalog = {
-  line: {
-    title: "Line",
-    axes: {
-      left: { mapsTo: "value", title: "Valor" },
-      bottom: { mapsTo: "date", scaleType: "time" }
-    },
-    curve: "curveMonotoneX",
-    height: "420px"
-  },
-  area: {
-    title: "Area",
-    axes: {
-      left: { mapsTo: "value", title: "Valor" },
-      bottom: { mapsTo: "date", scaleType: "time" }
-    },
-    curve: "curveMonotoneX",
-    height: "420px"
-  },
-  simple_bar: {
-    title: "Simple bar",
-    axes: {
-      left: { mapsTo: "value" },
-      bottom: { mapsTo: "key", scaleType: "labels" }
-    },
-    height: "420px"
-  },
-  grouped_bar: {
-    title: "Grouped bar",
-    axes: {
-      left: { mapsTo: "value" },
-      bottom: { mapsTo: "key", scaleType: "labels" }
-    },
-    height: "420px"
-  },
-  stacked_bar: {
-    title: "Stacked bar",
-    axes: {
-      left: { mapsTo: "value", stacked: true },
-      bottom: { mapsTo: "key", scaleType: "labels" }
-    },
-    height: "420px"
-  },
-  pie: {
-    title: "Pie",
-    pie: { alignment: "center" },
-    height: "420px"
-  },
-  donut: {
-    title: "Donut",
-    donut: { center: { label: "Total" } },
-    height: "420px"
-  },
-  scatter: {
-    title: "Scatter",
-    axes: {
-      left: { mapsTo: "y" },
-      bottom: { mapsTo: "x", scaleType: "linear" }
-    },
-    height: "420px"
-  },
-  bubble: {
-    title: "Bubble",
-    axes: {
-      left: { mapsTo: "y" },
-      bottom: { mapsTo: "x", scaleType: "linear" }
-    },
-    bubble: { radiusMapsTo: "value" },
-    height: "420px"
-  },
-  radar: {
-    title: "Radar",
-    radar: {
-      axes: {
-        angle: "feature",
-        value: "value"
-      }
-    },
-    height: "420px"
-  }
+  line: { title: "Line", axes: { left: { mapsTo: "value", title: "Valor" }, bottom: { mapsTo: "date", scaleType: "time" } }, curve: "curveMonotoneX", height: "420px" },
+  area: { title: "Area", axes: { left: { mapsTo: "value", title: "Valor" }, bottom: { mapsTo: "date", scaleType: "time" } }, curve: "curveMonotoneX", height: "420px" },
+  simple_bar: { title: "Simple bar", axes: { left: { mapsTo: "value" }, bottom: { mapsTo: "key", scaleType: "labels" } }, height: "420px" },
+  grouped_bar: { title: "Grouped bar", axes: { left: { mapsTo: "value" }, bottom: { mapsTo: "key", scaleType: "labels" } }, height: "420px" },
+  stacked_bar: { title: "Stacked bar", axes: { left: { mapsTo: "value", stacked: true }, bottom: { mapsTo: "key", scaleType: "labels" } }, height: "420px" },
+  pie: { title: "Pie", pie: { alignment: "center" }, height: "420px" },
+  donut: { title: "Donut", donut: { center: { label: "Total" } }, height: "420px" },
+  scatter: { title: "Scatter", axes: { left: { mapsTo: "y" }, bottom: { mapsTo: "x", scaleType: "linear" } }, height: "420px" },
+  bubble: { title: "Bubble", axes: { left: { mapsTo: "y" }, bottom: { mapsTo: "x", scaleType: "linear" } }, bubble: { radiusMapsTo: "value" }, height: "420px" },
+  radar: { title: "Radar", radar: { axes: { angle: "feature", value: "value" } }, height: "420px" }
 };
 
 const chartClassMap = {
@@ -186,7 +119,33 @@ const chartClassMap = {
   radar: "RadarChart"
 };
 
-let activeChart = null;
+let currentType = "line";
+
+function readFactor(input) {
+  const parsed = Number(input?.value ?? 1);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+}
+
+function scaledData(type) {
+  const base = dataCatalog[type] || [];
+  const scaleA = readFactor(scaleAInput);
+  const scaleB = readFactor(scaleBInput);
+
+  return base.map((row) => {
+    const isA = row.group === "Produto A";
+    const isB = row.group === "Produto B";
+    const factor = isA ? scaleA : isB ? scaleB : 1;
+
+    const next = { ...row };
+    if (typeof next.value === "number") {
+      next.value = Math.round(next.value * factor);
+    }
+    if (typeof next.y === "number") {
+      next.y = Math.round(next.y * factor);
+    }
+    return next;
+  });
+}
 
 function renderChart(type) {
   if (!chartHolder) {
@@ -199,20 +158,18 @@ function renderChart(type) {
     return;
   }
 
-  const chartClassName = chartClassMap[type];
-  const ChartCtor = chartsNamespace[chartClassName];
+  const ChartCtor = chartsNamespace[chartClassMap[type]];
   if (!ChartCtor) {
     chartHolder.innerHTML = "<p>Erro: tipo de grafico indisponivel.</p>";
     return;
   }
 
+  currentType = type;
   chartHolder.innerHTML = "";
-  activeChart = new ChartCtor(chartHolder, {
-    data: dataCatalog[type],
+  new ChartCtor(chartHolder, {
+    data: scaledData(type),
     options: optionsCatalog[type]
   });
-
-  return activeChart;
 }
 
 function setSideNavOpen(isOpen) {
@@ -233,8 +190,7 @@ function bindSideNav() {
   }
 
   sideNavToggle.addEventListener("click", () => {
-    const isOpen = sideNav.classList.contains("is-open");
-    setSideNavOpen(!isOpen);
+    setSideNavOpen(!sideNav.classList.contains("is-open"));
   });
 
   sideNavOverlay.addEventListener("click", () => {
@@ -251,7 +207,6 @@ function bindSideNav() {
     if (desktopMedia.matches && !sideNav.classList.contains("is-open")) {
       setSideNavOpen(true);
     }
-
     if (!desktopMedia.matches) {
       setSideNavOpen(false);
     }
@@ -264,10 +219,7 @@ function bindSideNavSubmenus() {
   sideNavSubmenus.forEach((button) => {
     button.addEventListener("click", () => {
       const item = button.closest(".cds--side-nav__item");
-      if (!item) {
-        return;
-      }
-
+      if (!item) return;
       const willOpen = !item.classList.contains("is-open");
       item.classList.toggle("is-open", willOpen);
       button.setAttribute("aria-expanded", String(willOpen));
@@ -275,12 +227,20 @@ function bindSideNavSubmenus() {
   });
 }
 
-if (chartSelect) {
-  chartSelect.addEventListener("change", (event) => {
-    const type = event.target.value;
-    renderChart(type);
+if (chartSelector) {
+  chartSelector.addEventListener("cds-dropdown-selected", (event) => {
+    const value = event?.detail?.item?.value;
+    if (value && chartClassMap[value]) {
+      renderChart(value);
+    }
   });
 }
+
+[scaleAInput, scaleBInput].forEach((input) => {
+  if (!input) return;
+  input.addEventListener("input", () => renderChart(currentType));
+  input.addEventListener("change", () => renderChart(currentType));
+});
 
 bindSideNav();
 bindSideNavSubmenus();
