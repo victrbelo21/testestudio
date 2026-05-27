@@ -256,6 +256,10 @@ h1 {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
+.tab-panel[hidden] {
+  display: none !important;
+}
+
 .series-values {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -284,6 +288,7 @@ cds-tabs {
 
 .chart {
   min-height: 420px;
+  margin-bottom: 24px;
 }
 
 @media (min-width: 1056px) {
