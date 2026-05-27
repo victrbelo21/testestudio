@@ -78,7 +78,7 @@ function mkSlider(id, label, value, min, max) {
 }
 
 function mkRangeSlider() {
-  return `<div class="control-box"><cds-slider id="y-range" label-text="Faixa do eixo Y" min="0" max="999999" step="1" value="${state.yMin}" value-upper="${state.yMax}"><cds-slider-input aria-label="Y mínimo" type="number"></cds-slider-input><cds-slider-input aria-label="Y máximo" type="number"></cds-slider-input></cds-slider></div>`;
+  return `<div class="control-box y-range-box"><cds-slider id="y-range" label-text="Faixa do eixo Y" min="0" max="999999" step="1" value="${state.yMin}" value-upper="${state.yMax}"></cds-slider></div>`;
 }
 
 function mkText(id, label, value, compact = false, type = "number") {
@@ -103,11 +103,14 @@ function bindTabPanels() {
   const tabsNodes = controlsHost.querySelectorAll("cds-tabs[id$='-tabs']");
   tabsNodes.forEach((tabsNode) => {
     const idPrefix = tabsNode.id.replace(/-tabs$/, "");
-    const syncPanels = () => {
+    const syncPanels = (event) => {
+      const targetId = event?.detail?.item?.getAttribute?.("target");
       const active = tabsNode.value;
       const panels = controlsHost.querySelectorAll(`div[id^='${idPrefix}-panel-']`);
       panels.forEach((panel, i) => {
-        panel.hidden = `${idPrefix}-${i}` !== active;
+        const byValue = `${idPrefix}-${i}` === active;
+        const byTarget = targetId ? panel.id === targetId : false;
+        panel.hidden = !(byValue || byTarget);
       });
     };
 
@@ -175,11 +178,24 @@ function onSlider(id, fn) {
 function onRangeSlider(id, fn) {
   const el = document.getElementById(id);
   if (!el) return;
-  el.addEventListener("cds-slider-changed", () => {
-    const low = n(el.value, 0);
-    const high = n(el.valueUpper ?? el.getAttribute("value-upper"), low);
-    fn(clamp(low, 0, 999999), clamp(Math.max(low, high), 0, 999999));
-  });
+
+  const readRange = (event) => {
+    const lowCandidates = [event?.detail?.value?.[0], event?.detail?.value, el.value, el.getAttribute("value")];
+    const highCandidates = [event?.detail?.value?.[1], event?.detail?.valueUpper, el.valueUpper, el.getAttribute("value-upper")];
+    const lowRaw = lowCandidates.find((v) => v !== undefined && v !== null);
+    const highRaw = highCandidates.find((v) => v !== undefined && v !== null);
+    const low = clamp(n(lowRaw, state.yMin), 0, 999999);
+    const high = clamp(Math.max(low, n(highRaw, state.yMax)), 0, 999999);
+    return [low, high];
+  };
+
+  const apply = (event) => {
+    const [low, high] = readRange(event);
+    fn(low, high);
+  };
+
+  el.addEventListener("cds-slider-changed", apply);
+  el.addEventListener("input", apply);
 }
 
 function onDropdown(id, fn) {
@@ -270,18 +286,29 @@ function bindControls() {
 function lineData() {
   const rows = [];
   const points = state.xMode === "text" ? state.textCols : 3;
+
   for (let s = 0; s < state.seriesCount; s += 1) {
     const group = state.productNames[s] || `Produto ${s + 1}`;
     for (let p = 0; p < points; p += 1) {
       const value = n(state.values[s][p], 0);
-      if (state.xMode === "number") {
-        const x = points === 1 ? state.xMax : Math.round((p / (points - 1)) * state.xMax);
-        rows.push({ group, key: x, value });
-      } else {
-        rows.push({ group, key: state.colNames[p] || `Coluna ${p + 1}`, value });
-      }
+      const xIndex = state.xMode === "number"
+        ? (points === 1 ? state.xMax : Math.round((p / (points - 1)) * state.xMax))
+        : p + 1;
+      rows.push({
+        group,
+        xIndex,
+        key: state.xMode === "text" ? state.colNames[p] || `Coluna ${p + 1}` : xIndex,
+        value
+      });
     }
   }
+
+  rows.sort((a, b) => {
+    if (a.group < b.group) return -1;
+    if (a.group > b.group) return 1;
+    return a.xIndex - b.xIndex;
+  });
+
   return rows;
 }
 
@@ -304,13 +331,22 @@ function fallbackData() {
 function buildOptions() {
   const color = buildColorScale();
   if (state.type === "line") {
+    const points = state.xMode === "text" ? state.textCols : 3;
     return {
       title: "Line",
       axes: {
         left: { mapsTo: "value", domain: [state.yMin, state.yMax] },
         bottom: state.xMode === "number"
-          ? { mapsTo: "key", scaleType: "linear", domain: [0, state.xMax] }
-          : { mapsTo: "key", scaleType: "labels" }
+          ? { mapsTo: "xIndex", scaleType: "linear", domain: [0, state.xMax] }
+          : {
+              mapsTo: "xIndex",
+              scaleType: "linear",
+              domain: [1, points],
+              ticks: {
+                values: Array.from({ length: points }, (_, i) => i + 1),
+                formatter: (tick) => state.colNames[Math.max(0, Math.round(Number(tick)) - 1)] || ""
+              }
+            }
       },
       color,
       height: "420px"
