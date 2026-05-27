@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TesteStudio</title>
     <link rel="stylesheet" href="https://unpkg.com/@carbon/charts@1.27.3/styles.css" />
+    <link rel="stylesheet" href="https://1.www.s81c.com/common/carbon/web-components/version/v2.51.1/themes.css" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -18,7 +19,7 @@
         aria-label="Open menu"
         aria-expanded="false"
         aria-controls="side-nav">
-        <img class="icon-24" src="https://unpkg.com/@carbon/icons@11.71.0/svg/menu.svg" alt="" aria-hidden="true" />
+        <img class="icon-24" src="https://unpkg.com/carbon-icons/dist/svg/header--menu.svg" alt="" aria-hidden="true" />
       </button>
 
       <a class="cds--header__name" href="#main-content">
@@ -33,13 +34,13 @@
 
       <div class="cds--header__global">
         <button class="cds--header__action" type="button" aria-label="Search">
-          <img class="icon-24" src="https://unpkg.com/@carbon/icons@11.71.0/svg/search.svg" alt="" aria-hidden="true" />
+          <img class="icon-24" src="https://unpkg.com/carbon-icons/dist/svg/header--search.svg" alt="" aria-hidden="true" />
         </button>
         <button class="cds--header__action" type="button" aria-label="Notifications">
-          <img class="icon-24" src="https://unpkg.com/@carbon/icons@11.71.0/svg/notification.svg" alt="" aria-hidden="true" />
+          <img class="icon-24" src="https://unpkg.com/carbon-icons/dist/svg/notification.svg" alt="" aria-hidden="true" />
         </button>
         <button class="cds--header__action" type="button" aria-label="App switcher">
-          <img class="icon-24" src="https://unpkg.com/@carbon/icons@11.71.0/svg/switcher.svg" alt="" aria-hidden="true" />
+          <img class="icon-24" src="https://unpkg.com/carbon-icons/dist/svg/app-switcher.svg" alt="" aria-hidden="true" />
         </button>
       </div>
     </header>
@@ -60,10 +61,11 @@
               aria-expanded="true"
               aria-controls="side-nav-group-charts">
               Graficos
-              <img class="icon-24 chevron-icon" src="https://unpkg.com/@carbon/icons@11.71.0/svg/chevron--down.svg" alt="" aria-hidden="true" />
+              <img class="chevron-icon" src="https://unpkg.com/carbon-icons/dist/svg/chevron--down.svg" alt="" aria-hidden="true" />
             </button>
             <ul id="side-nav-group-charts" class="cds--side-nav__menu">
               <li><a class="cds--side-nav__link" href="#chart-selector">Selecionar tipo</a></li>
+              <li><a class="cds--side-nav__link" href="#chart-controls">Modificar grafico</a></li>
               <li><a class="cds--side-nav__link" href="#chart-container">Ver grafico</a></li>
             </ul>
           </li>
@@ -74,8 +76,8 @@
     <main id="main-content" class="app">
       <h1>Carbon Charts</h1>
 
-      <div class="controls-grid">
-        <cds-dropdown id="chart-selector" title-text="Grafico" label="Escolha um grafico" value="line" helper-text="Dropdown padrao Carbon">
+      <div class="controls-grid controls-top">
+        <cds-dropdown id="chart-selector" title-text="Grafico" label="Escolha um grafico" value="line" helper-text="Dropdown padrao Carbon completo">
           <cds-dropdown-item value="line">Line</cds-dropdown-item>
           <cds-dropdown-item value="area">Area</cds-dropdown-item>
           <cds-dropdown-item value="simple_bar">Simple bar</cds-dropdown-item>
@@ -87,11 +89,9 @@
           <cds-dropdown-item value="bubble">Bubble</cds-dropdown-item>
           <cds-dropdown-item value="radar">Radar</cds-dropdown-item>
         </cds-dropdown>
-
-        <cds-text-input id="scale-a" title-text="Produto A" label="Multiplicador Produto A" value="1" helper-text="Ex.: 1.10 para +10%" type="number"></cds-text-input>
-        <cds-text-input id="scale-b" title-text="Produto B" label="Multiplicador Produto B" value="1" helper-text="Ex.: 0.90 para -10%" type="number"></cds-text-input>
       </div>
 
+      <section id="chart-controls" class="controls-grid"></section>
       <div id="chart-container" class="chart"></div>
     </main>
 
