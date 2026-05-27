@@ -22,344 +22,219 @@ const chartClassMap = {
 };
 
 const palette = [
-  ["red 100", "#2d0709"], ["red 90", "#520408"], ["red 80", "#750e13"], ["red 70", "#a2191f"], ["red 60", "#da1e28"], ["red 50", "#fa4d56"], ["red 40", "#ff8389"], ["red 30", "#ffb3b8"], ["red 20", "#ffd7d9"], ["red 10", "#fff1f1"],
-  ["magenta 100", "#2a0a18"], ["magenta 90", "#510224"], ["magenta 80", "#740937"], ["magenta 70", "#9f1853"], ["magenta 60", "#d02670"], ["magenta 50", "#ee5396"], ["magenta 40", "#ff7eb6"], ["magenta 30", "#ffafd2"], ["magenta 20", "#ffd6e8"], ["magenta 10", "#fff0f7"],
-  ["purple 100", "#1c0f30"], ["purple 90", "#31135e"], ["purple 80", "#491d8b"], ["purple 70", "#6929c4"], ["purple 60", "#8a3ffc"], ["purple 50", "#a56eff"], ["purple 40", "#be95ff"], ["purple 30", "#d4bbff"], ["purple 20", "#e8daff"], ["purple 10", "#f6f2ff"],
-  ["blue 100", "#001141"], ["blue 90", "#001d6c"], ["blue 80", "#002d9c"], ["blue 70", "#0043ce"], ["blue 60", "#0f62fe"], ["blue 50", "#4589ff"], ["blue 40", "#78a9ff"], ["blue 30", "#a6c8ff"], ["blue 20", "#d0e2ff"], ["blue 10", "#edf5ff"],
-  ["cyan 100", "#061727"], ["cyan 90", "#012749"], ["cyan 80", "#003a6d"], ["cyan 70", "#00539a"], ["cyan 60", "#0072c3"], ["cyan 50", "#1192e8"], ["cyan 40", "#33b1ff"], ["cyan 30", "#82cfff"], ["cyan 20", "#bae6ff"], ["cyan 10", "#e5f6ff"],
-  ["teal 100", "#081a1c"], ["teal 90", "#022b30"], ["teal 80", "#004144"], ["teal 70", "#005d5d"], ["teal 60", "#007d79"], ["teal 50", "#009d9a"], ["teal 40", "#08bdba"], ["teal 30", "#3ddbd9"], ["teal 20", "#9ef0f0"], ["teal 10", "#d9fbfb"],
-  ["green 100", "#071908"], ["green 90", "#022d0d"], ["green 80", "#044317"], ["green 70", "#0e6027"], ["green 60", "#198038"], ["green 50", "#24a148"], ["green 40", "#42be65"], ["green 30", "#6fdc8c"], ["green 20", "#a7f0ba"], ["green 10", "#defbe6"],
-  ["cool gray 100", "#121619"], ["cool gray 90", "#21272a"], ["cool gray 80", "#343a3f"], ["cool gray 70", "#4d5358"], ["cool gray 60", "#697077"], ["cool gray 50", "#878d96"], ["cool gray 40", "#a2a9b0"], ["cool gray 30", "#c1c7cd"], ["cool gray 20", "#dde1e6"], ["cool gray 10", "#f2f4f8"],
-  ["gray 100", "#161616"], ["gray 90", "#262626"], ["gray 80", "#393939"], ["gray 70", "#525252"], ["gray 60", "#6f6f6f"], ["gray 50", "#8d8d8d"], ["gray 40", "#a8a8a8"], ["gray 30", "#c6c6c6"], ["gray 20", "#e0e0e0"], ["gray 10", "#f4f4f4"],
-  ["warm gray 100", "#171414"], ["warm gray 90", "#272525"], ["warm gray 80", "#3c3838"], ["warm gray 70", "#565151"], ["warm gray 60", "#726e6e"], ["warm gray 50", "#8f8b8b"], ["warm gray 40", "#ada8a8"], ["warm gray 30", "#cac5c4"], ["warm gray 20", "#e5e0df"], ["warm gray 10", "#f7f3f2"],
-  ["black", "#000000"], ["white", "#ffffff"],
-  ["alert 60", "#da1e28"], ["alert 50", "#24a148"], ["alert 40", "#ff832b"], ["alert 30", "#f1c21b"]
+  ["Red 100", "#2d0709"], ["Red 90", "#520408"], ["Red 80", "#750e13"], ["Red 70", "#a2191f"], ["Red 60", "#da1e28"], ["Red 50", "#fa4d56"], ["Red 40", "#ff8389"], ["Red 30", "#ffb3b8"], ["Red 20", "#ffd7d9"], ["Red 10", "#fff1f1"],
+  ["Magenta 100", "#2a0a18"], ["Magenta 90", "#510224"], ["Magenta 80", "#740937"], ["Magenta 70", "#9f1853"], ["Magenta 60", "#d02670"], ["Magenta 50", "#ee5396"], ["Magenta 40", "#ff7eb6"], ["Magenta 30", "#ffafd2"], ["Magenta 20", "#ffd6e8"], ["Magenta 10", "#fff0f7"],
+  ["Purple 100", "#1c0f30"], ["Purple 90", "#31135e"], ["Purple 80", "#491d8b"], ["Purple 70", "#6929c4"], ["Purple 60", "#8a3ffc"], ["Purple 50", "#a56eff"], ["Purple 40", "#be95ff"], ["Purple 30", "#d4bbff"], ["Purple 20", "#e8daff"], ["Purple 10", "#f6f2ff"],
+  ["Blue 100", "#001141"], ["Blue 90", "#001d6c"], ["Blue 80", "#002d9c"], ["Blue 70", "#0043ce"], ["Blue 60", "#0f62fe"], ["Blue 50", "#4589ff"], ["Blue 40", "#78a9ff"], ["Blue 30", "#a6c8ff"], ["Blue 20", "#d0e2ff"], ["Blue 10", "#edf5ff"],
+  ["Cyan 100", "#061727"], ["Cyan 90", "#012749"], ["Cyan 80", "#003a6d"], ["Cyan 70", "#00539a"], ["Cyan 60", "#0072c3"], ["Cyan 50", "#1192e8"], ["Cyan 40", "#33b1ff"], ["Cyan 30", "#82cfff"], ["Cyan 20", "#bae6ff"], ["Cyan 10", "#e5f6ff"],
+  ["Teal 100", "#081a1c"], ["Teal 90", "#022b30"], ["Teal 80", "#004144"], ["Teal 70", "#005d5d"], ["Teal 60", "#007d79"], ["Teal 50", "#009d9a"], ["Teal 40", "#08bdba"], ["Teal 30", "#3ddbd9"], ["Teal 20", "#9ef0f0"], ["Teal 10", "#d9fbfb"],
+  ["Green 100", "#071908"], ["Green 90", "#022d0d"], ["Green 80", "#044317"], ["Green 70", "#0e6027"], ["Green 60", "#198038"], ["Green 50", "#24a148"], ["Green 40", "#42be65"], ["Green 30", "#6fdc8c"], ["Green 20", "#a7f0ba"], ["Green 10", "#defbe6"],
+  ["Cool Gray 100", "#121619"], ["Cool Gray 90", "#21272a"], ["Cool Gray 80", "#343a3f"], ["Cool Gray 70", "#4d5358"], ["Cool Gray 60", "#697077"], ["Cool Gray 50", "#878d96"], ["Cool Gray 40", "#a2a9b0"], ["Cool Gray 30", "#c1c7cd"], ["Cool Gray 20", "#dde1e6"], ["Cool Gray 10", "#f2f4f8"],
+  ["Gray 100", "#161616"], ["Gray 90", "#262626"], ["Gray 80", "#393939"], ["Gray 70", "#525252"], ["Gray 60", "#6f6f6f"], ["Gray 50", "#8d8d8d"], ["Gray 40", "#a8a8a8"], ["Gray 30", "#c6c6c6"], ["Gray 20", "#e0e0e0"], ["Gray 10", "#f4f4f4"],
+  ["Warm Gray 100", "#171414"], ["Warm Gray 90", "#272525"], ["Warm Gray 80", "#3c3838"], ["Warm Gray 70", "#565151"], ["Warm Gray 60", "#726e6e"], ["Warm Gray 50", "#8f8b8b"], ["Warm Gray 40", "#ada8a8"], ["Warm Gray 30", "#cac5c4"], ["Warm Gray 20", "#e5e0df"], ["Warm Gray 10", "#f7f3f2"],
+  ["Black", "#000000"], ["White", "#ffffff"], ["Alert 60", "#da1e28"], ["Alert 50", "#24a148"], ["Alert 40", "#ff832b"], ["Alert 30", "#f1c21b"]
 ];
+const paletteMap = Object.fromEntries(palette);
 
 const state = {
   type: "line",
-  seriesCount: 2,
-  pointCount: 3,
-  productNames: ["Produto A", "Produto B", "Produto C", "Produto D"],
-  seriesColors: ["blue 60", "green 50", "purple 60", "red 60"],
+  yMin: 0,
+  yMax: 999999,
   xMode: "text",
   xMax: 100,
-  yMin: 0,
-  yMax: 100,
-  values: [[30, 55, 72], [20, 44, 61], [10, 20, 40], [5, 10, 15]],
-  pieValues: [38, 26, 20, 16]
+  textCols: 3,
+  colNames: ["Coluna 1", "Coluna 2", "Coluna 3", "Coluna 4", "Coluna 5", "Coluna 6", "Coluna 7", "Coluna 8", "Coluna 9", "Coluna 10", "Coluna 11", "Coluna 12"],
+  seriesCount: 2,
+  productNames: ["Produto 1", "Produto 2", "Produto 3", "Produto 4", "Produto 5"],
+  seriesColors: ["Blue 60", "Green 50", "Purple 60", "Red 60", "Teal 50"],
+  values: Array.from({ length: 5 }, () => Array.from({ length: 12 }, (_, i) => (i + 1) * 10)),
+  bubbleRadius: 20,
+  pieMode: "value"
 };
 
-const paletteMap = Object.fromEntries(palette);
+function n(v, f = 0) {
+  const x = Number(v);
+  return Number.isFinite(x) ? x : f;
+}
 
 function clamp(v, min, max) {
   return Math.max(min, Math.min(max, v));
 }
 
-function toNum(v, fallback = 0) {
-  const n = Number(v);
-  return Number.isFinite(n) ? n : fallback;
-}
-
-function ensureMatrix() {
-  for (let s = 0; s < 4; s += 1) {
-    if (!state.values[s]) state.values[s] = [];
-    for (let p = 0; p < state.pointCount; p += 1) {
-      if (state.values[s][p] == null) state.values[s][p] = 10 + s * 5 + p * 10;
-    }
-  }
-}
-
-function selectOptions() {
-  return palette.map(([name]) => `<option value="${name}">${name}</option>`).join("");
-}
-
-function controlInput(label, id, value, type = "number") {
-  return `<div class="control-box"><label class="control-label" for="${id}">${label}</label><input class="control-input" id="${id}" type="${type}" value="${value}"></div>`;
-}
-
-function controlSelect(label, id, value, optionsHtml) {
-  return `<div class="control-box"><label class="control-label" for="${id}">${label}</label><select class="control-select" id="${id}">${optionsHtml}</select></div>`.replace(`value=\"${value}\"`, "");
-}
-
-function controlSlider(label, id, value, min = 0, max = 1000, step = 1) {
-  return `<div class="control-box"><label class="control-label" for="${id}">${label}</label><div class="range-wrap"><input class="control-range" id="${id}" type="range" min="${min}" max="${max}" step="${step}" value="${value}"><input class="control-input" id="${id}-num" type="number" value="${value}"></div></div>`;
-}
-
-function setSelectValue(id, value) {
-  const el = document.getElementById(id);
-  if (el) el.value = value;
-}
-
-function renderControls() {
-  ensureMatrix();
-  const isPie = state.type === "pie" || state.type === "donut";
-  const isCartesian = ["line", "area", "simple_bar", "grouped_bar", "stacked_bar", "scatter", "bubble"].includes(state.type);
-
-  let html = "";
-  html += controlSlider("Eixo Y mínimo", "y-min", state.yMin, 0, 1000, 1);
-  html += controlSlider("Eixo Y máximo", "y-max", state.yMax, 1, 5000, 1);
-
-  if (isCartesian) {
-    html += `<div class="control-box"><label class="control-label" for="x-mode">Tipo do eixo X</label><select class="control-select" id="x-mode"><option value="text">Texto</option><option value="number">Número</option></select></div>`;
-    if (state.xMode === "number") {
-      html += controlSlider("Eixo X vai até", "x-max", state.xMax, 0, Math.max(1000, state.xMax * 2), 1);
-    }
-  }
-
-  html += controlSlider("Quantidade de séries", "series-count", state.seriesCount, 1, 4, 1);
-
-  if (!isPie) {
-    html += controlSlider("Quantidade de pontos", "point-count", state.pointCount, 1, 12, 1);
-  }
-
-  for (let s = 0; s < state.seriesCount; s += 1) {
-    html += controlInput(`Nome do produto ${s + 1}`, `prod-name-${s}`, state.productNames[s], "text");
-    html += `<div class="control-box"><label class="control-label" for="prod-color-${s}">Cor do produto ${s + 1}</label><select class="control-select" id="prod-color-${s}">${selectOptions()}</select></div>`;
-
-    if (isPie) {
-      html += controlInput(`Valor do produto ${s + 1}`, `pie-value-${s}`, state.pieValues[s], "number");
-    } else {
-      for (let p = 0; p < state.pointCount; p += 1) {
-        html += controlInput(`Série ${s + 1}, ponto ${p + 1}`, `val-${s}-${p}`, state.values[s][p], "number");
-      }
-    }
-  }
-
-  controlsHost.innerHTML = html;
-
-  setSelectValue("x-mode", state.xMode);
-  for (let s = 0; s < state.seriesCount; s += 1) {
-    setSelectValue(`prod-color-${s}`, state.seriesColors[s]);
-  }
-
-  bindControls();
-}
-
-function bindSliderPair(id, cb) {
-  const range = document.getElementById(id);
-  const num = document.getElementById(`${id}-num`);
-  if (!range || !num) return;
-
-  const sync = (value) => {
-    if (id === "x-max" && Number(value) >= Number(range.max)) {
-      range.max = String(Number(value) * 2 + 100);
-    }
-    range.value = value;
-    num.value = value;
-    cb(Number(value));
-  };
-
-  range.addEventListener("input", () => sync(range.value));
-  num.addEventListener("input", () => sync(num.value));
-}
-
-function bindControls() {
-  bindSliderPair("y-min", (v) => {
-    state.yMin = v;
-    if (state.yMax <= state.yMin) state.yMax = state.yMin + 1;
-    renderChart();
-  });
-
-  bindSliderPair("y-max", (v) => {
-    state.yMax = Math.max(v, state.yMin + 1);
-    renderChart();
-  });
-
-  bindSliderPair("series-count", (v) => {
-    state.seriesCount = clamp(v, 1, 4);
-    renderControls();
-    renderChart();
-  });
-
-  const pointRange = document.getElementById("point-count");
-  const pointNum = document.getElementById("point-count-num");
-  if (pointRange && pointNum) {
-    const fn = (value) => {
-      state.pointCount = clamp(Number(value), 1, 12);
-      renderControls();
-      renderChart();
-    };
-    pointRange.addEventListener("input", () => fn(pointRange.value));
-    pointNum.addEventListener("input", () => fn(pointNum.value));
-  }
-
-  if (state.xMode === "number") {
-    bindSliderPair("x-max", (v) => {
-      state.xMax = Math.max(0, v);
-      renderChart();
-    });
-  }
-
-  const xMode = document.getElementById("x-mode");
-  if (xMode) {
-    xMode.addEventListener("change", () => {
-      state.xMode = xMode.value;
-      renderControls();
-      renderChart();
-    });
-  }
-
-  for (let s = 0; s < state.seriesCount; s += 1) {
-    const name = document.getElementById(`prod-name-${s}`);
-    const color = document.getElementById(`prod-color-${s}`);
-    if (name) name.addEventListener("input", () => {
-      state.productNames[s] = name.value || `Produto ${s + 1}`;
-      renderChart();
-    });
-    if (color) color.addEventListener("change", () => {
-      state.seriesColors[s] = color.value;
-      renderChart();
-    });
-
-    if (state.type === "pie" || state.type === "donut") {
-      const pieVal = document.getElementById(`pie-value-${s}`);
-      if (pieVal) pieVal.addEventListener("input", () => {
-        state.pieValues[s] = Math.max(1, toNum(pieVal.value, 1));
-        renderChart();
-      });
-    } else {
-      for (let p = 0; p < state.pointCount; p += 1) {
-        const v = document.getElementById(`val-${s}-${p}`);
-        if (v) {
-          v.addEventListener("input", () => {
-            state.values[s][p] = toNum(v.value, 0);
-            renderChart();
-          });
-        }
-      }
-    }
-  }
-}
-
 function buildColorScale() {
   const scale = {};
-  for (let s = 0; s < state.seriesCount; s += 1) {
-    const name = state.productNames[s] || `Produto ${s + 1}`;
-    const token = state.seriesColors[s] || "blue 60";
-    scale[name] = paletteMap[token] || "#0f62fe";
+  for (let i = 0; i < state.seriesCount; i += 1) {
+    scale[state.productNames[i] || `Produto ${i + 1}`] = paletteMap[state.seriesColors[i]] || "#0f62fe";
   }
   return { scale };
 }
 
-function buildData() {
-  const data = [];
-  const xNumeric = state.xMode === "number";
+function dropdownItems(options) {
+  return options.map((o) => `<cds-dropdown-item value="${o}">${o}</cds-dropdown-item>`).join("");
+}
 
-  if (state.type === "pie" || state.type === "donut") {
-    for (let s = 0; s < state.seriesCount; s += 1) {
-      data.push({
-        group: state.productNames[s] || `Produto ${s + 1}`,
-        value: Math.max(1, toNum(state.pieValues[s], 1))
-      });
+function mkSlider(id, label, value, min, max) {
+  return `<div class="control-box"><cds-slider id="${id}" label-text="${label}" min="${min}" max="${max}" step="1" value="${value}"><cds-slider-input aria-label="${label}" type="number"></cds-slider-input></cds-slider></div>`;
+}
+
+function mkText(id, label, value, compact = false, type = "number") {
+  return `<div class="control-box ${compact ? "series-value-input" : ""}"><cds-text-input id="${id}" title-text="${label}" label="${label}" value="${value}" type="${type}"></cds-text-input></div>`;
+}
+
+function mkDropdown(id, label, value, options) {
+  return `<div class="control-box"><cds-dropdown id="${id}" title-text="${label}" label="${label}" value="${value}">${dropdownItems(options)}</cds-dropdown></div>`;
+}
+
+function renderControls() {
+  const isLine = state.type === "line";
+  const isBubble = state.type === "bubble";
+  const isPie = state.type === "pie" || state.type === "donut";
+
+  let html = "";
+
+  if (isLine) {
+    html += `<section class="conditional-group"><h3 class="conditional-title">Eixos</h3>${mkSlider("y-min", "Eixo Y mínimo", state.yMin, 0, 999999)}${mkSlider("y-max", "Eixo Y máximo", state.yMax, 0, 999999)}${mkDropdown("x-mode", "Tipo do eixo X", state.xMode, ["text", "number"])}`;
+    if (state.xMode === "number") {
+      html += mkSlider("x-max", "Eixo X máximo", state.xMax, 0, Math.max(999999, state.xMax + 1000));
+    } else {
+      html += mkSlider("text-cols", "Quantidade de colunas", state.textCols, 1, 12);
+      for (let c = 0; c < state.textCols; c += 1) {
+        html += mkText(`col-name-${c}`, `Nome da coluna ${c + 1}`, state.colNames[c], false, "text");
+      }
     }
-    return data;
+    html += `</section>`;
+
+    html += `<section class="conditional-group"><h3 class="conditional-title">Séries</h3>${mkSlider("series-count", "Quantidade de séries", state.seriesCount, 1, 5)}`;
+    for (let s = 0; s < state.seriesCount; s += 1) {
+      html += mkText(`prod-name-${s}`, `Nome do produto ${s + 1}`, state.productNames[s], false, "text");
+      html += mkDropdown(`prod-color-${s}`, `Cor do produto ${s + 1}`, state.seriesColors[s], palette.map((p) => p[0]));
+      html += `<div class="series-values">`;
+      const pcount = state.xMode === "text" ? state.textCols : 3;
+      for (let p = 0; p < pcount; p += 1) {
+        html += mkText(`v-${s}-${p}`, `Série ${s + 1}, ponto ${p + 1}`, state.values[s][p], true, "number");
+      }
+      html += `</div>`;
+    }
+    html += `</section>`;
+  } else {
+    html += `<section class="conditional-group"><h3 class="conditional-title">Configuração</h3>${mkSlider("series-count", "Quantidade de séries", state.seriesCount, 1, 5)}${mkSlider("y-min", "Eixo Y mínimo", state.yMin, 0, 999999)}${mkSlider("y-max", "Eixo Y máximo", state.yMax, 0, 999999)}`;
+    if (isBubble) html += mkSlider("bubble-radius", "Radius das bolhas", state.bubbleRadius, 1, 200);
+    if (isPie) html += mkDropdown("pie-mode", "Exibição da pizza", state.pieMode, ["value", "percent"]);
+    html += `</section>`;
   }
 
+  controlsHost.innerHTML = html;
+  bindControls();
+}
+
+function onSlider(id, fn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener("cds-slider-changed", () => fn(n(el.value, 0)));
+}
+
+function onDropdown(id, fn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener("cds-dropdown-selected", (e) => fn(e?.detail?.item?.value));
+}
+
+function onInput(id, fn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener("input", () => fn(el.value));
+}
+
+function bindControls() {
+  onSlider("y-min", (v) => { state.yMin = clamp(v, 0, 999999); if (state.yMax < state.yMin) state.yMax = state.yMin; renderChart(); });
+  onSlider("y-max", (v) => { state.yMax = clamp(v, state.yMin, 999999); renderChart(); });
+  onSlider("series-count", (v) => { state.seriesCount = clamp(v, 1, 5); renderControls(); renderChart(); });
+
+  if (state.type === "line") {
+    onDropdown("x-mode", (v) => { state.xMode = v; renderControls(); renderChart(); });
+
+    if (state.xMode === "number") {
+      onSlider("x-max", (v) => { state.xMax = Math.max(0, v); renderChart(); });
+    } else {
+      onSlider("text-cols", (v) => { state.textCols = clamp(v, 1, 12); renderControls(); renderChart(); });
+      for (let c = 0; c < state.textCols; c += 1) onInput(`col-name-${c}`, (v) => { state.colNames[c] = v || `Coluna ${c + 1}`; renderChart(); });
+    }
+
+    const pcount = state.xMode === "text" ? state.textCols : 3;
+    for (let s = 0; s < state.seriesCount; s += 1) {
+      onInput(`prod-name-${s}`, (v) => { state.productNames[s] = v || `Produto ${s + 1}`; renderChart(); });
+      onDropdown(`prod-color-${s}`, (v) => { state.seriesColors[s] = v; renderChart(); });
+      for (let p = 0; p < pcount; p += 1) onInput(`v-${s}-${p}`, (v) => { state.values[s][p] = n(v, 0); renderChart(); });
+    }
+  }
+
+  if (state.type === "bubble") onSlider("bubble-radius", (v) => { state.bubbleRadius = Math.max(1, v); renderChart(); });
+  if (state.type === "pie" || state.type === "donut") onDropdown("pie-mode", (v) => { state.pieMode = v; renderChart(); });
+}
+
+function lineData() {
+  const rows = [];
+  const points = state.xMode === "text" ? state.textCols : 3;
   for (let s = 0; s < state.seriesCount; s += 1) {
     const group = state.productNames[s] || `Produto ${s + 1}`;
-    for (let p = 0; p < state.pointCount; p += 1) {
-      const value = toNum(state.values[s][p], 0);
-      const label = `P${p + 1}`;
-      const xValue = state.pointCount === 1 ? state.xMax : Math.round((p / (state.pointCount - 1)) * state.xMax);
-
-      if (state.type === "line" || state.type === "area") {
-        data.push(xNumeric ? { group, key: xValue, value } : { group, key: label, value });
-      } else if (state.type === "simple_bar" || state.type === "grouped_bar" || state.type === "stacked_bar") {
-        data.push({ group, key: xNumeric ? String(xValue) : label, value });
-      } else if (state.type === "scatter") {
-        data.push({ group, x: xValue, y: value });
-      } else if (state.type === "bubble") {
-        data.push({ group, x: xValue, y: value, value: Math.max(5, Math.round(value / 3)) });
-      } else if (state.type === "radar") {
-        data.push({ group, feature: label, value });
+    for (let p = 0; p < points; p += 1) {
+      const value = n(state.values[s][p], 0);
+      if (state.xMode === "number") {
+        const x = points === 1 ? state.xMax : Math.round((p / (points - 1)) * state.xMax);
+        rows.push({ group, key: x, value });
+      } else {
+        rows.push({ group, key: state.colNames[p] || `Coluna ${p + 1}`, value });
       }
     }
   }
+  return rows;
+}
 
-  return data;
+function fallbackData() {
+  const groups = Array.from({ length: state.seriesCount }, (_, i) => state.productNames[i] || `Produto ${i + 1}`);
+  if (state.type === "pie" || state.type === "donut") {
+    const raw = groups.map((g, i) => ({ group: g, value: Math.max(1, n(state.values[i][0], 10)) }));
+    if (state.pieMode === "percent") {
+      const total = raw.reduce((a, b) => a + b.value, 0);
+      return raw.map((r) => ({ ...r, value: Math.round((r.value / total) * 100) }));
+    }
+    return raw;
+  }
+  if (state.type === "bubble") return groups.map((g, i) => ({ group: g, x: i * 10 + 10, y: Math.max(1, n(state.values[i][0], 10)), value: state.bubbleRadius }));
+  if (state.type === "scatter") return groups.map((g, i) => ({ group: g, x: i * 10 + 10, y: Math.max(1, n(state.values[i][0], 10)) }));
+  if (state.type === "radar") return groups.flatMap((g, i) => ["A", "B", "C"].map((f, k) => ({ group: g, feature: f, value: Math.max(1, n(state.values[i][k] ?? 10, 10)) })));
+  return groups.map((g, i) => ({ group: g, key: "P1", value: Math.max(1, n(state.values[i][0], 10)) }));
 }
 
 function buildOptions() {
   const color = buildColorScale();
-
-  if (state.type === "line" || state.type === "area") {
+  if (state.type === "line") {
     return {
-      title: state.type === "line" ? "Line" : "Area",
+      title: "Line",
       axes: {
-        left: { mapsTo: "value", domainMin: state.yMin, domainMax: state.yMax, title: "Valor" },
+        left: { mapsTo: "value", domainMin: state.yMin, domainMax: state.yMax },
         bottom: state.xMode === "number" ? { mapsTo: "key", scaleType: "linear", domainMin: 0, domainMax: state.xMax } : { mapsTo: "key", scaleType: "labels" }
       },
-      data: { groupMapsTo: "group" },
       color,
       height: "420px"
     };
   }
-
-  if (state.type === "simple_bar" || state.type === "grouped_bar" || state.type === "stacked_bar") {
-    return {
-      title: state.type.replace("_", " "),
-      axes: {
-        left: { mapsTo: "value", domainMin: state.yMin, domainMax: state.yMax, stacked: state.type === "stacked_bar" },
-        bottom: { mapsTo: "key", scaleType: "labels" }
-      },
-      color,
-      height: "420px"
-    };
-  }
-
   if (state.type === "pie") return { title: "Pie", pie: { alignment: "center" }, color, height: "420px" };
-  if (state.type === "donut") return { title: "Donut", donut: { center: { label: "Total" } }, color, height: "420px" };
-
-  if (state.type === "scatter") {
-    return {
-      title: "Scatter",
-      axes: {
-        left: { mapsTo: "y", domainMin: state.yMin, domainMax: state.yMax },
-        bottom: { mapsTo: "x", scaleType: "linear", domainMin: 0, domainMax: state.xMax }
-      },
-      color,
-      height: "420px"
-    };
-  }
-
-  if (state.type === "bubble") {
-    return {
-      title: "Bubble",
-      axes: {
-        left: { mapsTo: "y", domainMin: state.yMin, domainMax: state.yMax },
-        bottom: { mapsTo: "x", scaleType: "linear", domainMin: 0, domainMax: state.xMax }
-      },
-      bubble: { radiusMapsTo: "value" },
-      color,
-      height: "420px"
-    };
-  }
-
-  return {
-    title: "Radar",
-    radar: { axes: { angle: "feature", value: "value" } },
-    color,
-    height: "420px"
-  };
+  if (state.type === "donut") return { title: "Donut", donut: { center: { label: state.pieMode === "percent" ? "%" : "Valor" } }, color, height: "420px" };
+  if (state.type === "bubble") return { title: "Bubble", axes: { left: { mapsTo: "y" }, bottom: { mapsTo: "x", scaleType: "linear" } }, bubble: { radiusMapsTo: "value" }, color, height: "420px" };
+  if (state.type === "scatter") return { title: "Scatter", axes: { left: { mapsTo: "y" }, bottom: { mapsTo: "x", scaleType: "linear" } }, color, height: "420px" };
+  if (state.type === "radar") return { title: "Radar", radar: { axes: { angle: "feature", value: "value" } }, color, height: "420px" };
+  return { title: state.type.replace("_", " "), axes: { left: { mapsTo: "value", stacked: state.type === "stacked_bar" }, bottom: { mapsTo: "key", scaleType: "labels" } }, color, height: "420px" };
 }
 
 function renderChart() {
   const charts = window.Charts || window.CarbonCharts;
-  if (!charts || !chartHolder) {
-    return;
-  }
-
-  const ChartCtor = charts[chartClassMap[state.type]];
-  if (!ChartCtor) {
-    return;
-  }
-
+  if (!charts || !chartHolder) return;
+  const Ctor = charts[chartClassMap[state.type]];
+  if (!Ctor) return;
+  const data = state.type === "line" ? lineData() : fallbackData();
   chartHolder.innerHTML = "";
-  new ChartCtor(chartHolder, {
-    data: buildData(),
-    options: buildOptions()
-  });
+  new Ctor(chartHolder, { data, options: buildOptions() });
 }
 
 function setSideNavOpen(isOpen) {
@@ -374,9 +249,7 @@ function bindSideNav() {
   if (!sideNav || !sideNavOverlay || !sideNavToggle) return;
   sideNavToggle.addEventListener("click", () => setSideNavOpen(!sideNav.classList.contains("is-open")));
   sideNavOverlay.addEventListener("click", () => setSideNavOpen(false));
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") setSideNavOpen(false);
-  });
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape") setSideNavOpen(false); });
   desktopMedia.addEventListener("change", () => {
     if (desktopMedia.matches && !sideNav.classList.contains("is-open")) setSideNavOpen(true);
     if (!desktopMedia.matches) setSideNavOpen(false);
