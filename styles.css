@@ -59,8 +59,8 @@ body {
 }
 
 .chevron-icon {
-  width: 16px;
-  height: 16px;
+  width: 12px;
+  height: 7px;
   transition: transform 120ms ease;
 }
 
@@ -220,15 +220,19 @@ h1 {
 
 .controls-top {
   position: relative;
-  z-index: 5;
+  z-index: 10;
 }
 
 cds-dropdown,
 cds-text-input {
   width: 100%;
-  --cds-layer: #ffffff;
-  --cds-field: #ffffff;
-  --cds-background: #ffffff;
+  --cds-layer: var(--cool-gray-10);
+  --cds-background: var(--cool-gray-10);
+  --cds-field: var(--cool-gray-10);
+  --cds-field-01: var(--cool-gray-10);
+  --cds-field-hover: #e8eaee;
+  --cds-layer-hover: #e8eaee;
+  --cds-border-subtle: var(--cool-gray-30);
 }
 
 .chart {
