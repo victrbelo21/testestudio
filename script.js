@@ -43,9 +43,9 @@ const state = {
   xMode: "text",
   xMax: 100,
   textCols: 3,
-  colNames: ["Coluna 1", "Coluna 2", "Coluna 3", "Coluna 4", "Coluna 5", "Coluna 6", "Coluna 7", "Coluna 8", "Coluna 9", "Coluna 10", "Coluna 11", "Coluna 12"],
+  colNames: Array.from({ length: 12 }, (_, i) => `Coluna ${i + 1}`),
   seriesCount: 2,
-  productNames: ["Produto 1", "Produto 2", "Produto 3", "Produto 4", "Produto 5"],
+  productNames: Array.from({ length: 5 }, (_, i) => `Produto ${i + 1}`),
   seriesColors: ["Blue 60", "Green 50", "Purple 60", "Red 60", "Teal 50"],
   values: Array.from({ length: 5 }, () => Array.from({ length: 12 }, (_, i) => (i + 1) * 10)),
   bubbleRadius: 20,
@@ -77,12 +77,26 @@ function mkSlider(id, label, value, min, max) {
   return `<div class="control-box"><cds-slider id="${id}" label-text="${label}" min="${min}" max="${max}" step="1" value="${value}"><cds-slider-input aria-label="${label}" type="number"></cds-slider-input></cds-slider></div>`;
 }
 
+function mkRangeSlider() {
+  return `<div class="control-box"><cds-slider id="y-range" label-text="Faixa do eixo Y" min="0" max="999999" step="1" value="${state.yMin}" value-upper="${state.yMax}"><cds-slider-input aria-label="Y mínimo" type="number"></cds-slider-input><cds-slider-input aria-label="Y máximo" type="number"></cds-slider-input></cds-slider></div>`;
+}
+
 function mkText(id, label, value, compact = false, type = "number") {
   return `<div class="control-box ${compact ? "series-value-input" : ""}"><cds-text-input id="${id}" title-text="${label}" label="${label}" value="${value}" type="${type}"></cds-text-input></div>`;
 }
 
 function mkDropdown(id, label, value, options) {
   return `<div class="control-box"><cds-dropdown id="${id}" title-text="${label}" label="${label}" value="${value}">${dropdownItems(options)}</cds-dropdown></div>`;
+}
+
+function mkTabs(idPrefix, labels, panelRenderer) {
+  const tabs = labels
+    .map((label, i) => `<cds-tab value="${idPrefix}-${i}">${label}</cds-tab>`)
+    .join("");
+  const panels = labels
+    .map((_, i) => `<cds-tab-panel value="${idPrefix}-${i}"><div class="tab-panel">${panelRenderer(i)}</div></cds-tab-panel>`)
+    .join("");
+  return `<div class="tabs-wrap"><cds-tabs value="${idPrefix}-0">${tabs}${panels}</cds-tabs></div>`;
 }
 
 function renderControls() {
@@ -93,31 +107,43 @@ function renderControls() {
   let html = "";
 
   if (isLine) {
-    html += `<section class="conditional-group"><h3 class="conditional-title">Eixos</h3>${mkSlider("y-min", "Eixo Y mínimo", state.yMin, 0, 999999)}${mkSlider("y-max", "Eixo Y máximo", state.yMax, 0, 999999)}${mkDropdown("x-mode", "Tipo do eixo X", state.xMode, ["text", "number"])}`;
+    html += `<section class="conditional-group"><h3 class="conditional-title">Eixos</h3>${mkRangeSlider()}${mkDropdown("x-mode", "Tipo do eixo X", state.xMode, ["text", "number"])}`;
+
     if (state.xMode === "number") {
-      html += mkSlider("x-max", "Eixo X máximo", state.xMax, 0, Math.max(999999, state.xMax + 1000));
+      html += mkSlider("x-max", "Eixo X numérico (0 até)", state.xMax, 0, Math.max(999999, state.xMax + 1000));
     } else {
       html += mkSlider("text-cols", "Quantidade de colunas", state.textCols, 1, 12);
-      for (let c = 0; c < state.textCols; c += 1) {
-        html += mkText(`col-name-${c}`, `Nome da coluna ${c + 1}`, state.colNames[c], false, "text");
-      }
+      html += mkTabs(
+        "col-tab",
+        Array.from({ length: state.textCols }, (_, i) => `Coluna ${i + 1}`),
+        (i) => mkText(`col-name-${i}`, `Nome da coluna ${i + 1}`, state.colNames[i], false, "text")
+      );
     }
+
     html += `</section>`;
 
     html += `<section class="conditional-group"><h3 class="conditional-title">Séries</h3>${mkSlider("series-count", "Quantidade de séries", state.seriesCount, 1, 5)}`;
-    for (let s = 0; s < state.seriesCount; s += 1) {
-      html += mkText(`prod-name-${s}`, `Nome do produto ${s + 1}`, state.productNames[s], false, "text");
-      html += mkDropdown(`prod-color-${s}`, `Cor do produto ${s + 1}`, state.seriesColors[s], palette.map((p) => p[0]));
-      html += `<div class="series-values">`;
-      const pcount = state.xMode === "text" ? state.textCols : 3;
-      for (let p = 0; p < pcount; p += 1) {
-        html += mkText(`v-${s}-${p}`, `Série ${s + 1}, ponto ${p + 1}`, state.values[s][p], true, "number");
+
+    html += mkTabs(
+      "series-tab",
+      Array.from({ length: state.seriesCount }, (_, i) => `Série ${i + 1}`),
+      (s) => {
+        const pcount = state.xMode === "text" ? state.textCols : 3;
+        let block = "";
+        block += mkText(`prod-name-${s}`, `Nome do produto ${s + 1}`, state.productNames[s], false, "text");
+        block += mkDropdown(`prod-color-${s}`, `Cor da série ${s + 1}`, state.seriesColors[s], palette.map((p) => p[0]));
+        block += '<div class="series-values">';
+        for (let p = 0; p < pcount; p += 1) {
+          block += mkText(`v-${s}-${p}`, `Ponto ${p + 1}`, state.values[s][p], true, "number");
+        }
+        block += "</div>";
+        return block;
       }
-      html += `</div>`;
-    }
+    );
+
     html += `</section>`;
   } else {
-    html += `<section class="conditional-group"><h3 class="conditional-title">Configuração</h3>${mkSlider("series-count", "Quantidade de séries", state.seriesCount, 1, 5)}${mkSlider("y-min", "Eixo Y mínimo", state.yMin, 0, 999999)}${mkSlider("y-max", "Eixo Y máximo", state.yMax, 0, 999999)}`;
+    html += `<section class="conditional-group"><h3 class="conditional-title">Configuração</h3>${mkSlider("series-count", "Quantidade de séries", state.seriesCount, 1, 5)}${mkRangeSlider()}`;
     if (isBubble) html += mkSlider("bubble-radius", "Radius das bolhas", state.bubbleRadius, 1, 200);
     if (isPie) html += mkDropdown("pie-mode", "Exibição da pizza", state.pieMode, ["value", "percent"]);
     html += `</section>`;
@@ -133,6 +159,16 @@ function onSlider(id, fn) {
   el.addEventListener("cds-slider-changed", () => fn(n(el.value, 0)));
 }
 
+function onRangeSlider(id, fn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener("cds-slider-changed", () => {
+    const low = n(el.value, 0);
+    const high = n(el.valueUpper ?? el.getAttribute("value-upper"), low);
+    fn(clamp(low, 0, 999999), clamp(Math.max(low, high), 0, 999999));
+  });
+}
+
 function onDropdown(id, fn) {
   const el = document.getElementById(id);
   if (!el) return;
@@ -146,30 +182,76 @@ function onInput(id, fn) {
 }
 
 function bindControls() {
-  onSlider("y-min", (v) => { state.yMin = clamp(v, 0, 999999); if (state.yMax < state.yMin) state.yMax = state.yMin; renderChart(); });
-  onSlider("y-max", (v) => { state.yMax = clamp(v, state.yMin, 999999); renderChart(); });
-  onSlider("series-count", (v) => { state.seriesCount = clamp(v, 1, 5); renderControls(); renderChart(); });
+  onRangeSlider("y-range", (min, max) => {
+    state.yMin = min;
+    state.yMax = max;
+    renderChart();
+  });
+
+  onSlider("series-count", (v) => {
+    state.seriesCount = clamp(v, 1, 5);
+    renderControls();
+    renderChart();
+  });
 
   if (state.type === "line") {
-    onDropdown("x-mode", (v) => { state.xMode = v; renderControls(); renderChart(); });
+    onDropdown("x-mode", (v) => {
+      state.xMode = v;
+      renderControls();
+      renderChart();
+    });
 
     if (state.xMode === "number") {
-      onSlider("x-max", (v) => { state.xMax = Math.max(0, v); renderChart(); });
+      onSlider("x-max", (v) => {
+        state.xMax = Math.max(0, v);
+        renderChart();
+      });
     } else {
-      onSlider("text-cols", (v) => { state.textCols = clamp(v, 1, 12); renderControls(); renderChart(); });
-      for (let c = 0; c < state.textCols; c += 1) onInput(`col-name-${c}`, (v) => { state.colNames[c] = v || `Coluna ${c + 1}`; renderChart(); });
+      onSlider("text-cols", (v) => {
+        state.textCols = clamp(v, 1, 12);
+        renderControls();
+        renderChart();
+      });
+      for (let c = 0; c < state.textCols; c += 1) {
+        onInput(`col-name-${c}`, (v) => {
+          state.colNames[c] = v || `Coluna ${c + 1}`;
+          renderChart();
+        });
+      }
     }
 
     const pcount = state.xMode === "text" ? state.textCols : 3;
     for (let s = 0; s < state.seriesCount; s += 1) {
-      onInput(`prod-name-${s}`, (v) => { state.productNames[s] = v || `Produto ${s + 1}`; renderChart(); });
-      onDropdown(`prod-color-${s}`, (v) => { state.seriesColors[s] = v; renderChart(); });
-      for (let p = 0; p < pcount; p += 1) onInput(`v-${s}-${p}`, (v) => { state.values[s][p] = n(v, 0); renderChart(); });
+      onInput(`prod-name-${s}`, (v) => {
+        state.productNames[s] = v || `Produto ${s + 1}`;
+        renderChart();
+      });
+      onDropdown(`prod-color-${s}`, (v) => {
+        state.seriesColors[s] = v;
+        renderChart();
+      });
+      for (let p = 0; p < pcount; p += 1) {
+        onInput(`v-${s}-${p}`, (v) => {
+          state.values[s][p] = n(v, 0);
+          renderChart();
+        });
+      }
     }
   }
 
-  if (state.type === "bubble") onSlider("bubble-radius", (v) => { state.bubbleRadius = Math.max(1, v); renderChart(); });
-  if (state.type === "pie" || state.type === "donut") onDropdown("pie-mode", (v) => { state.pieMode = v; renderChart(); });
+  if (state.type === "bubble") {
+    onSlider("bubble-radius", (v) => {
+      state.bubbleRadius = Math.max(1, v);
+      renderChart();
+    });
+  }
+
+  if (state.type === "pie" || state.type === "donut") {
+    onDropdown("pie-mode", (v) => {
+      state.pieMode = v;
+      renderChart();
+    });
+  }
 }
 
 function lineData() {
@@ -213,7 +295,9 @@ function buildOptions() {
       title: "Line",
       axes: {
         left: { mapsTo: "value", domainMin: state.yMin, domainMax: state.yMax },
-        bottom: state.xMode === "number" ? { mapsTo: "key", scaleType: "linear", domainMin: 0, domainMax: state.xMax } : { mapsTo: "key", scaleType: "labels" }
+        bottom: state.xMode === "number"
+          ? { mapsTo: "key", scaleType: "linear", domainMin: 0, domainMax: state.xMax }
+          : { mapsTo: "key", scaleType: "labels" }
       },
       color,
       height: "420px"
@@ -221,10 +305,10 @@ function buildOptions() {
   }
   if (state.type === "pie") return { title: "Pie", pie: { alignment: "center" }, color, height: "420px" };
   if (state.type === "donut") return { title: "Donut", donut: { center: { label: state.pieMode === "percent" ? "%" : "Valor" } }, color, height: "420px" };
-  if (state.type === "bubble") return { title: "Bubble", axes: { left: { mapsTo: "y" }, bottom: { mapsTo: "x", scaleType: "linear" } }, bubble: { radiusMapsTo: "value" }, color, height: "420px" };
-  if (state.type === "scatter") return { title: "Scatter", axes: { left: { mapsTo: "y" }, bottom: { mapsTo: "x", scaleType: "linear" } }, color, height: "420px" };
+  if (state.type === "bubble") return { title: "Bubble", axes: { left: { mapsTo: "y", domainMin: state.yMin, domainMax: state.yMax }, bottom: { mapsTo: "x", scaleType: "linear" } }, bubble: { radiusMapsTo: "value" }, color, height: "420px" };
+  if (state.type === "scatter") return { title: "Scatter", axes: { left: { mapsTo: "y", domainMin: state.yMin, domainMax: state.yMax }, bottom: { mapsTo: "x", scaleType: "linear" } }, color, height: "420px" };
   if (state.type === "radar") return { title: "Radar", radar: { axes: { angle: "feature", value: "value" } }, color, height: "420px" };
-  return { title: state.type.replace("_", " "), axes: { left: { mapsTo: "value", stacked: state.type === "stacked_bar" }, bottom: { mapsTo: "key", scaleType: "labels" } }, color, height: "420px" };
+  return { title: state.type.replace("_", " "), axes: { left: { mapsTo: "value", stacked: state.type === "stacked_bar", domainMin: state.yMin, domainMax: state.yMax }, bottom: { mapsTo: "key", scaleType: "labels" } }, color, height: "420px" };
 }
 
 function renderChart() {
@@ -249,7 +333,9 @@ function bindSideNav() {
   if (!sideNav || !sideNavOverlay || !sideNavToggle) return;
   sideNavToggle.addEventListener("click", () => setSideNavOpen(!sideNav.classList.contains("is-open")));
   sideNavOverlay.addEventListener("click", () => setSideNavOpen(false));
-  document.addEventListener("keydown", (event) => { if (event.key === "Escape") setSideNavOpen(false); });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setSideNavOpen(false);
+  });
   desktopMedia.addEventListener("change", () => {
     if (desktopMedia.matches && !sideNav.classList.contains("is-open")) setSideNavOpen(true);
     if (!desktopMedia.matches) setSideNavOpen(false);
