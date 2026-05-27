@@ -13,31 +13,184 @@
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="palette.css" />
     <link rel="stylesheet" href="group2.css" />
+    <link rel="stylesheet" href="uishell.css" />
   </head>
   <body>
-    <header class="app-header">
-      <div class="app-header__brand">TesteStudio</div>
-      <div class="app-header__actions">
-        <button id="theme-toggle" class="btn btn-tertiary btn-size-sm" type="button">Alternar tema</button>
+    <a class="cds--skip-to-content" href="#main-content">Skip to main content</a>
+
+    <header class="app-header cds--header" aria-label="IBM Platform Name">
+      <button
+        id="header-menu-button"
+        class="cds--header__action cds--header__menu-trigger cds--header__menu-toggle"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false">
+        <span class="cds--header__menu-icon" aria-hidden="true">☰</span>
+      </button>
+
+      <a href="#main-content" class="app-header__brand cds--header__name">
+        <span class="cds--header__name--prefix">IBM</span>
+        <span>TesteStudio</span>
+      </a>
+
+      <nav class="cds--header__nav" aria-label="IBM [Platform]">
+        <ul class="cds--header__menu-bar">
+          <li><a class="cds--header__menu-item" href="#component-uishell">Visao geral</a></li>
+          <li><a class="cds--header__menu-item" href="#group-1">Grupo 1</a></li>
+          <li><a class="cds--header__menu-item" href="#group-2">Grupo 2</a></li>
+          <li class="cds--header__menu" data-header-menu>
+            <button
+              id="header-menu-components"
+              class="cds--header__menu-title"
+              type="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+              aria-controls="header-submenu-components">
+              Componentes
+              <span class="cds--header__menu-arrow" aria-hidden="true">▾</span>
+            </button>
+            <ul id="header-submenu-components" class="cds--header__submenu" role="menu">
+              <li><a class="cds--header__submenu-item" href="#component-buttons" role="menuitem">Button</a></li>
+              <li><a class="cds--header__submenu-item" href="#component-text-input" role="menuitem">Text input</a></li>
+              <li><a class="cds--header__submenu-item" href="#component-checkbox" role="menuitem">Checkbox</a></li>
+              <li><a class="cds--header__submenu-item" href="#component-select" role="menuitem">Select</a></li>
+              <li><a class="cds--header__submenu-item" href="#component-dropdown" role="menuitem">Dropdown</a></li>
+              <li><a class="cds--header__submenu-item" href="#component-radio-button" role="menuitem">Radio</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="app-header__actions cds--header__global">
+        <button id="theme-toggle" class="btn btn-tertiary btn-size-sm uishell-theme-action" type="button">Alternar tema</button>
+        <button id="global-search" class="cds--header__action" type="button" aria-label="Search">
+          <span aria-hidden="true">⌕</span>
+        </button>
+        <button id="global-notifications" class="cds--header__action" type="button" aria-label="Notifications">
+          <span aria-hidden="true">🔔</span>
+        </button>
+        <button
+          id="global-switcher"
+          class="cds--header__action"
+          type="button"
+          aria-label="App switcher"
+          aria-expanded="false"
+          aria-controls="switcher-panel">
+          <span aria-hidden="true">◧</span>
+        </button>
       </div>
+
+      <nav id="switcher-panel" class="cds--header-panel" aria-label="Switcher" aria-hidden="true">
+        <ul class="cds--switcher">
+          <li class="cds--switcher__item"><a class="cds--switcher__item-link" href="#component-uishell">Shell overview</a></li>
+          <li class="cds--switcher__divider" aria-hidden="true"></li>
+          <li class="cds--switcher__item"><a class="cds--switcher__item-link" href="#group-1">Grupo 1</a></li>
+          <li class="cds--switcher__item"><a class="cds--switcher__item-link" href="#group-2">Grupo 2</a></li>
+          <li class="cds--switcher__divider" aria-hidden="true"></li>
+          <li class="cds--switcher__item"><a class="cds--switcher__item-link" href="#palette">Paleta IBM</a></li>
+        </ul>
+      </nav>
     </header>
 
-    <div class="app-shell">
-      <aside class="side-nav" aria-label="Menu lateral">
-        <nav class="side-nav__menu">
-          <a class="side-nav__item side-nav__item--active" href="#group-1">Grupo 1</a>
-          <a class="side-nav__item" href="#component-buttons">Button</a>
-          <a class="side-nav__item" href="#component-text-input">Text input</a>
-          <a class="side-nav__item" href="#component-checkbox">Checkbox</a>
-          <a class="side-nav__item" href="#group-2">Grupo 2</a>
-          <a class="side-nav__item" href="#component-select">Select</a>
-          <a class="side-nav__item" href="#component-dropdown">Dropdown</a>
-          <a class="side-nav__item" href="#component-radio-button">Radio button</a>
-          <a class="side-nav__item" href="#palette">Paleta</a>
-        </nav>
+    <div id="left-panel-overlay" class="cds--side-nav__overlay"></div>
+
+    <div class="app-shell app-shell--uishell">
+      <aside id="left-panel" class="side-nav cds--side-nav__navigation cds--side-nav cds--side-nav--ux" aria-label="Side navigation">
+        <ul class="cds--side-nav__header-navigation cds--side-nav__header-divider">
+          <li>
+            <a class="cds--side-nav__link" href="#component-uishell">
+              <span class="cds--side-nav__link-text">Visao geral</span>
+            </a>
+          </li>
+          <li>
+            <a class="cds--side-nav__link" href="#group-1">
+              <span class="cds--side-nav__link-text">Grupo 1</span>
+            </a>
+          </li>
+          <li>
+            <a class="cds--side-nav__link" href="#group-2">
+              <span class="cds--side-nav__link-text">Grupo 2</span>
+            </a>
+          </li>
+        </ul>
+
+        <ul class="cds--side-nav__items">
+          <li class="cds--side-nav__item is-open">
+            <button
+              class="cds--side-nav__submenu"
+              type="button"
+              aria-expanded="true"
+              aria-controls="side-nav-group-1">
+              <span class="cds--side-nav__submenu-title">Grupo 1</span>
+              <span class="cds--side-nav__submenu-chevron" aria-hidden="true">▾</span>
+            </button>
+            <ul id="side-nav-group-1" class="cds--side-nav__menu">
+              <li class="cds--side-nav__menu-item">
+                <a class="cds--side-nav__link" href="#component-buttons">
+                  <span class="cds--side-nav__link-text">Button</span>
+                </a>
+              </li>
+              <li class="cds--side-nav__menu-item">
+                <a class="cds--side-nav__link" href="#component-text-input">
+                  <span class="cds--side-nav__link-text">Text input</span>
+                </a>
+              </li>
+              <li class="cds--side-nav__menu-item">
+                <a class="cds--side-nav__link" href="#component-checkbox">
+                  <span class="cds--side-nav__link-text">Checkbox</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="cds--side-nav__item is-open">
+            <button
+              class="cds--side-nav__submenu"
+              type="button"
+              aria-expanded="true"
+              aria-controls="side-nav-group-2">
+              <span class="cds--side-nav__submenu-title">Grupo 2</span>
+              <span class="cds--side-nav__submenu-chevron" aria-hidden="true">▾</span>
+            </button>
+            <ul id="side-nav-group-2" class="cds--side-nav__menu">
+              <li class="cds--side-nav__menu-item">
+                <a class="cds--side-nav__link" href="#component-select">
+                  <span class="cds--side-nav__link-text">Select</span>
+                </a>
+              </li>
+              <li class="cds--side-nav__menu-item">
+                <a class="cds--side-nav__link" href="#component-dropdown">
+                  <span class="cds--side-nav__link-text">Dropdown</span>
+                </a>
+              </li>
+              <li class="cds--side-nav__menu-item">
+                <a class="cds--side-nav__link" href="#component-radio-button">
+                  <span class="cds--side-nav__link-text">Radio button</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="cds--side-nav__item">
+            <a class="cds--side-nav__link" href="#palette">
+              <span class="cds--side-nav__link-text">Paleta IBM</span>
+            </a>
+          </li>
+        </ul>
       </aside>
 
-      <main class="app-main">
+      <main id="main-content" class="app-main cds--content">
+        <section class="card card--full" id="component-uishell">
+          <h1>Grupo 3/3: UI Shell (Header, Left panel, Right panel)</h1>
+          <p>
+            Estrutura aplicada com base no pacote `UIShell` do Carbon React: `SkipToContent`,
+            `Header`, `HeaderMenuButton`, `HeaderName`, `HeaderNavigation`, `HeaderGlobalBar`,
+            `HeaderGlobalAction`, `HeaderPanel`, `SideNav`, `SideNavItems`, `SideNavMenu` e
+            `SideNavMenuItem`.
+          </p>
+          <p id="uishell-status" class="component-status">Estado: shell carregada e pronta para interacao.</p>
+        </section>
+
         <section class="card card--full" id="group-1">
           <h1>Grupo 1/3: Button, TextInput e Checkbox</h1>
           <p>
@@ -469,5 +622,6 @@
 
     <script src="script.js"></script>
     <script src="group2.js"></script>
+    <script src="uishell.js"></script>
   </body>
 </html>
