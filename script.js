@@ -1,6 +1,5 @@
-const chartHolder = document.getElementById("radar-chart");
-const exportButton = document.getElementById("export-csv-btn");
-const status = document.getElementById("status");
+const chartHolder = document.getElementById("chart-container");
+const chartSelect = document.getElementById("chart-type");
 
 const sideNav = document.getElementById("side-nav");
 const sideNavOverlay = document.getElementById("side-nav-overlay");
@@ -9,69 +8,211 @@ const sideNavSubmenus = document.querySelectorAll(".cds--side-nav__submenu");
 
 const desktopMedia = window.matchMedia("(min-width: 1056px)");
 
-const radarData = [
-  { product: "Produto A", feature: "Preco", score: 72 },
-  { product: "Produto A", feature: "Usabilidade", score: 88 },
-  { product: "Produto A", feature: "Performance", score: 79 },
-  { product: "Produto A", feature: "Qualidade", score: 91 },
-  { product: "Produto A", feature: "Suporte", score: 67 },
-  { product: "Produto B", feature: "Preco", score: 63 },
-  { product: "Produto B", feature: "Usabilidade", score: 77 },
-  { product: "Produto B", feature: "Performance", score: 85 },
-  { product: "Produto B", feature: "Qualidade", score: 74 },
-  { product: "Produto B", feature: "Suporte", score: 82 }
-];
-
-const radarOptions = {
-  title: "Comparativo de 2 produtos",
-  radar: {
-    axes: {
-      angle: "feature",
-      value: "score"
-    }
-  },
-  data: {
-    groupMapsTo: "product"
-  },
-  height: "400px"
+const dataCatalog = {
+  line: [
+    { group: "Produto A", date: "2026-01-01", value: 65000 },
+    { group: "Produto A", date: "2026-02-01", value: 69000 },
+    { group: "Produto A", date: "2026-03-01", value: 70000 },
+    { group: "Produto B", date: "2026-01-01", value: 52000 },
+    { group: "Produto B", date: "2026-02-01", value: 56000 },
+    { group: "Produto B", date: "2026-03-01", value: 61000 }
+  ],
+  area: [
+    { group: "Produto A", date: "2026-01-01", value: 12000 },
+    { group: "Produto A", date: "2026-02-01", value: 17000 },
+    { group: "Produto A", date: "2026-03-01", value: 16000 },
+    { group: "Produto B", date: "2026-01-01", value: 10000 },
+    { group: "Produto B", date: "2026-02-01", value: 14000 },
+    { group: "Produto B", date: "2026-03-01", value: 15500 }
+  ],
+  simple_bar: [
+    { group: "Produto A", key: "Q1", value: 38000 },
+    { group: "Produto A", key: "Q2", value: 42000 },
+    { group: "Produto A", key: "Q3", value: 47000 },
+    { group: "Produto A", key: "Q4", value: 52000 }
+  ],
+  grouped_bar: [
+    { group: "Produto A", key: "Q1", value: 38000 },
+    { group: "Produto B", key: "Q1", value: 33000 },
+    { group: "Produto A", key: "Q2", value: 42000 },
+    { group: "Produto B", key: "Q2", value: 36000 },
+    { group: "Produto A", key: "Q3", value: 47000 },
+    { group: "Produto B", key: "Q3", value: 39000 },
+    { group: "Produto A", key: "Q4", value: 52000 },
+    { group: "Produto B", key: "Q4", value: 44000 }
+  ],
+  stacked_bar: [
+    { group: "Produto A", key: "Q1", value: 12000 },
+    { group: "Produto B", key: "Q1", value: 9000 },
+    { group: "Produto A", key: "Q2", value: 15000 },
+    { group: "Produto B", key: "Q2", value: 11000 },
+    { group: "Produto A", key: "Q3", value: 17000 },
+    { group: "Produto B", key: "Q3", value: 13000 },
+    { group: "Produto A", key: "Q4", value: 19000 },
+    { group: "Produto B", key: "Q4", value: 16000 }
+  ],
+  pie: [
+    { group: "Produto A", value: 38 },
+    { group: "Produto B", value: 26 },
+    { group: "Produto C", value: 20 },
+    { group: "Produto D", value: 16 }
+  ],
+  donut: [
+    { group: "Produto A", value: 38 },
+    { group: "Produto B", value: 26 },
+    { group: "Produto C", value: 20 },
+    { group: "Produto D", value: 16 }
+  ],
+  scatter: [
+    { group: "Produto A", x: 10, y: 12000 },
+    { group: "Produto A", x: 20, y: 18000 },
+    { group: "Produto A", x: 30, y: 23000 },
+    { group: "Produto B", x: 12, y: 10000 },
+    { group: "Produto B", x: 22, y: 14500 },
+    { group: "Produto B", x: 32, y: 21000 }
+  ],
+  bubble: [
+    { group: "Produto A", x: 12, y: 15000, value: 35 },
+    { group: "Produto A", x: 20, y: 23000, value: 22 },
+    { group: "Produto B", x: 16, y: 17000, value: 28 },
+    { group: "Produto B", x: 28, y: 26000, value: 18 }
+  ],
+  radar: [
+    { group: "Produto A", feature: "Preco", value: 72 },
+    { group: "Produto A", feature: "Usabilidade", value: 88 },
+    { group: "Produto A", feature: "Performance", value: 79 },
+    { group: "Produto A", feature: "Qualidade", value: 91 },
+    { group: "Produto A", feature: "Suporte", value: 67 },
+    { group: "Produto B", feature: "Preco", value: 63 },
+    { group: "Produto B", feature: "Usabilidade", value: 77 },
+    { group: "Produto B", feature: "Performance", value: 85 },
+    { group: "Produto B", feature: "Qualidade", value: 74 },
+    { group: "Produto B", feature: "Suporte", value: 82 }
+  ]
 };
 
-function renderRadar() {
-  if (!chartHolder || !status) {
+const optionsCatalog = {
+  line: {
+    title: "Line",
+    axes: {
+      left: { mapsTo: "value", title: "Valor" },
+      bottom: { mapsTo: "date", scaleType: "time" }
+    },
+    curve: "curveMonotoneX",
+    height: "420px"
+  },
+  area: {
+    title: "Area",
+    axes: {
+      left: { mapsTo: "value", title: "Valor" },
+      bottom: { mapsTo: "date", scaleType: "time" }
+    },
+    curve: "curveMonotoneX",
+    height: "420px"
+  },
+  simple_bar: {
+    title: "Simple bar",
+    axes: {
+      left: { mapsTo: "value" },
+      bottom: { mapsTo: "key", scaleType: "labels" }
+    },
+    height: "420px"
+  },
+  grouped_bar: {
+    title: "Grouped bar",
+    axes: {
+      left: { mapsTo: "value" },
+      bottom: { mapsTo: "key", scaleType: "labels" }
+    },
+    height: "420px"
+  },
+  stacked_bar: {
+    title: "Stacked bar",
+    axes: {
+      left: { mapsTo: "value", stacked: true },
+      bottom: { mapsTo: "key", scaleType: "labels" }
+    },
+    height: "420px"
+  },
+  pie: {
+    title: "Pie",
+    pie: { alignment: "center" },
+    height: "420px"
+  },
+  donut: {
+    title: "Donut",
+    donut: { center: { label: "Total" } },
+    height: "420px"
+  },
+  scatter: {
+    title: "Scatter",
+    axes: {
+      left: { mapsTo: "y" },
+      bottom: { mapsTo: "x", scaleType: "linear" }
+    },
+    height: "420px"
+  },
+  bubble: {
+    title: "Bubble",
+    axes: {
+      left: { mapsTo: "y" },
+      bottom: { mapsTo: "x", scaleType: "linear" }
+    },
+    bubble: { radiusMapsTo: "value" },
+    height: "420px"
+  },
+  radar: {
+    title: "Radar",
+    radar: {
+      axes: {
+        angle: "feature",
+        value: "value"
+      }
+    },
+    height: "420px"
+  }
+};
+
+const chartClassMap = {
+  line: "LineChart",
+  area: "AreaChart",
+  simple_bar: "SimpleBarChart",
+  grouped_bar: "GroupedBarChart",
+  stacked_bar: "StackedBarChart",
+  pie: "PieChart",
+  donut: "DonutChart",
+  scatter: "ScatterChart",
+  bubble: "BubbleChart",
+  radar: "RadarChart"
+};
+
+let activeChart = null;
+
+function renderChart(type) {
+  if (!chartHolder) {
     return;
   }
 
-  const RadarChartCtor = window.Charts?.RadarChart || window.CarbonCharts?.RadarChart;
-
-  if (!RadarChartCtor) {
-    status.textContent = "Erro: biblioteca do Carbon Charts não carregou.";
+  const chartsNamespace = window.Charts || window.CarbonCharts;
+  if (!chartsNamespace) {
+    chartHolder.innerHTML = "<p>Erro: Carbon Charts nao carregou.</p>";
     return;
   }
 
-  // eslint-disable-next-line no-new
-  new RadarChartCtor(chartHolder, {
-    data: radarData,
-    options: radarOptions
+  const chartClassName = chartClassMap[type];
+  const ChartCtor = chartsNamespace[chartClassName];
+  if (!ChartCtor) {
+    chartHolder.innerHTML = "<p>Erro: tipo de grafico indisponivel.</p>";
+    return;
+  }
+
+  chartHolder.innerHTML = "";
+  activeChart = new ChartCtor(chartHolder, {
+    data: dataCatalog[type],
+    options: optionsCatalog[type]
   });
 
-  status.textContent = "Gráfico carregado com sucesso.";
-}
-
-function exportCsv(rows, fileName) {
-  const headers = ["product", "feature", "score"];
-  const body = rows.map((row) => [row.product, row.feature, row.score].join(","));
-  const csv = [headers.join(","), ...body].join("\n");
-
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-
-  link.href = url;
-  link.download = fileName;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
+  return activeChart;
 }
 
 function setSideNavOpen(isOpen) {
@@ -83,8 +224,6 @@ function setSideNavOpen(isOpen) {
   sideNav.setAttribute("aria-hidden", String(!isOpen));
   sideNavToggle.setAttribute("aria-expanded", String(isOpen));
   sideNavToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
-
-  // Overlay só em mobile/tablet.
   sideNavOverlay.hidden = desktopMedia.matches || !isOpen;
 }
 
@@ -109,7 +248,6 @@ function bindSideNav() {
   });
 
   desktopMedia.addEventListener("change", () => {
-    // Em desktop inicia aberto, mas continua podendo fechar no hamburger.
     if (desktopMedia.matches && !sideNav.classList.contains("is-open")) {
       setSideNavOpen(true);
     }
@@ -137,13 +275,13 @@ function bindSideNavSubmenus() {
   });
 }
 
-if (exportButton && status) {
-  exportButton.addEventListener("click", () => {
-    exportCsv(radarData, "radar-produtos.csv");
-    status.textContent = "CSV exportado com sucesso.";
+if (chartSelect) {
+  chartSelect.addEventListener("change", (event) => {
+    const type = event.target.value;
+    renderChart(type);
   });
 }
 
 bindSideNav();
 bindSideNavSubmenus();
-renderRadar();
+renderChart("line");
