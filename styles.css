@@ -262,8 +262,35 @@ h1 {
   width: 96px;
 }
 
+.conditional-group {
+  border: 1px solid var(--cool-gray-20);
+  background: var(--white);
+  padding: 16px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.conditional-title {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--cool-gray-70);
+}
+
+.series-values {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.series-value-input {
+  max-width: 140px;
+}
+
 cds-dropdown,
-cds-text-input {
+cds-text-input,
+cds-slider {
   width: 100%;
   --cds-layer: var(--cool-gray-10);
   --cds-background: var(--cool-gray-10);
