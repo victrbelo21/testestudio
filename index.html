@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <a class="cds--skip-to-content" href="#main-content">Pular para conteúdo</a>
+    <a class="cds--skip-to-content" href="#main-content">Pular para conteudo</a>
 
     <header class="cds--header" aria-label="IBM Platform Name">
       <button
@@ -18,7 +18,7 @@
         aria-label="Open menu"
         aria-expanded="false"
         aria-controls="side-nav">
-        ☰
+        <img class="icon-24" src="https://unpkg.com/@carbon/icons-svg@10.58.0/svg/24/menu.svg" alt="" aria-hidden="true" />
       </button>
 
       <a class="cds--header__name" href="#main-content">
@@ -28,14 +28,19 @@
 
       <nav class="cds--header__nav" aria-label="IBM [Platform]">
         <a class="cds--header__menu-item" href="#main-content">Dashboard</a>
-        <a class="cds--header__menu-item" href="#radar-chart">Radar</a>
-        <a class="cds--header__menu-item" href="#export-csv-btn">Exportação</a>
+        <a class="cds--header__menu-item" href="#chart-container">Graficos</a>
       </nav>
 
       <div class="cds--header__global">
-        <button class="cds--header__action" type="button" aria-label="Search">⌕</button>
-        <button class="cds--header__action" type="button" aria-label="Notifications">🔔</button>
-        <button class="cds--header__action" type="button" aria-label="App switcher">◧</button>
+        <button class="cds--header__action" type="button" aria-label="Search">
+          <img class="icon-24" src="https://unpkg.com/@carbon/icons-svg@10.58.0/svg/24/search.svg" alt="" aria-hidden="true" />
+        </button>
+        <button class="cds--header__action" type="button" aria-label="Notifications">
+          <img class="icon-24" src="https://unpkg.com/@carbon/icons-svg@10.58.0/svg/24/notification.svg" alt="" aria-hidden="true" />
+        </button>
+        <button class="cds--header__action" type="button" aria-label="App switcher">
+          <img class="icon-24" src="https://unpkg.com/@carbon/icons-svg@10.58.0/svg/24/switcher.svg" alt="" aria-hidden="true" />
+        </button>
       </div>
     </header>
 
@@ -45,7 +50,7 @@
       <nav class="cds--side-nav__navigation">
         <ul class="cds--side-nav__items">
           <li class="cds--side-nav__item">
-            <a class="cds--side-nav__link" href="#main-content">Visão geral</a>
+            <a class="cds--side-nav__link" href="#main-content">Visao geral</a>
           </li>
 
           <li class="cds--side-nav__item is-open">
@@ -53,28 +58,13 @@
               class="cds--side-nav__submenu"
               type="button"
               aria-expanded="true"
-              aria-controls="side-nav-group-analytics">
-              Analytics
-              <span class="cds--side-nav__submenu-chevron" aria-hidden="true">▾</span>
+              aria-controls="side-nav-group-charts">
+              Graficos
+              <span class="cds--side-nav__submenu-chevron" aria-hidden="true">v</span>
             </button>
-            <ul id="side-nav-group-analytics" class="cds--side-nav__menu">
-              <li><a class="cds--side-nav__link" href="#radar-chart">Radar chart</a></li>
-              <li><a class="cds--side-nav__link" href="#status">Status do gráfico</a></li>
-            </ul>
-          </li>
-
-          <li class="cds--side-nav__item is-open">
-            <button
-              class="cds--side-nav__submenu"
-              type="button"
-              aria-expanded="true"
-              aria-controls="side-nav-group-actions">
-              Ações
-              <span class="cds--side-nav__submenu-chevron" aria-hidden="true">▾</span>
-            </button>
-            <ul id="side-nav-group-actions" class="cds--side-nav__menu">
-              <li><a class="cds--side-nav__link" href="#export-csv-btn">Exportar CSV</a></li>
-              <li><a class="cds--side-nav__link" href="#main-content">Atualizar painel</a></li>
+            <ul id="side-nav-group-charts" class="cds--side-nav__menu">
+              <li><a class="cds--side-nav__link" href="#chart-type">Selecionar tipo</a></li>
+              <li><a class="cds--side-nav__link" href="#chart-container">Ver grafico</a></li>
             </ul>
           </li>
         </ul>
@@ -82,10 +72,21 @@
     </aside>
 
     <main id="main-content" class="app">
-      <h1>Radar de Produtos</h1>
-      <div id="radar-chart" class="chart"></div>
-      <button id="export-csv-btn" type="button">Exportar CSV</button>
-      <p id="status">Carregando gráfico...</p>
+      <h1>Carbon Charts</h1>
+      <label class="field-label" for="chart-type">Escolha um exemplo</label>
+      <select id="chart-type" class="chart-select" aria-label="Selecionar tipo de grafico">
+        <option value="line">Line</option>
+        <option value="area">Area</option>
+        <option value="simple_bar">Simple bar</option>
+        <option value="grouped_bar">Grouped bar</option>
+        <option value="stacked_bar">Stacked bar</option>
+        <option value="pie">Pie</option>
+        <option value="donut">Donut</option>
+        <option value="scatter">Scatter</option>
+        <option value="bubble">Bubble</option>
+        <option value="radar">Radar</option>
+      </select>
+      <div id="chart-container" class="chart"></div>
     </main>
 
     <script src="https://unpkg.com/@carbon/charts@1.27.3/dist/umd/bundle.umd.js"></script>
