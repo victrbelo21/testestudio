@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <a class="cds--skip-to-content" href="#main-content">Pular para conteudo</a>
+    <a class="cds--skip-to-content" href="#main-content">Pular para conteúdo</a>
 
     <header class="cds--header" aria-label="IBM Platform Name">
       <button
@@ -19,7 +19,7 @@
         aria-label="Open menu"
         aria-expanded="false"
         aria-controls="side-nav">
-        <img class="icon-24" src="https://unpkg.com/carbon-icons/dist/svg/header--menu.svg" alt="" aria-hidden="true" />
+        <img class="icon-24" src="assets/icons/menu.svg" alt="" aria-hidden="true" />
       </button>
 
       <a class="cds--header__name" href="#main-content">
@@ -29,18 +29,18 @@
 
       <nav class="cds--header__nav" aria-label="IBM [Platform]">
         <a class="cds--header__menu-item" href="#main-content">Dashboard</a>
-        <a class="cds--header__menu-item" href="#chart-container">Graficos</a>
+        <a class="cds--header__menu-item" href="#chart-container">Gráficos</a>
       </nav>
 
       <div class="cds--header__global">
         <button class="cds--header__action" type="button" aria-label="Search">
-          <img class="icon-24" src="https://unpkg.com/carbon-icons/dist/svg/header--search.svg" alt="" aria-hidden="true" />
+          <img class="icon-24" src="assets/icons/search.svg" alt="" aria-hidden="true" />
         </button>
-        <button class="cds--header__action" type="button" aria-label="Notifications">
-          <img class="icon-24" src="https://unpkg.com/carbon-icons/dist/svg/notification.svg" alt="" aria-hidden="true" />
+        <button class="cds--header__action" type="button" aria-label="Settings">
+          <img class="icon-24" src="assets/icons/settings.svg" alt="" aria-hidden="true" />
         </button>
         <button class="cds--header__action" type="button" aria-label="App switcher">
-          <img class="icon-24" src="https://unpkg.com/carbon-icons/dist/svg/app-switcher.svg" alt="" aria-hidden="true" />
+          <img class="icon-24" src="assets/icons/apps.svg" alt="" aria-hidden="true" />
         </button>
       </div>
     </header>
@@ -51,7 +51,7 @@
       <nav class="cds--side-nav__navigation">
         <ul class="cds--side-nav__items">
           <li class="cds--side-nav__item">
-            <a class="cds--side-nav__link" href="#main-content">Visao geral</a>
+            <a class="cds--side-nav__link" href="#main-content">Visão geral</a>
           </li>
 
           <li class="cds--side-nav__item is-open">
@@ -60,13 +60,13 @@
               type="button"
               aria-expanded="true"
               aria-controls="side-nav-group-charts">
-              Graficos
-              <img class="chevron-icon" src="https://unpkg.com/carbon-icons/dist/svg/chevron--down.svg" alt="" aria-hidden="true" />
+              Gráficos
+              <img class="chevron-icon" src="assets/icons/chevron-down.svg" alt="" aria-hidden="true" />
             </button>
             <ul id="side-nav-group-charts" class="cds--side-nav__menu">
               <li><a class="cds--side-nav__link" href="#chart-selector">Selecionar tipo</a></li>
-              <li><a class="cds--side-nav__link" href="#chart-controls">Modificar grafico</a></li>
-              <li><a class="cds--side-nav__link" href="#chart-container">Ver grafico</a></li>
+              <li><a class="cds--side-nav__link" href="#chart-controls">Modificar gráfico</a></li>
+              <li><a class="cds--side-nav__link" href="#chart-container">Ver gráfico</a></li>
             </ul>
           </li>
         </ul>
@@ -77,7 +77,7 @@
       <h1>Carbon Charts</h1>
 
       <div class="controls-grid controls-top">
-        <cds-dropdown id="chart-selector" title-text="Grafico" label="Escolha um grafico" value="line" helper-text="Dropdown padrao Carbon completo">
+        <cds-dropdown id="chart-selector" title-text="Gráfico" label="Escolha um gráfico" value="line" helper-text="Dropdown padrão Carbon completo">
           <cds-dropdown-item value="line">Line</cds-dropdown-item>
           <cds-dropdown-item value="area">Area</cds-dropdown-item>
           <cds-dropdown-item value="simple_bar">Simple bar</cds-dropdown-item>
