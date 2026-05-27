@@ -1,0 +1,114 @@
+/* Group 5 components */
+:root[data-theme="dark"] body,
+:root[data-theme="dark"] .app-shell,
+:root[data-theme="dark"] .app-main,
+:root[data-theme="dark"] #main-content {
+  background-color: var(--ibm-cool-gray-100) !important;
+}
+
+.cds--data-table-container {
+  border: 1px solid var(--border-subtle);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.cds--data-table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.cds--data-table th,
+.cds--data-table td {
+  padding: 12px 16px;
+  border-block-end: 1px solid var(--border-subtle);
+  text-align: left;
+}
+
+.cds--data-table th {
+  background: var(--layer-02);
+  color: var(--text-primary);
+}
+
+.cds--data-table td {
+  color: var(--text-secondary);
+  background: var(--layer-01);
+}
+
+.cds--data-table-skeleton .skeleton-line {
+  block-size: 12px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--layer-02), var(--layer-03), var(--layer-02));
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.2s infinite;
+}
+
+@keyframes skeleton-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+.datepicker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.cds--date-picker-input {
+  inline-size: 100%;
+  min-block-size: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--border-strong);
+  background: var(--field);
+  color: var(--text-primary);
+  font: inherit;
+}
+
+.cds--date-picker-input:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+}
+
+.dialog-backdrop[hidden] {
+  display: none;
+}
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(22, 22, 22, 0.6);
+  display: grid;
+  place-items: center;
+  z-index: 999;
+}
+
+.cds--dialog {
+  inline-size: min(560px, calc(100vw - 32px));
+  background: var(--layer-01);
+  border: 1px solid var(--border-subtle);
+  padding: 24px;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.cds--disclosure {
+  border: 1px solid var(--border-subtle);
+}
+
+.cds--disclosure summary {
+  cursor: pointer;
+  padding: 12px 16px;
+  background: var(--layer-01);
+  color: var(--text-primary);
+}
+
+.cds--disclosure-content {
+  padding: 16px;
+  color: var(--text-secondary);
+  background: var(--layer-01);
+}
