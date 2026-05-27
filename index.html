@@ -4,15 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TesteStudio</title>
+    <link rel="stylesheet" href="https://unpkg.com/@carbon/charts/styles.css" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main class="app">
-      <h1>TesteStudio</h1>
-      <p id="status">Clique no botão para atualizar o texto.</p>
-      <button id="action-btn" type="button">Clique aqui</button>
+      <h1>Radar de Produtos</h1>
+      <div id="radar-chart" class="chart"></div>
+      <button id="export-csv-btn" type="button">Exportar CSV</button>
+      <p id="status">Gráfico carregado.</p>
     </main>
 
+    <script src="https://unpkg.com/@carbon/charts/bundle.umd.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
