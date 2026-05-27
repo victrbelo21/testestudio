@@ -229,6 +229,10 @@ h1 {
   gap: 6px;
 }
 
+.y-range-box {
+  grid-column: 1 / -1;
+}
+
 .conditional-group {
   border: 1px solid var(--cool-gray-20);
   background: var(--white);
