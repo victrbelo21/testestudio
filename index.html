@@ -29,6 +29,7 @@
       <nav class="cds--header__nav" aria-label="IBM [Platform]">
         <a class="cds--header__menu-item" href="#main-content">Dashboard</a>
         <a class="cds--header__menu-item" href="#radar-chart">Radar</a>
+        <a class="cds--header__menu-item" href="#export-csv-btn">Exportação</a>
       </nav>
 
       <div class="cds--header__global">
@@ -43,9 +44,39 @@
     <aside id="side-nav" class="cds--side-nav" aria-label="Side navigation" aria-hidden="true">
       <nav class="cds--side-nav__navigation">
         <ul class="cds--side-nav__items">
-          <li class="cds--side-nav__item"><a class="cds--side-nav__link" href="#main-content">Visão geral</a></li>
-          <li class="cds--side-nav__item"><a class="cds--side-nav__link" href="#radar-chart">Radar chart</a></li>
-          <li class="cds--side-nav__item"><a class="cds--side-nav__link" href="#export-csv-btn">Exportar CSV</a></li>
+          <li class="cds--side-nav__item">
+            <a class="cds--side-nav__link" href="#main-content">Visão geral</a>
+          </li>
+
+          <li class="cds--side-nav__item is-open">
+            <button
+              class="cds--side-nav__submenu"
+              type="button"
+              aria-expanded="true"
+              aria-controls="side-nav-group-analytics">
+              Analytics
+              <span class="cds--side-nav__submenu-chevron" aria-hidden="true">▾</span>
+            </button>
+            <ul id="side-nav-group-analytics" class="cds--side-nav__menu">
+              <li><a class="cds--side-nav__link" href="#radar-chart">Radar chart</a></li>
+              <li><a class="cds--side-nav__link" href="#status">Status do gráfico</a></li>
+            </ul>
+          </li>
+
+          <li class="cds--side-nav__item is-open">
+            <button
+              class="cds--side-nav__submenu"
+              type="button"
+              aria-expanded="true"
+              aria-controls="side-nav-group-actions">
+              Ações
+              <span class="cds--side-nav__submenu-chevron" aria-hidden="true">▾</span>
+            </button>
+            <ul id="side-nav-group-actions" class="cds--side-nav__menu">
+              <li><a class="cds--side-nav__link" href="#export-csv-btn">Exportar CSV</a></li>
+              <li><a class="cds--side-nav__link" href="#main-content">Atualizar painel</a></li>
+            </ul>
+          </li>
         </ul>
       </nav>
     </aside>
