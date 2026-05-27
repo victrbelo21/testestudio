@@ -5,6 +5,9 @@ const status = document.getElementById("status");
 const sideNav = document.getElementById("side-nav");
 const sideNavOverlay = document.getElementById("side-nav-overlay");
 const sideNavToggle = document.getElementById("header-menu-toggle");
+const sideNavSubmenus = document.querySelectorAll(".cds--side-nav__submenu");
+
+const desktopMedia = window.matchMedia("(min-width: 1056px)");
 
 const radarData = [
   { product: "Produto A", feature: "Preco", score: 72 },
@@ -80,7 +83,9 @@ function setSideNavOpen(isOpen) {
   sideNav.setAttribute("aria-hidden", String(!isOpen));
   sideNavToggle.setAttribute("aria-expanded", String(isOpen));
   sideNavToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
-  sideNavOverlay.hidden = !isOpen;
+
+  // Overlay só em mobile/tablet.
+  sideNavOverlay.hidden = desktopMedia.matches || !isOpen;
 }
 
 function bindSideNav() {
@@ -103,9 +108,33 @@ function bindSideNav() {
     }
   });
 
-  if (window.matchMedia("(min-width: 1056px)").matches) {
-    setSideNavOpen(true);
-  }
+  desktopMedia.addEventListener("change", () => {
+    // Em desktop inicia aberto, mas continua podendo fechar no hamburger.
+    if (desktopMedia.matches && !sideNav.classList.contains("is-open")) {
+      setSideNavOpen(true);
+    }
+
+    if (!desktopMedia.matches) {
+      setSideNavOpen(false);
+    }
+  });
+
+  setSideNavOpen(desktopMedia.matches);
+}
+
+function bindSideNavSubmenus() {
+  sideNavSubmenus.forEach((button) => {
+    button.addEventListener("click", () => {
+      const item = button.closest(".cds--side-nav__item");
+      if (!item) {
+        return;
+      }
+
+      const willOpen = !item.classList.contains("is-open");
+      item.classList.toggle("is-open", willOpen);
+      button.setAttribute("aria-expanded", String(willOpen));
+    });
+  });
 }
 
 if (exportButton && status) {
@@ -116,4 +145,5 @@ if (exportButton && status) {
 }
 
 bindSideNav();
+bindSideNavSubmenus();
 renderRadar();
