@@ -53,8 +53,8 @@ body {
 }
 
 .icon-24 {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   display: block;
 }
 
@@ -200,7 +200,7 @@ body {
 }
 
 .app {
-  width: min(1040px, 94vw);
+  width: min(1120px, 94vw);
   margin: 24px auto;
   padding: 24px;
   border: 1px solid var(--cool-gray-20);
@@ -223,6 +223,45 @@ h1 {
   z-index: 10;
 }
 
+.control-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.control-label {
+  font-size: 0.875rem;
+  color: var(--cool-gray-70);
+}
+
+.control-input,
+.control-select,
+.control-range {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--cool-gray-30);
+  background: var(--cool-gray-10);
+  color: var(--cool-gray-100);
+  font-family: inherit;
+}
+
+.control-input:hover,
+.control-select:hover,
+.control-range:hover {
+  background: #e8eaee;
+}
+
+.range-wrap {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.range-wrap .control-input {
+  width: 96px;
+}
+
 cds-dropdown,
 cds-text-input {
   width: 100%;
@@ -242,7 +281,7 @@ cds-text-input {
 @media (min-width: 1056px) {
   .app {
     margin-left: calc(256px + 32px);
-    width: calc(min(1040px, 94vw) - 256px);
+    width: calc(min(1120px, 94vw) - 256px);
   }
 
   .cds--side-nav__overlay {
