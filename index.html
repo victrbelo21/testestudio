@@ -16,73 +16,241 @@
     <header class="app-header">
       <div class="app-header__brand">TesteStudio</div>
       <div class="app-header__actions">
-        <button id="theme-toggle" class="btn btn-tertiary" type="button">Alternar tema</button>
+        <button id="theme-toggle" class="btn btn-tertiary btn-size-sm" type="button">Alternar tema</button>
       </div>
     </header>
 
     <div class="app-shell">
       <aside class="side-nav" aria-label="Menu lateral">
         <nav class="side-nav__menu">
-          <a class="side-nav__item side-nav__item--active" href="#">Dashboard</a>
-          <a class="side-nav__item" href="#">Botões</a>
-          <a class="side-nav__item" href="#">Campos</a>
-          <a class="side-nav__item" href="#">Paleta</a>
-          <a class="side-nav__item" href="#">Configurações</a>
+          <a class="side-nav__item side-nav__item--active" href="#group-1">Grupo 1</a>
+          <a class="side-nav__item" href="#component-buttons">Button</a>
+          <a class="side-nav__item" href="#component-text-input">Text input</a>
+          <a class="side-nav__item" href="#component-checkbox">Checkbox</a>
+          <a class="side-nav__item" href="#palette">Paleta</a>
         </nav>
       </aside>
 
       <main class="app-main">
-        <section class="card card--full">
-          <h1>Base IBM 2x Grid + Carbon</h1>
+        <section class="card card--full" id="group-1">
+          <h1>Grupo 1/3: Button, TextInput e Checkbox</h1>
           <p>
-            Layout estruturado no mini unit de 8px, com breakpoints oficiais, tipografia
-            IBM Plex Sans e tokens completos da paleta IBM.
+            Implementação alinhada às especificações do Carbon Design System para os três
+            primeiros componentes, mantendo a base de 2x Grid e tokens oficiais IBM.
           </p>
         </section>
 
-        <section class="card card--half">
-          <h2>Botões</h2>
-          <div class="button-grid">
-            <button id="action-btn" class="btn btn-primary" type="button">Primário</button>
-            <button class="btn btn-secondary" type="button">Secundário</button>
-            <button class="btn btn-tertiary" type="button">Terciário</button>
-            <button class="btn btn-ghost" type="button">Ghost</button>
-            <button class="btn btn-danger" type="button">Danger</button>
+        <section class="card card--full" id="component-buttons">
+          <h2>Button</h2>
+
+          <div class="component-stack">
+            <div class="component-block">
+              <h3>Tipos (kind)</h3>
+              <div class="button-grid">
+                <button id="action-btn" class="btn btn-primary btn-size-lg" type="button">Primary</button>
+                <button class="btn btn-secondary btn-size-lg" type="button">Secondary</button>
+                <button class="btn btn-tertiary btn-size-lg" type="button">Tertiary</button>
+                <button class="btn btn-ghost btn-size-lg" type="button">Ghost</button>
+                <button class="btn btn-danger btn-size-lg" type="button">Danger</button>
+                <button class="btn btn-danger-tertiary btn-size-lg" type="button">Danger tertiary</button>
+                <button class="btn btn-danger-ghost btn-size-lg" type="button">Danger ghost</button>
+              </div>
+              <p id="status" class="component-status">Aguardando clique no botão primary...</p>
+            </div>
+
+            <div class="component-block">
+              <h3>Tamanhos</h3>
+              <div class="button-grid button-grid--baseline">
+                <button class="btn btn-secondary btn-size-xs" type="button">XS</button>
+                <button class="btn btn-secondary btn-size-sm" type="button">SM</button>
+                <button class="btn btn-secondary btn-size-md" type="button">MD</button>
+                <button class="btn btn-secondary btn-size-lg" type="button">LG</button>
+                <button class="btn btn-secondary btn-size-xl" type="button">XL</button>
+                <button class="btn btn-secondary btn-size-2xl" type="button">2XL</button>
+              </div>
+            </div>
+
+            <div class="component-block">
+              <h3>Icon-only e badge</h3>
+              <div class="button-grid">
+                <button class="btn btn-ghost btn-icon-only btn-size-lg" type="button" aria-label="Adicionar">+</button>
+                <button
+                  class="btn btn-ghost btn-icon-only btn-size-lg btn-with-badge"
+                  type="button"
+                  data-badge="4"
+                  aria-label="Notificações">
+                  🔔
+                </button>
+              </div>
+            </div>
+
+            <div class="component-block">
+              <h3>Button set</h3>
+              <div class="btn-set">
+                <button class="btn btn-secondary btn-size-lg" type="button">Secondary button</button>
+                <button class="btn btn-primary btn-size-lg" type="button">Primary button</button>
+              </div>
+              <div class="btn-set btn-set--stacked">
+                <button class="btn btn-secondary btn-size-lg" type="button">Secondary button</button>
+                <button class="btn btn-primary btn-size-lg" type="button">Primary button</button>
+              </div>
+            </div>
           </div>
-          <p id="status">Aguardando clique no botão primário...</p>
         </section>
 
-        <section class="card card--half">
-          <h2>Campos de input</h2>
-          <form class="form-grid" action="#" method="post" novalidate>
-            <label class="field">
-              <span class="field__label">Nome</span>
-              <input class="input" type="text" placeholder="Digite seu nome" />
-            </label>
+        <section class="card card--half" id="component-text-input">
+          <h2>Text input</h2>
 
-            <label class="field">
-              <span class="field__label">E-mail</span>
-              <input class="input" type="email" placeholder="seu@email.com" />
-            </label>
+          <div class="component-stack">
+            <div class="text-input-wrapper">
+              <label class="text-input-label" for="text-default">Label text</label>
+              <div class="text-input-field-wrapper">
+                <input id="text-default" class="text-input text-input--md" type="text" placeholder="Placeholder text" />
+              </div>
+              <p class="text-input-helper">Helper text</p>
+            </div>
 
-            <label class="field">
-              <span class="field__label">Categoria</span>
-              <select class="input">
-                <option>Produto</option>
-                <option>Design</option>
-                <option>Engenharia</option>
-              </select>
-            </label>
+            <div class="text-input-wrapper">
+              <label class="text-input-label" for="text-invalid">Label text</label>
+              <div class="text-input-field-wrapper">
+                <input
+                  id="text-invalid"
+                  class="text-input text-input--md text-input--invalid"
+                  type="text"
+                  value="Valor inválido"
+                  aria-invalid="true"
+                  aria-describedby="text-invalid-msg" />
+                <span class="field-icon field-icon--error" aria-hidden="true">!</span>
+              </div>
+              <p id="text-invalid-msg" class="text-input-requirement">Error message goes here</p>
+            </div>
 
-            <label class="field field--full">
-              <span class="field__label">Mensagem</span>
-              <textarea class="input input--textarea" placeholder="Escreva uma observação..."></textarea>
-            </label>
-          </form>
+            <div class="text-input-wrapper">
+              <label class="text-input-label" for="text-warning">Label text</label>
+              <div class="text-input-field-wrapper">
+                <input
+                  id="text-warning"
+                  class="text-input text-input--md text-input--warning"
+                  type="text"
+                  value="Valor com alerta"
+                  aria-describedby="text-warning-msg" />
+                <span class="field-icon field-icon--warning" aria-hidden="true">!</span>
+              </div>
+              <p id="text-warning-msg" class="text-input-warning">Warning message goes here</p>
+            </div>
+
+            <div class="text-input-wrapper">
+              <label class="text-input-label" for="text-readonly">Label text</label>
+              <div class="text-input-field-wrapper">
+                <input
+                  id="text-readonly"
+                  class="text-input text-input--md text-input--readonly"
+                  type="text"
+                  value="This is read only, you can't type more."
+                  readonly />
+              </div>
+            </div>
+
+            <div class="text-input-wrapper text-input-wrapper--fluid">
+              <label class="text-input-label" for="text-fluid">Label text</label>
+              <div class="text-input-field-wrapper">
+                <input id="text-fluid" class="text-input text-input--fluid" type="text" placeholder="Placeholder text" />
+              </div>
+            </div>
+
+            <div class="text-input-wrapper">
+              <div class="text-input-label-row">
+                <label class="text-input-label" for="text-counter">Label text</label>
+                <span id="text-counter-value" class="text-input-counter">0/20</span>
+              </div>
+              <div class="text-input-field-wrapper">
+                <input
+                  id="text-counter"
+                  class="text-input text-input--md"
+                  type="text"
+                  maxlength="20"
+                  placeholder="Counter habilitado" />
+              </div>
+            </div>
+          </div>
         </section>
 
-        <section class="card card--full">
-          <h2>Famílias Oficiais IBM</h2>
+        <section class="card card--half" id="component-checkbox">
+          <h2>Checkbox</h2>
+
+          <div class="component-stack">
+            <fieldset class="checkbox-group">
+              <legend class="checkbox-group__label">Checkbox heading</legend>
+
+              <div class="checkbox-wrapper">
+                <input class="checkbox" type="checkbox" id="checkbox-default-1" checked />
+                <label class="checkbox-label" for="checkbox-default-1">
+                  <span class="checkbox-label-text">Checkbox label</span>
+                </label>
+              </div>
+
+              <div class="checkbox-wrapper">
+                <input class="checkbox" type="checkbox" id="checkbox-default-2" />
+                <label class="checkbox-label" for="checkbox-default-2">
+                  <span class="checkbox-label-text">Checkbox label</span>
+                </label>
+              </div>
+
+              <p class="checkbox-helper">Helper text goes here</p>
+            </fieldset>
+
+            <fieldset class="checkbox-group checkbox-group--horizontal">
+              <legend class="checkbox-group__label">Horizontal group</legend>
+
+              <div class="checkbox-wrapper">
+                <input class="checkbox" type="checkbox" id="checkbox-horizontal-1" checked />
+                <label class="checkbox-label" for="checkbox-horizontal-1">
+                  <span class="checkbox-label-text">Checkbox label</span>
+                </label>
+              </div>
+
+              <div class="checkbox-wrapper">
+                <input class="checkbox" type="checkbox" id="checkbox-horizontal-2" />
+                <label class="checkbox-label" for="checkbox-horizontal-2">
+                  <span class="checkbox-label-text">Checkbox label</span>
+                </label>
+              </div>
+
+              <div class="checkbox-wrapper">
+                <input class="checkbox" type="checkbox" id="checkbox-indeterminate" />
+                <label class="checkbox-label" for="checkbox-indeterminate">
+                  <span class="checkbox-label-text">Indeterminate</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="checkbox-wrapper checkbox-wrapper--invalid">
+              <input class="checkbox" type="checkbox" id="checkbox-invalid" />
+              <label class="checkbox-label" for="checkbox-invalid">
+                <span class="checkbox-label-text">Checkbox label</span>
+              </label>
+              <div class="checkbox-validation checkbox-validation--error">! Invalid text goes here</div>
+            </div>
+
+            <div class="checkbox-wrapper checkbox-wrapper--warning">
+              <input class="checkbox" type="checkbox" id="checkbox-warning" />
+              <label class="checkbox-label" for="checkbox-warning">
+                <span class="checkbox-label-text">Checkbox label</span>
+              </label>
+              <div class="checkbox-validation checkbox-validation--warning">! Warning text goes here</div>
+            </div>
+
+            <div class="checkbox-wrapper checkbox-wrapper--readonly">
+              <input class="checkbox checkbox--readonly" type="checkbox" id="checkbox-readonly" checked data-readonly="true" />
+              <label class="checkbox-label" for="checkbox-readonly">
+                <span class="checkbox-label-text">Readonly checkbox</span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <section class="card card--full" id="palette">
+          <h2>Famílias oficiais IBM</h2>
           <div class="palette-grid">
             <div class="swatch swatch--red">Red</div>
             <div class="swatch swatch--magenta">Magenta</div>
